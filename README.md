@@ -45,7 +45,7 @@
 1. 터미널 혹은 CMD에서 원하는 디렉토리로 이동한 뒤 `git clone https://github.com/ChoiJiOne/FruitAvoid2D` 를 수행합니다.
     - 원하는 폴더에서 터미널 혹은 CMD를 실행한 뒤에 진행해도 문제 없습니다.
 2. `cd FruitAvoid2D` 를 실행하여 디렉토리를 이동한 후 `GenerateProjectFiles.bat` 를 실행합니다.
-3. 생성된 `FruitAvoid2D` 폴더 하위의 `FruitAvoid2.sln` 를 실행합니다.
+3. 생성된 `FruitAvoid2D` 폴더 하위의 `FruitAvoid2D.sln` 를 실행합니다.
     - 이때, 사전 준비 요소들이 필요합니다.
 4. `Ctrl + B` 를 입력하여 프로젝트를 빌드합니다.
 <br><br>
