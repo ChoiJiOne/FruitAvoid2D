@@ -125,6 +125,48 @@ SDL_Texture* LoadFontFromFile(
 	return TextureAtlas;
 }
 
+void DrawText(
+    SDL_Renderer* InRenderer, 
+    const std::wstring& InText, 
+    int32_t InX,
+    int32_t InY,
+	SDL_Texture* InAtlas,
+    const int32_t& InBeginCodePoint,
+    const int32_t& InEndCodePoint,
+    const std::vector<stbtt_packedchar>& InPackedchars
+)
+{
+	int32_t x = InX, y = InY;
+	for (auto& Unicode : InText)
+	{
+		int32_t CodePoint = static_cast<int32_t>(Unicode) - InBeginCodePoint;
+
+		SDL_SetTextureColorMod(InAtlas, 255, 255, 255);
+		SDL_SetTextureAlphaMod(InAtlas, 255);
+
+		const stbtt_packedchar& CurrInfo = InPackedchars[CodePoint];
+
+		SDL_Rect Src =
+		{
+			CurrInfo.x0,
+			CurrInfo.y0,
+			CurrInfo.x1 - CurrInfo.x0,
+			CurrInfo.y1 - CurrInfo.y0
+		};
+
+		SDL_Rect Dst =
+		{
+			x + CurrInfo.xoff,
+			y + CurrInfo.yoff,
+			(CurrInfo.x1 - CurrInfo.x0),
+			(CurrInfo.y1 - CurrInfo.y0)
+		};
+
+		SDL_RenderCopy(InRenderer, InAtlas, &Src, &Dst);
+		x += static_cast<int32_t>(CurrInfo.xadvance);
+	}
+}
+
 int main(int argc, char* argv[])
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_EVENTS) != 0)
@@ -150,9 +192,6 @@ int main(int argc, char* argv[])
 
     SDL_Texture* BGSprite = LoadTextureFromFile(Renderer, "D:\\Repository\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 迄飘 积己 备埃...
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     int32_t BeginCodePoint = 0x20;
     int32_t EndCodePoint = 0x7E;
     float FontSize = 32.0f;
@@ -166,12 +205,6 @@ int main(int argc, char* argv[])
 		FontSize,
 		Packedchars
 	);
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // 迄飘 积己 备埃...
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    std::wstring Text = L"Hello World!";
 
     bool bIsDone = false;
     SDL_Event Event;
@@ -190,37 +223,8 @@ int main(int argc, char* argv[])
         SDL_RenderClear(Renderer);
 
         DrawSprite(Renderer, BGSprite, 500, 400, 1000, 800);
-
-        int32_t x = 100, y = 100;
-        for (auto& Unicode : Text)
-        {
-            int32_t CodePoint = static_cast<int32_t>(Unicode) - BeginCodePoint;
-
-            SDL_SetTextureColorMod(Atlas, 255, 255, 255);
-            SDL_SetTextureAlphaMod(Atlas, 255);
-
-            const stbtt_packedchar& CurrInfo = Packedchars[CodePoint];
-
-			SDL_Rect Src =
-			{
-                CurrInfo.x0,
-                CurrInfo.y0,
-                CurrInfo.x1 - CurrInfo.x0,
-                CurrInfo.y1 - CurrInfo.y0
-			};
-
-			SDL_Rect Dst =
-			{
-				x + CurrInfo.xoff,
-				y + CurrInfo.yoff,
-				(CurrInfo.x1 - CurrInfo.x0),
-				(CurrInfo.y1 - CurrInfo.y0)
-			};
-
-            SDL_RenderCopy(Renderer, Atlas, &Src, &Dst);
-            x += static_cast<int32_t>(CurrInfo.xadvance);
-        }
-
+		DrawText(Renderer, L"Hello World!", 100, 100, Atlas, BeginCodePoint, EndCodePoint, Packedchars);
+        
         SDL_RenderPresent(Renderer);
     }
 
