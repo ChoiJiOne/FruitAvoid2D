@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <stb/stb_image.h>
+#include <stb/stb_rect_pack.h>
+#include <stb/stb_truetype.h>
 
 SDL_Texture* LoadTextureFromFile(SDL_Renderer* InRenderer, const std::string& InPath)
 {
