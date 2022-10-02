@@ -1,7 +1,36 @@
 #include <iostream>
+#include <string>
 
 #include <SDL2/SDL.h>
 #include <stb/stb_image.h>
+
+SDL_Texture* LoadTextureFromFile(SDL_Renderer* InRenderer, const std::string& InPath)
+{
+    int32_t Width = 0,  Height = 0, Channels = 0;
+    uint8_t* Buffer = stbi_load(InPath.c_str(), &Width, &Height, &Channels, 0);
+
+    if (!Buffer) return nullptr;
+
+    uint32_t Format = (Channels == 3) ? SDL_PIXELFORMAT_RGB24 : SDL_PIXELFORMAT_RGBA32;
+    int32_t Pitch = Width * Channels;
+
+    SDL_Texture* Texture = SDL_CreateTexture(InRenderer, Format, SDL_TEXTUREACCESS_STATIC, Width, Height);
+
+    if (!Texture)
+    {
+		stbi_image_free(Buffer);
+		Buffer = nullptr;
+
+        return nullptr;
+    }
+
+    SDL_UpdateTexture(Texture, nullptr, reinterpret_cast<const void*>(Buffer), Pitch);
+
+    stbi_image_free(Buffer);
+    Buffer = nullptr;
+
+    return Texture;
+}
 
 int main(int argc, char* argv[])
 {
@@ -26,6 +55,8 @@ int main(int argc, char* argv[])
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
+    SDL_Texture* BGTexture = LoadTextureFromFile(Renderer, "D:\\Repository\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
+
     bool bIsDone = false;
     SDL_Event Event;
 
@@ -42,9 +73,14 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
         SDL_RenderClear(Renderer);
 
+        SDL_Rect BGRect = { 0, 0, 1000, 800 };
+        SDL_RenderCopy(Renderer, BGTexture, nullptr, &BGRect);
 
         SDL_RenderPresent(Renderer);
     }
+
+    SDL_DestroyTexture(BGTexture);
+    BGTexture = nullptr;
 
     SDL_DestroyRenderer(Renderer);
     Renderer = nullptr;
