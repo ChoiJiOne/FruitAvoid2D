@@ -19,6 +19,12 @@ int main(int argc, char* argv[])
         SDL_WINDOW_SHOWN
     );
 
+    SDL_Renderer* Renderer = SDL_CreateRenderer(
+        Window,
+        -1,
+        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
+    );
+
     bool bIsDone = false;
     SDL_Event Event;
 
@@ -31,7 +37,16 @@ int main(int argc, char* argv[])
                 bIsDone = true;
             }
         }
+
+        SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
+        SDL_RenderClear(Renderer);
+
+
+        SDL_RenderPresent(Renderer);
     }
+
+    SDL_DestroyRenderer(Renderer);
+    Renderer = nullptr;
 
     SDL_DestroyWindow(Window);
     Window = nullptr;
