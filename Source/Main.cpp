@@ -32,6 +32,18 @@ SDL_Texture* LoadTextureFromFile(SDL_Renderer* InRenderer, const std::string& In
     return Texture;
 }
 
+void DrawSprite(SDL_Renderer* InRenderer, SDL_Texture* InTexture, int32_t InCenterX, int32_t InCenterY, int32_t InWidth, int32_t InHeight)
+{
+	SDL_Rect Rect = { 
+        InCenterX - InWidth / 2, 
+        InCenterY - InHeight / 2,
+        InWidth, 
+        InHeight
+    };
+
+	SDL_RenderCopy(InRenderer, InTexture, nullptr, &Rect);
+}
+
 int main(int argc, char* argv[])
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_EVENTS) != 0)
@@ -73,8 +85,7 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
         SDL_RenderClear(Renderer);
 
-        SDL_Rect BGRect = { 0, 0, 1000, 800 };
-        SDL_RenderCopy(Renderer, BGTexture, nullptr, &BGRect);
+        DrawSprite(Renderer, BGTexture, 500, 400, 1000, 800);
 
         SDL_RenderPresent(Renderer);
     }
