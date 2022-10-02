@@ -29,4 +29,15 @@
     "PlayerBlockYellow.png",
     "RedGrape.png"
   ],
+
+  "font": [
+    "JetBrainsMono-Bold.ttf",
+    "JetBrainsMono-ExtraBoldItalic.ttf",
+    "JetBrainsMono-Italic.ttf",
+    "JetBrainsMono-BoldItalic.ttf",
+    "JetBrainsMono-ExtraLight.ttf",
+    "JetBrainsMono-Light.ttf",
+    "JetBrainsMono-ExtraBold.ttf",
+    "JetBrainsMono-ExtraLightItalic.ttf"
+  ],
 }
