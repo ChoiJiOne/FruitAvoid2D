@@ -24,7 +24,8 @@
 이 프로젝트에서는 다음과 같은 라이브러리를 사용합니다.  
 이때, C++의 단점 중 하나로 서드 파티 라이브러리 관리의 어려움이 있습니다.  
 따라서, 이를 극복하고자 Single Header Library 위주로 사용합니다.  
-- [SDL2](https://github.com/libsdl-org/SDL) : 윈도우 창 생성, 입력 처리, 화면 렌더링을 수행하는 라이브러리입니다.
+- [SDL2](https://github.com/libsdl-org/SDL) : 윈도우 창 생성, 입력 처리, 사운드, 화면 렌더링을 수행하는 라이브러리입니다.
+  - SDL 에는 사운드 처리를 수행하는 확장 라이브러리인 SDL_mixer 가 있지만, 이 프로젝트에서는 SDL 이 지원하는 사운드 기능만을 사용할 것입니다.
 - [spdlog](https://github.com/gabime/spdlog) : 로그 출력 및 저장을 수행하는 라이브러리입니다.
 - [json](https://github.com/nlohmann/json) : json 파일을 파싱하고 저장하는 라이브러리입니다.
 - [stb](https://github.com/nothings/stb) : 이미지 파일 로딩, 저장, 크기 조절 및 트루 타입 폰트 로딩, 폰트 글리프 데이터 생성 등의 기능을 수행하는 라이브입니다.
