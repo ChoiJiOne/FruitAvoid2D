@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 
 #include <SDL2/SDL.h>
 #include <stb/stb_image.h>
@@ -71,6 +72,87 @@ int main(int argc, char* argv[])
 
     SDL_Texture* BGSprite = LoadTextureFromFile(Renderer, "D:\\Repository\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 迄飘 积己 备埃...
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    stbtt_fontinfo Info;
+    std::vector<uint8_t> Buffer;
+    std::string Path = "D:\\Repository\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf";
+
+    Buffer.resize(1 << 25);
+
+    FILE* File = nullptr;
+    fopen_s(&File, Path.c_str(), "rb");
+
+	fread(&Buffer[0], 1, 1 << 25, File);
+	fclose(File);
+
+    stbtt_InitFont(
+        &Info, 
+        reinterpret_cast<const unsigned char*>(&Buffer[0]),
+        stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(&Buffer[0]), 0)
+    );
+
+    int32_t BeginCodePoint = 0x20;
+    int32_t EndCodePoint = 0x7E;
+    float FontSize = 32.0f;
+    int32_t Size = 16;
+    std::vector<stbtt_packedchar> Packedchars;
+
+    Packedchars.resize(EndCodePoint - BeginCodePoint + 1);
+
+	int32_t Success = 0;
+	stbtt_pack_context PackContext;
+	std::unique_ptr<uint8_t[]> Bitmap = nullptr;
+
+	for (int32_t TextureSize = 16; TextureSize < 8192; TextureSize *= 2)
+	{
+		Bitmap = std::make_unique<uint8_t[]>(TextureSize * TextureSize);
+		Success = stbtt_PackBegin(&PackContext, Bitmap.get(), TextureSize, TextureSize, 0, 1, nullptr);
+		stbtt_PackSetOversampling(&PackContext, 1, 1);
+
+		Success = stbtt_PackFontRange(
+			&PackContext,
+			reinterpret_cast<const unsigned char*>(&Buffer[0]),
+			0,
+			FontSize,
+            BeginCodePoint,
+			static_cast<int>(Packedchars.size()),
+			&Packedchars[0]
+		);
+
+		if (Success)
+		{
+			stbtt_PackEnd(&PackContext);
+			Size = TextureSize;
+			break;
+		}
+		else
+		{
+			stbtt_PackEnd(&PackContext);
+			Bitmap.reset();
+		}
+	}
+
+	auto pixels = std::make_unique<uint32_t[]>(Size * Size);
+	SDL_Texture* TextureAtlas = SDL_CreateTexture(Renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, Size, Size);
+	SDL_SetTextureBlendMode(TextureAtlas, SDL_BLENDMODE_BLEND);
+	SDL_PixelFormat* format = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA32);
+
+	for (int32_t index = 0; index < Size * Size; ++index)
+	{
+		pixels[index] = SDL_MapRGBA(format, 0xFF, 0xFF, 0xFF, Bitmap[index]);
+	}
+
+    SDL_UpdateTexture(TextureAtlas, nullptr, pixels.get(), Size * sizeof(uint32_t));
+	SDL_FreeFormat(format);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // 迄飘 积己 备埃...
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    std::wstring Text = L"Hello World!";
+
     bool bIsDone = false;
     SDL_Event Event;
 
@@ -89,8 +171,41 @@ int main(int argc, char* argv[])
 
         DrawSprite(Renderer, BGSprite, 500, 400, 1000, 800);
 
+        int32_t x = 100, y = 100;
+        for (auto& Unicode : Text)
+        {
+            int32_t CodePoint = static_cast<int32_t>(Unicode) - BeginCodePoint;
+
+            SDL_SetTextureColorMod(TextureAtlas, 255, 255, 255);
+            SDL_SetTextureAlphaMod(TextureAtlas, 255);
+
+            const stbtt_packedchar& CurrInfo = Packedchars[CodePoint];
+
+			SDL_Rect Src =
+			{
+                CurrInfo.x0,
+                CurrInfo.y0,
+                CurrInfo.x1 - CurrInfo.x0,
+                CurrInfo.y1 - CurrInfo.y0
+			};
+
+			SDL_Rect Dst =
+			{
+				x + CurrInfo.xoff,
+				y + CurrInfo.yoff,
+				(CurrInfo.x1 - CurrInfo.x0),
+				(CurrInfo.y1 - CurrInfo.y0)
+			};
+
+            SDL_RenderCopy(Renderer, TextureAtlas, &Src, &Dst);
+            x += static_cast<int32_t>(CurrInfo.xadvance);
+        }
+
         SDL_RenderPresent(Renderer);
     }
+
+    SDL_DestroyTexture(TextureAtlas);
+    TextureAtlas = nullptr;
 
     SDL_DestroyTexture(BGSprite);
     BGSprite = nullptr;
