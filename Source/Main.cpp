@@ -19,8 +19,19 @@ int main(int argc, char* argv[])
         SDL_WINDOW_SHOWN
     );
 
-    // 3초 동안 대기...
-    SDL_Delay(3000);
+    bool bIsDone = false;
+    SDL_Event Event;
+
+    while (!bIsDone)
+    {
+        while (SDL_PollEvent(&Event))
+        {
+            if (Event.type == SDL_QUIT)
+            {
+                bIsDone = true;
+            }
+        }
+    }
 
     SDL_DestroyWindow(Window);
     Window = nullptr;
