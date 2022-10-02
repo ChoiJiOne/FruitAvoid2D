@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
-    SDL_Texture* BGTexture = LoadTextureFromFile(Renderer, "D:\\Repository\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
+    SDL_Texture* BGSprite = LoadTextureFromFile(Renderer, "D:\\Repository\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
     bool bIsDone = false;
     SDL_Event Event;
@@ -85,13 +85,13 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
         SDL_RenderClear(Renderer);
 
-        DrawSprite(Renderer, BGTexture, 500, 400, 1000, 800);
+        DrawSprite(Renderer, BGSprite, 500, 400, 1000, 800);
 
         SDL_RenderPresent(Renderer);
     }
 
-    SDL_DestroyTexture(BGTexture);
-    BGTexture = nullptr;
+    SDL_DestroyTexture(BGSprite);
+    BGSprite = nullptr;
 
     SDL_DestroyRenderer(Renderer);
     Renderer = nullptr;
