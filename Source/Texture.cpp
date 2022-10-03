@@ -25,8 +25,6 @@ Texture::~Texture()
 	}
 }
 
-#include <iostream>
-
 bool Texture::LoadTextureFromFile(const std::string& InPath, std::vector<uint8_t>& OutBuffer, int32_t& OutFormat, int32_t& OutWidth, int32_t& OutHeight)
 {
 	uint8_t* Buffer = stbi_load(InPath.c_str(), &OutWidth, &OutHeight, &OutFormat, 0);
