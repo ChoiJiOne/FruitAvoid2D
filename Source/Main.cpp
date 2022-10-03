@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
-    SDL_Texture* BGSprite = LoadTextureFromFile(Renderer, "D:\\Repository\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
+    SDL_Texture* BGSprite = LoadTextureFromFile(Renderer, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
     int32_t BeginCodePoint = 0x20;
     int32_t EndCodePoint = 0x7E;
@@ -199,7 +199,7 @@ int main(int argc, char* argv[])
 
 	SDL_Texture* Atlas = LoadFontFromFile(
 		Renderer,
-		"D:\\Repository\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf",
+		"D:\\ToyEngine\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf",
 		BeginCodePoint,
 		EndCodePoint,
 		FontSize,
