@@ -2,38 +2,11 @@
 #include <string>
 #include <vector>
 
+#include "Texture.h"
+
 #include <SDL2/SDL.h>
-#include <stb/stb_image.h>
 #include <stb/stb_rect_pack.h>
 #include <stb/stb_truetype.h>
-
-SDL_Texture* LoadTextureFromFile(SDL_Renderer* InRenderer, const std::string& InPath)
-{
-    int32_t Width = 0,  Height = 0, Channels = 0;
-    uint8_t* Buffer = stbi_load(InPath.c_str(), &Width, &Height, &Channels, 0);
-
-    if (!Buffer) return nullptr;
-
-    uint32_t Format = (Channels == 3) ? SDL_PIXELFORMAT_RGB24 : SDL_PIXELFORMAT_RGBA32;
-    int32_t Pitch = Width * Channels;
-
-    SDL_Texture* Texture = SDL_CreateTexture(InRenderer, Format, SDL_TEXTUREACCESS_STATIC, Width, Height);
-
-    if (!Texture)
-    {
-		stbi_image_free(Buffer);
-		Buffer = nullptr;
-
-        return nullptr;
-    }
-
-    SDL_UpdateTexture(Texture, nullptr, reinterpret_cast<const void*>(Buffer), Pitch);
-
-    stbi_image_free(Buffer);
-    Buffer = nullptr;
-
-    return Texture;
-}
 
 void DrawSprite(SDL_Renderer* InRenderer, SDL_Texture* InTexture, int32_t InCenterX, int32_t InCenterY, int32_t InWidth, int32_t InHeight)
 {
@@ -190,7 +163,7 @@ int main(int argc, char* argv[])
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
     );
 
-    SDL_Texture* BGSprite = LoadTextureFromFile(Renderer, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
+	Texture BGSprite(Renderer, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
     int32_t BeginCodePoint = 0x20;
     int32_t EndCodePoint = 0x7E;
@@ -222,7 +195,7 @@ int main(int argc, char* argv[])
         SDL_SetRenderDrawColor(Renderer, 0, 0, 0, 255);
         SDL_RenderClear(Renderer);
 
-        DrawSprite(Renderer, BGSprite, 500, 400, 1000, 800);
+        DrawSprite(Renderer, BGSprite.GetTextureResource(), 500, 400, 1000, 800);
 		DrawText(Renderer, L"Hello World!", 100, 100, Atlas, BeginCodePoint, EndCodePoint, Packedchars);
         
         SDL_RenderPresent(Renderer);
@@ -231,8 +204,7 @@ int main(int argc, char* argv[])
     SDL_DestroyTexture(Atlas);
     Atlas = nullptr;
 
-    SDL_DestroyTexture(BGSprite);
-    BGSprite = nullptr;
+	BGSprite.~Texture();
 
     SDL_DestroyRenderer(Renderer);
     Renderer = nullptr;
