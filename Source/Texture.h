@@ -58,8 +58,6 @@ private:
 	 * @param OutWidth - 텍스처 리소스의 가로 크기입니다.
 	 * @param OutHeight - 텍스처 리소스의 세로 크기입니다.
 	 * 
-	 * @throws 텍스처 파일 로딩에 실패하면 C++ 표준 예외를 던집니다.
-	 * 
 	 * @return 텍스처 파일 로딩에 성공하면 true, 그렇지 않으면 false를 반환합니다.
 	 */
 	static bool LoadTextureFromFile(
