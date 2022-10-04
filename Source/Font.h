@@ -7,6 +7,51 @@
 
 struct SDL_Renderer;
 struct SDL_Texture;
+struct stbtt_packedchar;
+
+
+/**
+ * 폰트에 대응하는 문자들의 텍스처 아틀라스입니다.
+ */
+class CharacterTextureAtlas
+{
+public:
+	CharacterTextureAtlas();
+
+	virtual ~CharacterTextureAtlas();
+
+	/**
+	 * 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
+	 */
+	DISALLOW_COPY_AND_ASSIGN(CharacterTextureAtlas);
+
+
+private:
+	/**
+	 * 캐릭터 텍스처 아틀라스의 코드 포인트 시작점입니다.
+	 * 이때, 텍스처 아틀라스는 시작점을 포함합니다.
+	 */
+	int32_t BeginCodePoint_ = 0;
+
+
+	/**
+	 * 캐릭터 텍스처 아틀라스의 코드 포인트 끝점입니다.
+	 * 이때, 텍스처 아틀라스는 끝점을 포함합니다.
+	 */
+	int32_t EndCodePoint_ = 0;
+
+
+	/**
+	 * 텍스처 아틀라스 상의 코드 포인트에 대응하는 문자 위치 및 크기 정보입니다. 
+	 */
+	std::vector<stbtt_packedchar> Packedchars_;
+
+
+	/**
+	 * 텍스처 아틀라스입니다.
+	 */
+	SDL_Texture* TextureAtlas_ = nullptr;
+};
 
 
 /**
@@ -40,6 +85,18 @@ public:
 	 * 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
 	DISALLOW_COPY_AND_ASSIGN(Font);
+
+
+private:
+	/**
+	 * 트루 타입 폰트를 로딩 합니다.
+	 * 
+	 * @param InPath - 로딩할 트루 타입 폰트 리소스의 경로입니다.
+	 * @param OutBuffer - 트루 타입 폰트의 리소스 버퍼입니다.
+	 * 
+	 * @return 트루 타입 폰트 로딩에 성공하면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	static bool LoadTrueTypeFontFromFile(const std::string& InPath, std::vector<uint8_t>& OutBuffer);
 
 
 private:
