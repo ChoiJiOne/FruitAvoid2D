@@ -16,9 +16,23 @@ struct stbtt_packedchar;
 class CharacterTextureAtlas
 {
 public:
-	CharacterTextureAtlas();
+	/**
+	 * 문자 텍스처 아틀라스 클래스의 생성자입니다.
+	 * 
+	 * @param InBuffer - 트루 타입 폰트 리소스 버퍼입니다.
+	 * @param InBeginCodePoint - 문자 텍스처 아틀라스의 코드 포인트 시작점입니다.
+	 * @param InEndCodePoint - 문자 텍스처 아틀라스의 코드 포인트 끝점입니다.
+	 * 
+	 * @throws 텍스처 아틀라스 생성에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	CharacterTextureAtlas(const std::vector<uint8_t>& InBuffer, int32_t InBeginCodePoint, int32_t InEndCodePoint);
 
+
+	/**
+	 * 문자 텍스처 아틀라스 클래스 가상 소멸자입니다.
+	 */
 	virtual ~CharacterTextureAtlas();
+
 
 	/**
 	 * 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
@@ -28,14 +42,14 @@ public:
 
 private:
 	/**
-	 * 캐릭터 텍스처 아틀라스의 코드 포인트 시작점입니다.
+	 * 문자 텍스처 아틀라스의 코드 포인트 시작점입니다.
 	 * 이때, 텍스처 아틀라스는 시작점을 포함합니다.
 	 */
 	int32_t BeginCodePoint_ = 0;
 
 
 	/**
-	 * 캐릭터 텍스처 아틀라스의 코드 포인트 끝점입니다.
+	 * 문자 텍스처 아틀라스의 코드 포인트 끝점입니다.
 	 * 이때, 텍스처 아틀라스는 끝점을 포함합니다.
 	 */
 	int32_t EndCodePoint_ = 0;
