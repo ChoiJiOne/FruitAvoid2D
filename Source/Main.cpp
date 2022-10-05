@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Texture.h"
+#include "Font.h"
 
 #include <SDL2/SDL.h>
 #include <stb/stb_rect_pack.h>
@@ -99,25 +100,24 @@ SDL_Texture* LoadFontFromFile(
 }
 
 void DrawText(
-    SDL_Renderer* InRenderer, 
-    const std::wstring& InText, 
-    int32_t InX,
-    int32_t InY,
-	SDL_Texture* InAtlas,
-    const int32_t& InBeginCodePoint,
-    const int32_t& InEndCodePoint,
-    const std::vector<stbtt_packedchar>& InPackedchars
+	SDL_Renderer* InRenderer, 
+	const std::wstring& InText, 
+	int32_t InX, int32_t InY,
+	CharacterTextureAtlas& InAtlas,
+	uint8_t InRed, 
+	uint8_t InGreen, 
+	uint8_t InBlue, 
+	uint8_t InAlpha
 )
 {
 	int32_t x = InX, y = InY;
 	for (auto& Unicode : InText)
 	{
-		int32_t CodePoint = static_cast<int32_t>(Unicode) - InBeginCodePoint;
+		SDL_Texture* TextureAtlas = InAtlas.GetTextureAtlas();
+		SDL_SetTextureColorMod(TextureAtlas, InRed, InGreen, InBlue);
+		SDL_SetTextureAlphaMod(TextureAtlas, InAlpha);
 
-		SDL_SetTextureColorMod(InAtlas, 255, 255, 255);
-		SDL_SetTextureAlphaMod(InAtlas, 255);
-
-		const stbtt_packedchar& CurrInfo = InPackedchars[CodePoint];
+		const stbtt_packedchar& CurrInfo = InAtlas.GetPackedchar(static_cast<int32_t>(Unicode));
 
 		SDL_Rect Src =
 		{
@@ -135,7 +135,7 @@ void DrawText(
 			(CurrInfo.y1 - CurrInfo.y0)
 		};
 
-		SDL_RenderCopy(InRenderer, InAtlas, &Src, &Dst);
+		SDL_RenderCopy(InRenderer, TextureAtlas, &Src, &Dst);
 		x += static_cast<int32_t>(CurrInfo.xadvance);
 	}
 }
@@ -165,19 +165,26 @@ int main(int argc, char* argv[])
 
 	Texture BGSprite(Renderer, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
-    int32_t BeginCodePoint = 0x20;
-    int32_t EndCodePoint = 0x7E;
-    float FontSize = 32.0f;
-    std::vector<stbtt_packedchar> Packedchars;
+	std::vector<uint8_t> Buffer;
+	Buffer.resize(1 << 25);
 
-	SDL_Texture* Atlas = LoadFontFromFile(
-		Renderer,
-		"D:\\ToyEngine\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf",
-		BeginCodePoint,
-		EndCodePoint,
-		FontSize,
-		Packedchars
+	FILE* FontFile = nullptr;
+	fopen_s(&FontFile, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf", "rb");
+
+	fread(&Buffer[0], 1, 1 << 25, FontFile);
+	fclose(FontFile);
+
+	stbtt_fontinfo Info;
+	stbtt_InitFont(
+		&Info,
+		reinterpret_cast<const unsigned char*>(&Buffer[0]),
+		stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(&Buffer[0]), 0)
 	);
+
+	int32_t BeginCodePoint = 0x20;
+	int32_t EndCodePoint = 0x7E;
+	float FontSize = 32.0f;
+	CharacterTextureAtlas TextureAtlas(Renderer, Buffer, BeginCodePoint, EndCodePoint, FontSize);
 
     bool bIsDone = false;
     SDL_Event Event;
@@ -196,15 +203,13 @@ int main(int argc, char* argv[])
         SDL_RenderClear(Renderer);
 
         DrawSprite(Renderer, BGSprite.GetTextureResource(), 500, 400, 1000, 800);
-		DrawText(Renderer, L"Hello World!", 100, 100, Atlas, BeginCodePoint, EndCodePoint, Packedchars);
+		DrawText(Renderer, L"Hello World!", 100, 100, TextureAtlas, 255, 255, 0, 255);
         
         SDL_RenderPresent(Renderer);
     }
 
-    SDL_DestroyTexture(Atlas);
-    Atlas = nullptr;
-
 	BGSprite.~Texture();
+	TextureAtlas.~CharacterTextureAtlas();
 
     SDL_DestroyRenderer(Renderer);
     Renderer = nullptr;
