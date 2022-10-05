@@ -57,10 +57,10 @@ void Font::MeasureText(const std::wstring& InText, int32_t& OutWidth, int32_t& O
 
 	for (const auto& Unicode : InText)
 	{
-		const stbtt_packedchar& CurrInfo = GetPackedchar(static_cast<int32_t>(Unicode));
+		const stbtt_packedchar& UnicodeInfo = GetPackedchar(static_cast<int32_t>(Unicode));
 
-		int32_t CurrWidth = (CurrInfo.x1 - CurrInfo.x0) + static_cast<int32_t>(CurrInfo.xadvance);
-		int32_t CurrHeight = CurrInfo.y1 - CurrInfo.y0;
+		int32_t CurrWidth = static_cast<int32_t>(UnicodeInfo.xadvance);
+		int32_t CurrHeight = UnicodeInfo.y1 - UnicodeInfo.y0;
 
 		TextWidth += CurrWidth;
 
