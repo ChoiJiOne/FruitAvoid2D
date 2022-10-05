@@ -66,7 +66,6 @@ public:
 	SDL_Texture* GetTextureAtlas() { return TextureAtlas_; }
 
 
-private:
 	/**
 	 * 코드 포인트가 범위 내에 포함되는지 확인합니다.
 	 * 
@@ -77,6 +76,7 @@ private:
 	bool HasCodePointInRange(int32_t InCodePoint);
 
 
+private:
 	/**
 	 * 텍스처 아틀라스 비트맵을 생성합니다.
 	 * 이때, 텍스처 아틀라스의 가로 세로 크기는 같습니다.
