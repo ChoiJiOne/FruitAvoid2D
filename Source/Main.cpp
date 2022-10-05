@@ -21,89 +21,11 @@ void DrawSprite(SDL_Renderer* InRenderer, SDL_Texture* InTexture, int32_t InCent
 	SDL_RenderCopy(InRenderer, InTexture, nullptr, &Rect);
 }
 
-SDL_Texture* LoadFontFromFile(
-	SDL_Renderer* InRenderer,
-	const std::string& InPath,
-	const int32_t& InBeginCodePoint,
-	const int32_t& InEndCodePoint,
-	const float& InFontSize,
-	std::vector<stbtt_packedchar>& OutPackedchars
-)
-{
-	stbtt_fontinfo Info;
-	std::vector<uint8_t> Buffer;
-
-	Buffer.resize(1 << 25);
-
-	FILE* File = nullptr;
-	fopen_s(&File, InPath.c_str(), "rb");
-
-	fread(&Buffer[0], 1, 1 << 25, File);
-	fclose(File);
-
-	stbtt_InitFont(
-		&Info,
-		reinterpret_cast<const unsigned char*>(&Buffer[0]),
-		stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(&Buffer[0]), 0)
-	);
-
-	int32_t Size = 16;
-	OutPackedchars.resize(InEndCodePoint - InBeginCodePoint + 1);
-
-	int32_t Success = 0;
-	stbtt_pack_context PackContext;
-	std::unique_ptr<uint8_t[]> Bitmap = nullptr;
-
-	for (int32_t TextureSize = 16; TextureSize < 8192; TextureSize *= 2)
-	{
-		Bitmap = std::make_unique<uint8_t[]>(TextureSize * TextureSize);
-		Success = stbtt_PackBegin(&PackContext, Bitmap.get(), TextureSize, TextureSize, 0, 1, nullptr);
-		stbtt_PackSetOversampling(&PackContext, 1, 1);
-
-		Success = stbtt_PackFontRange(
-			&PackContext,
-			reinterpret_cast<const unsigned char*>(&Buffer[0]),
-			0,
-			InFontSize,
-			InBeginCodePoint,
-			static_cast<int>(OutPackedchars.size()),
-			&OutPackedchars[0]
-		);
-
-		if (Success)
-		{
-			stbtt_PackEnd(&PackContext);
-			Size = TextureSize;
-			break;
-		}
-		else
-		{
-			stbtt_PackEnd(&PackContext);
-			Bitmap.reset();
-		}
-	}
-
-	auto pixels = std::make_unique<uint32_t[]>(Size * Size);
-	SDL_Texture* TextureAtlas = SDL_CreateTexture(InRenderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, Size, Size);
-	SDL_SetTextureBlendMode(TextureAtlas, SDL_BLENDMODE_BLEND);
-	SDL_PixelFormat* format = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA32);
-
-	for (int32_t index = 0; index < Size * Size; ++index)
-	{
-		pixels[index] = SDL_MapRGBA(format, 0xFF, 0xFF, 0xFF, Bitmap[index]);
-	}
-
-	SDL_UpdateTexture(TextureAtlas, nullptr, pixels.get(), Size * sizeof(uint32_t));
-	SDL_FreeFormat(format);
-
-	return TextureAtlas;
-}
-
 void DrawText(
 	SDL_Renderer* InRenderer, 
 	const std::wstring& InText, 
 	int32_t InX, int32_t InY,
-	CharacterTextureAtlas& InAtlas,
+	Font& InAtlas,
 	uint8_t InRed, 
 	uint8_t InGreen, 
 	uint8_t InBlue, 
@@ -165,26 +87,10 @@ int main(int argc, char* argv[])
 
 	Texture BGSprite(Renderer, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\texture\\Beach.jpg");
 
-	std::vector<uint8_t> Buffer;
-	Buffer.resize(1 << 25);
-
-	FILE* FontFile = nullptr;
-	fopen_s(&FontFile, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf", "rb");
-
-	fread(&Buffer[0], 1, 1 << 25, FontFile);
-	fclose(FontFile);
-
-	stbtt_fontinfo Info;
-	stbtt_InitFont(
-		&Info,
-		reinterpret_cast<const unsigned char*>(&Buffer[0]),
-		stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(&Buffer[0]), 0)
-	);
-
 	int32_t BeginCodePoint = 0x20;
 	int32_t EndCodePoint = 0x7E;
 	float FontSize = 32.0f;
-	CharacterTextureAtlas TextureAtlas(Renderer, Buffer, BeginCodePoint, EndCodePoint, FontSize);
+	Font font(Renderer, "D:\\ToyEngine\\FruitAvoid2D\\Resource\\font\\JetBrainsMono-Bold.ttf", BeginCodePoint, EndCodePoint, FontSize);
 
     bool bIsDone = false;
     SDL_Event Event;
@@ -203,13 +109,13 @@ int main(int argc, char* argv[])
         SDL_RenderClear(Renderer);
 
         DrawSprite(Renderer, BGSprite.GetTextureResource(), 500, 400, 1000, 800);
-		DrawText(Renderer, L"Hello World!", 100, 100, TextureAtlas, 255, 255, 0, 255);
+		DrawText(Renderer, L"Hello World!", 100, 100, font, 255, 255, 0, 255);
         
         SDL_RenderPresent(Renderer);
     }
 
 	BGSprite.~Texture();
-	TextureAtlas.~CharacterTextureAtlas();
+	font.~Font();
 
     SDL_DestroyRenderer(Renderer);
     Renderer = nullptr;

@@ -4,17 +4,32 @@
 #include <SDL2/SDL.h>
 // @third party code - END
 
-CharacterTextureAtlas::CharacterTextureAtlas(SDL_Renderer* InRenderer, const std::vector<uint8_t>& InBuffer, int32_t InBeginCodePoint, int32_t InEndCodePoint, float InFontSize)
-    : BeginCodePoint_(InBeginCodePoint)
-    , EndCodePoint_(InEndCodePoint)
+Font::Font(
+	SDL_Renderer* InRenderer, 
+	const std::string& InPath, 
+	int32_t InBeginCodePoint, 
+	int32_t InEndCodePoint, 
+	float InFontSize
+) : BeginCodePoint_(InBeginCodePoint), 
+	EndCodePoint_(InEndCodePoint)
 {
+	std::vector<uint8_t> Buffer;
+	CHECK((LoadTrueTypeFontFromFile(InPath, Buffer)), "failed to load trye type font");
+
+	stbtt_fontinfo Info;
+	CHECK((stbtt_InitFont(
+		&Info,
+		reinterpret_cast<const unsigned char*>(&Buffer[0]),
+		stbtt_GetFontOffsetForIndex(reinterpret_cast<const unsigned char*>(&Buffer[0]), 0)
+	) != 0), "failed to initialize stb_truetype");
+
 	int32_t BitmapSize = 0;
-	std::shared_ptr<uint8_t[]> Bitmap = GenerateTextureAtlasBitmap(InBuffer, BeginCodePoint_, EndCodePoint_, InFontSize, Packedchars_, BitmapSize);
+	std::shared_ptr<uint8_t[]> Bitmap = GenerateTextureAtlasBitmap(Buffer, BeginCodePoint_, EndCodePoint_, InFontSize, Packedchars_, BitmapSize);
 
 	TextureAtlas_ = CreateTextureAtlasFromBitmap(InRenderer, Bitmap, BitmapSize);
 }
 
-CharacterTextureAtlas::~CharacterTextureAtlas()
+Font::~Font()
 {
     if (TextureAtlas_)
     {
@@ -23,19 +38,34 @@ CharacterTextureAtlas::~CharacterTextureAtlas()
     }
 }
 
-const stbtt_packedchar& CharacterTextureAtlas::GetPackedchar(int32_t InCodePoint)
+const stbtt_packedchar& Font::GetPackedchar(int32_t InCodePoint)
 {
 	CHECK(HasCodePointInRange(InCodePoint), "code point is out of range");
 	int32_t Index = InCodePoint - BeginCodePoint_;
 	return Packedchars_[Index];
 }
 
-bool CharacterTextureAtlas::HasCodePointInRange(int32_t InCodePoint)
+bool Font::HasCodePointInRange(int32_t InCodePoint)
 {
 	return (BeginCodePoint_ <= InCodePoint) && (InCodePoint <= EndCodePoint_);
 }
 
-std::shared_ptr<uint8_t[]> CharacterTextureAtlas::GenerateTextureAtlasBitmap(const std::vector<uint8_t>& InBuffer, int32_t InBeginCodePoint, int32_t InEndCodePoint, float InFontSize, std::vector<stbtt_packedchar>& OutPackedchars, int32_t& OutSize)
+bool Font::LoadTrueTypeFontFromFile(const std::string& InPath, std::vector<uint8_t>& OutBuffer)
+{
+	OutBuffer.resize(1 << 25);
+
+	FILE* FontFile = nullptr;
+	fopen_s(&FontFile, InPath.c_str(), "rb");
+
+	if (!FontFile) return false;
+
+	fread(&OutBuffer[0], 1, 1 << 25, FontFile);
+	fclose(FontFile);
+	
+	return true;
+}
+
+std::shared_ptr<uint8_t[]> Font::GenerateTextureAtlasBitmap(const std::vector<uint8_t>& InBuffer, int32_t InBeginCodePoint, int32_t InEndCodePoint, float InFontSize, std::vector<stbtt_packedchar>& OutPackedchars, int32_t& OutSize)
 {
 	OutPackedchars.resize(InEndCodePoint - InBeginCodePoint + 1);
 
@@ -75,7 +105,7 @@ std::shared_ptr<uint8_t[]> CharacterTextureAtlas::GenerateTextureAtlasBitmap(con
 	return Bitmap;
 }
 
-SDL_Texture* CharacterTextureAtlas::CreateTextureAtlasFromBitmap(SDL_Renderer* InRenderer, const std::shared_ptr<uint8_t[]>& InBitmap, const int32_t InSize)
+SDL_Texture* Font::CreateTextureAtlasFromBitmap(SDL_Renderer* InRenderer, const std::shared_ptr<uint8_t[]>& InBitmap, const int32_t InSize)
 {
 	auto Pixels = std::make_unique<uint32_t[]>(InSize * InSize);
 
@@ -99,29 +129,3 @@ SDL_Texture* CharacterTextureAtlas::CreateTextureAtlasFromBitmap(SDL_Renderer* I
 
 	return TextureAtlas;
 }
-
-//
-//Font::Font(SDL_Renderer* InRenderer, const std::string& InPath, float InSize)
-//{
-//
-//
-//}
-//
-//Font::~Font()
-//{
-//}
-//
-//bool Font::LoadTrueTypeFontFromFile(const std::string& InPath, std::vector<uint8_t>& OutBuffer)
-//{
-//    OutBuffer.resize(1 << 25);
-//
-//    FILE* FontFile = nullptr;
-//    fopen_s(&FontFile, InPath.c_str(), "rb");
-//
-//    if (!FontFile) return false;
-//
-//    fread(&OutBuffer[0], 1, 1 << 25, FontFile);
-//    fclose(FontFile);
-//
-//    return true;
-//}
