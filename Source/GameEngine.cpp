@@ -1,6 +1,6 @@
 #include "GameEngine.h"
 
-static std::string RootDirectory_;
+std::string GameEngine::RootDirectory_;
 
 std::unique_ptr<WindowSystem> GameEngine::WindowSystem_ = nullptr;
 std::unique_ptr<RenderSystem> GameEngine::RenderSystem_ = nullptr;
@@ -12,6 +12,9 @@ void GameEngine::Init()
 	int32_t SDLFlags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_EVENTS;
 	
 	CHECK((SDL_Init(SDLFlags) == 0), "failed to initialize SDL");
+
+	CHECK((__argc > 1), "please insert root directory");
+	RootDirectory_ = __argv[1];
 }
 
 void GameEngine::Quit()

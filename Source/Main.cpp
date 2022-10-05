@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
     InputSystem& Input = GameEngine::CreateInputSystem();
     ResourceSystem& Resource = GameEngine::CreateResourceSystem();
 
-    std::string ResourcePath = "D:\\ToyEngine\\FruitAvoid2D\\Resource\\";
+    std::string ResourcePath = GameEngine::GetRootDirectory() + "\\Resource\\";
     Texture& BGTexture = Resource.LoadTextureFromFile(Text::GetHash("Beach"), ResourcePath + "texture\\Beach.jpg");
     Font& MonoFont = Resource.LoadFontFromFile(Text::GetHash("Mono"), ResourcePath + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 
