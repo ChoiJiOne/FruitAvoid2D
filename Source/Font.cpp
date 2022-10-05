@@ -50,6 +50,30 @@ bool Font::HasCodePointInRange(int32_t InCodePoint)
 	return (BeginCodePoint_ <= InCodePoint) && (InCodePoint <= EndCodePoint_);
 }
 
+void Font::MeasureText(const std::wstring& InText, int32_t& OutWidth, int32_t& OutHeight)
+{
+	int32_t TextHeight = -1;
+	int32_t TextWidth = 0;
+
+	for (const auto& Unicode : InText)
+	{
+		const stbtt_packedchar& CurrInfo = GetPackedchar(static_cast<int32_t>(Unicode));
+
+		int32_t CurrWidth = (CurrInfo.x1 - CurrInfo.x0) + static_cast<int32_t>(CurrInfo.xadvance);
+		int32_t CurrHeight = CurrInfo.y1 - CurrInfo.y0;
+
+		TextWidth += CurrWidth;
+
+		if (CurrHeight > TextHeight)
+		{
+			TextHeight = CurrHeight;
+		}
+	}
+
+	OutWidth = TextWidth;
+	OutHeight = TextHeight;
+}
+
 bool Font::LoadTrueTypeFontFromFile(const std::string& InPath, std::vector<uint8_t>& OutBuffer)
 {
 	OutBuffer.resize(1 << 25);

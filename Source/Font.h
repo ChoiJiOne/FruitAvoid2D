@@ -82,6 +82,17 @@ public:
 	bool HasCodePointInRange(int32_t InCodePoint);
 
 
+	/**
+	 * 텍스트의 크기를 측정합니다.
+	 * 측정 단위는 픽셀 단위입니다.
+	 * 
+	 * @param InText - 측정할 텍스트입니다.
+	 * @param OutWidth - 측정한 텍스트의 가로 크기입니다.
+	 * @param OutHeight - 측정한 텍스트의 세로 크기입니다.
+	 */
+	void MeasureText(const std::wstring& InText, int32_t& OutWidth, int32_t& OutHeight);
+
+
 private:
 	/**
 	 * 트루 타입 폰트를 로딩 합니다.
