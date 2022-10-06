@@ -14,6 +14,8 @@ Texture::Texture(SDL_Renderer* InRenderer, const std::string& InPath)
 
 	Texture_ = CreateTextureResource(InRenderer, Buffer, Format, Width, Height);
 	CHECK((Texture_ != nullptr), "failed to create texture resource");
+
+	CHECK((SDL_SetTextureBlendMode(Texture_, SDL_BLENDMODE_BLEND) == 0), "failed to set blend mode in texture");
 }
 
 Texture::~Texture()
