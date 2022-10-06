@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Fruit.h"
 #include "GameEngine.h"
 
 void LoadResource()
@@ -57,6 +58,7 @@ int main(int argc, char* argv[])
 	LoadResource();
 
 	Player player(Vec2i(500, 650), 200.0f, 50, 50, Player::EColor::Blue);
+	Fruit fruit = Fruit::GenerateRandomFruit(100);
 	Timer timer;
 
 	timer.Reset();
@@ -65,11 +67,13 @@ int main(int argc, char* argv[])
 		timer.Tick();
 
 		player.Update(Input, timer.DeltaTime());
+		fruit.Update(Input, timer.DeltaTime());
 
         Renderer.BeginFrame(Color::Black);
 
         Renderer.DrawTexture2D(Resource.GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
 		player.Render(Renderer);
+		fruit.Render(Renderer);
         
         Renderer.EndFrame();
     }
