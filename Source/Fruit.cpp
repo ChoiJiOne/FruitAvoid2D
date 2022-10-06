@@ -36,6 +36,7 @@ Fruit::Fruit(const Vec2i& InPosition, const float& InSpeed, const int32_t& InWid
 
 Fruit::Fruit(Fruit&& InInstance) noexcept
 	: Position_(InInstance.Position_)
+	, Rotate_(InInstance.Rotate_)
 	, Speed_(InInstance.Speed_)
 	, Width_(InInstance.Width_)
 	, Height_(InInstance.Height_)
@@ -45,6 +46,7 @@ Fruit::Fruit(Fruit&& InInstance) noexcept
 
 Fruit::Fruit(const Fruit& InInstance) noexcept
 	: Position_(InInstance.Position_)
+	, Rotate_(InInstance.Rotate_)
 	, Speed_(InInstance.Speed_)
 	, Width_(InInstance.Width_)
 	, Height_(InInstance.Height_)
@@ -61,6 +63,7 @@ Fruit& Fruit::operator=(Fruit&& InInstance) noexcept
 	if (this == &InInstance) return *this;
 
 	Position_ = InInstance.Position_;
+	Rotate_ = InInstance.Rotate_;
 	Speed_ = InInstance.Speed_;
 	Width_ = InInstance.Width_;
 	Height_ = InInstance.Height_;
@@ -74,6 +77,7 @@ Fruit& Fruit::operator=(const Fruit& InInstance) noexcept
 	if (this == &InInstance) return *this;
 
 	Position_ = InInstance.Position_;
+	Rotate_ = InInstance.Rotate_;
 	Speed_ = InInstance.Speed_;
 	Width_ = InInstance.Width_;
 	Height_ = InInstance.Height_;
@@ -85,6 +89,8 @@ Fruit& Fruit::operator=(const Fruit& InInstance) noexcept
 void Fruit::Update(const InputSystem& InInput, float InDeltaTime)
 {
 	Position_.y += static_cast<int32_t>(InDeltaTime * Speed_);
+
+	Rotate_ += static_cast<int32_t>(InDeltaTime * Speed_);
 }
 
 void Fruit::Render(const RenderSystem& InRenderer)
@@ -93,7 +99,7 @@ void Fruit::Render(const RenderSystem& InRenderer)
 	RenderSystem& Renderer = GameEngine::GetRenderSystem();
 
 	Texture& FruitTexture = Resource.GetTexture(FruitTextureKeys_.at(Type_));
-	Renderer.DrawTexture2D(FruitTexture, Position_, Width_, Height_);
+	Renderer.DrawTexture2D(FruitTexture, Position_, Width_, Height_, Rotate_);
 }
 
 Fruit Fruit::GenerateRandomFruit(const int32_t& InYPosition)
@@ -106,17 +112,12 @@ Fruit Fruit::GenerateRandomFruit(const int32_t& InYPosition)
 		300.0f,
 		350.0f,
 		400.0f,
-		450.0f,
-		500.0f,
-		550.0f,
-		600.0f,
-		650.0f
 	};
 
 	static int32_t FruitSizes[] = {
 		50,
-		100,
-		150,
+		60,
+		70
 	};
 
 	static EType FruitTypes[] = {
