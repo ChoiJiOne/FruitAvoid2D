@@ -43,7 +43,7 @@
 ## 빌드 방법
 
 프로젝트 빌드를 수행하기 위한 절차는 다음과 같습니다.  
-1. 터미널 혹은 CMD에서 원하는 디렉토리로 이동한 뒤 `git clone https://github.com/ChoiJiOne/FruitAvoid2D` 를 수행합니다.
+1. 터미널 혹은 CMD에서 원하는 디렉토리로 이동한 뒤 `git clone https://github.com/ToyEngine/FruitAvoid2D` 를 수행합니다.
     - 원하는 폴더에서 터미널 혹은 CMD를 실행한 뒤에 진행해도 문제 없습니다.
 2. `cd FruitAvoid2D` 를 실행하여 디렉토리를 이동한 후 `GenerateProjectFiles.bat` 를 실행합니다.
 3. 생성된 `FruitAvoid2D` 폴더 하위의 `FruitAvoid2D.sln` 를 실행합니다.
@@ -54,5 +54,9 @@
 
 ## 플레이 방법
 
-2D 과일 피하기 게임을 플레이 하기 위한 방법은 다음과 같습니다.
+2D 과일 피하기 게임을 플레이 하기 전 준비 방법은 다음과 같습니다.
+1. `FruitAvoid2D` 프로젝트를 오른쪽 클릭하여 `속성`을 클릭합니다.
+2. 상단에 '구성'이 `모든 구성`으로 되어있는지 확인합니다.
+3. '구성 속성'에 '디버깅'을 클릭합니다.
+4. 명령 인수 입력란에 `$(SolutionDir)..\`을 입력 후 확인을 누릅니다.
 <br><br>
