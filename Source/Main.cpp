@@ -7,7 +7,7 @@ void LoadResource()
 	ResourceSystem& Resource = GameEngine::GetResourceSystem();
 
 	std::string ResourcePath = GameEngine::GetRootDirectory() + "\\Resource\\";
-	std::vector<std::string> TextureNames = {
+	std::vector<std::string> PngTextureNames = {
 		"Banana",
 		"Coconut",
 		"Orange",
@@ -37,14 +37,32 @@ void LoadResource()
 		"RedGrape"
 	};
 
-	for (const auto& TextureName : TextureNames)
+	for (const auto& PngTextureName : PngTextureNames)
 	{
-		Resource.LoadTextureFromFile(Text::GetHash(TextureName), Text::Format("%stexture\\%s.png", ResourcePath.c_str(), TextureName.c_str()));
+		Resource.LoadTextureFromFile(
+			Text::GetHash(PngTextureName), 
+			Text::Format("%stexture\\%s.png", ResourcePath.c_str(), PngTextureName.c_str())
+		);
 	}
 
-	Resource.LoadTextureFromFile(Text::GetHash("Beach"), ResourcePath + "texture\\Beach.jpg");
+	std::vector<std::string> JpgTextureNames = {
+		"Beach",
+	};
+
+	for (const auto& JpgTextureName : JpgTextureNames)
+	{
+		Resource.LoadTextureFromFile(
+			Text::GetHash(JpgTextureName),
+			Text::Format("%stexture\\%s.jpg", ResourcePath.c_str(), JpgTextureName.c_str())
+		);
+	}
+
 	Resource.LoadFontFromFile(Text::GetHash("Mono"), ResourcePath + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 }
+
+Player GamePlayer(Vec2i(500, 650), 200.0f, 50, 50, Player::EColor::Blue);
+Timer GameTimer;
+std::list<Fruit> GameFruits;
 
 int main(int argc, char* argv[])
 {
@@ -57,22 +75,18 @@ int main(int argc, char* argv[])
 
 	LoadResource();
 
-	Player player(Vec2i(500, 650), 200.0f, 50, 50, Player::EColor::Blue);
-
 	std::list<Fruit> Fruits;
-	for (int32_t Index = 0; Index < 10; ++Index)
+	for (int32_t Index = 0; Index < 20; ++Index)
 	{
 		Fruits.push_back(Fruit::GenerateRandomFruit(100));
 	}
 
-	Timer GameTimer;
 	GameTimer.Reset();
-
     while (!Input.Tick())
     {
 		GameTimer.Tick();
 
-		player.Update(Input, GameTimer.DeltaTime());
+		GamePlayer.Update(Input, GameTimer.DeltaTime());
 		for (auto& fruit : Fruits)
 		{
 			fruit.Update(Input, GameTimer.DeltaTime());
@@ -81,7 +95,8 @@ int main(int argc, char* argv[])
         Renderer.BeginFrame(Color::Black);
 
         Renderer.DrawTexture2D(Resource.GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
-		player.Render(Renderer);
+
+		GamePlayer.Render(Renderer);
 		for (auto& fruit : Fruits)
 		{
 			fruit.Render(Renderer);
