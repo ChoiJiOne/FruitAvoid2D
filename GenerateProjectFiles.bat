@@ -7,5 +7,5 @@ if exist FruitAvoid2D (
 )
 
 echo run premake5.exe...
-Bin\\premake5.exe vs2019
+Engine\\Bin\\premake5.exe vs2019
 PAUSE
