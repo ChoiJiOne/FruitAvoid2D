@@ -129,6 +129,14 @@ public:
 	static Fruit GenerateRandomFruit(const int32_t& InYPosition);
 
 
+	/**
+	 * 과일의 현재 위치를 얻습니다.
+	 * 
+	 * @return 과일의 현재 위치를 반환합니다.
+	 */
+	Vec2i GetPosition() const { return Position_; }
+
+
 private:
 	/**
 	 * 과일의 화면 상 현재 위치입니다.
