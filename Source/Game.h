@@ -91,4 +91,16 @@ private:
 	 * 플레이어의 목숨입니다.
 	 */
 	int32_t Life_ = 3;
+
+
+	/**
+	 * 과일의 리스폰 Y좌표입니다.
+	 */
+	int32_t RespawnYPosition = 0;
+
+
+	/**
+	 * 과일의 끝 지점입니다.
+	 */
+	int32_t EndYPosition = 800;
 };

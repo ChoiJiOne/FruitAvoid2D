@@ -71,7 +71,7 @@ void Game::Init()
 
 	for (int32_t Count = 1; Count <= MaxFruits; ++Count)
 	{
-		Fruits_.push_back(Fruit::GenerateRandomFruit(0));
+		Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition));
 	}
 }
 
@@ -100,10 +100,10 @@ void Game::Update()
 	{
 		Iter->Update(Input, Timer_.DeltaTime());
 
-		if (Iter->GetPosition().y >= 800)
+		if (Iter->GetPosition().y >= EndYPosition)
 		{
 			Iter = Fruits_.erase(Iter);
-			Fruits_.push_back(Fruit::GenerateRandomFruit(0));
+			Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition));
 		}
 	}
 }
@@ -124,8 +124,8 @@ void Game::Render()
 	}
 
 	Font& Mono = Resource.GetFont(Text::GetHash("Mono"));
-	Renderer.DrawText2D(Mono, Text::Format(L"time : %d", static_cast<int32_t>(Timer_.TotalTime())), Vec2i(200, 750), Color::Cyan);
-	Renderer.DrawText2D(Mono, Text::Format(L"life : %d", Life_), Vec2i(200, 770), Color::Cyan);
+	Renderer.DrawText2D(Mono, Text::Format(L"time : %3d", static_cast<int32_t>(Timer_.TotalTime())), Vec2i(200, 750), Color::Cyan);
+	Renderer.DrawText2D(Mono, Text::Format(L"life : %3d", Life_), Vec2i(200, 770), Color::Cyan);
 
 	Renderer.EndFrame();
 }
