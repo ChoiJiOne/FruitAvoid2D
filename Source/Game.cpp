@@ -65,13 +65,13 @@ void Game::Init()
 		);
 	}
 
-	Resource.LoadFontFromFile(Text::GetHash("Mono"), ResourcePath + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
+	Resource.LoadFontFromFile(Text::GetHash("Mono"), ResourcePath + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32);
 
 	Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
 
 	for (int32_t Count = 1; Count <= MaxFruits; ++Count)
 	{
-		Fruits_.push_back(Fruit::GenerateRandomFruit(100));
+		Fruits_.push_back(Fruit::GenerateRandomFruit(0));
 	}
 }
 
@@ -100,10 +100,10 @@ void Game::Update()
 	{
 		Iter->Update(Input, Timer_.DeltaTime());
 
-		if (Iter->GetPosition().y >= 650)
+		if (Iter->GetPosition().y >= 800)
 		{
 			Iter = Fruits_.erase(Iter);
-			Fruits_.push_back(Fruit::GenerateRandomFruit(100));
+			Fruits_.push_back(Fruit::GenerateRandomFruit(0));
 		}
 	}
 }
