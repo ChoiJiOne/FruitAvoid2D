@@ -14,7 +14,7 @@ void Game::Init()
 	InputSystem& Input = GameEngine::CreateInputSystem();
 	ResourceSystem& Resource = GameEngine::CreateResourceSystem();
 
-	std::string ResourcePath = GameEngine::GetRootDirectory() + "\\Resource\\";
+	std::string ResourcePath = GameEngine::GetRootDirectory() + "\\Game\\Content\\";
 	std::vector<std::string> PngTextureNames = {
 		"Banana",
 		"Coconut",
