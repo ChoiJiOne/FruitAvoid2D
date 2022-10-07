@@ -78,8 +78,6 @@ void Game::Init()
 void Game::Run()
 {
 	InputSystem& Input = GameEngine::GetInputSystem();
-	RenderSystem& Renderer = GameEngine::GetRenderSystem();
-	ResourceSystem& Resource = GameEngine::GetResourceSystem();
 
 	Timer_.Reset();
 
@@ -87,23 +85,37 @@ void Game::Run()
 	{
 		Timer_.Tick();
 
-		Player_->Update(Input, Timer_.DeltaTime());
-
-		for (auto& fruit : Fruits_)
-		{
-			fruit.Update(Input, Timer_.DeltaTime());
-		}
-
-		Renderer.BeginFrame(Color::Black);
-
-		Renderer.DrawTexture2D(Resource.GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
-
-		Player_->Render(Renderer);
-		for (auto& fruit : Fruits_)
-		{
-			fruit.Render(Renderer);
-		}
-
-		Renderer.EndFrame();
+		Update();
+		Render();
 	}
+}
+
+void Game::Update()
+{
+	InputSystem& Input = GameEngine::GetInputSystem();
+
+	Player_->Update(Input, Timer_.DeltaTime());
+
+	for (auto& fruit : Fruits_)
+	{
+		fruit.Update(Input, Timer_.DeltaTime());
+	}
+}
+
+void Game::Render()
+{
+	RenderSystem& Renderer = GameEngine::GetRenderSystem();
+	ResourceSystem& Resource = GameEngine::GetResourceSystem();
+
+	Renderer.BeginFrame(Color::Black);
+
+	Renderer.DrawTexture2D(Resource.GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
+
+	Player_->Render(Renderer);
+	for (auto& fruit : Fruits_)
+	{
+		fruit.Render(Renderer);
+	}
+
+	Renderer.EndFrame();
 }

@@ -6,19 +6,19 @@
 
 
 /**
- * FruitAvoid2D 게임을 실행하는 클래스입니다.
+ * 게임을 실행하는 클래스입니다.
  */
 class Game
 {
 public:
 	/**
-	 * FruitAvoid2D 게임을 실행하는 클래스의 가상 소멸자입니다.
+	 * 게임을 실행하는 클래스의 가상 소멸자입니다.
 	 */
 	Game() = default;
 
 
 	/**
-	 * FruitAvoid2D 게임을 실행하는 클래스의 가상 소멸자입니다.
+	 * 게임을 실행하는 클래스의 가상 소멸자입니다.
 	 */
 	virtual ~Game();
 
@@ -30,19 +30,36 @@ public:
 
 
 	/**
-	 * FruitAvoid2D 게임을 초기화합니다.
+	 * 게임을 초기화합니다.
 	 * 
-	 * @throws FruitAvoid2D 게임 초기화에 실패하면 C++ 표준 예외를 던집니다.
+	 * @throws 게임 초기화에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	void Init();
 
 
 	/**
-	 * FruitAvoid2D 게임을 실행합니다.
+	 * 게임을 실행합니다.
 	 * 
-	 * @throws FruitAvoid2D 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
+	 * @throws 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	void Run();
+
+
+private:
+	/**
+	 * 게임을 업데이트합니다.
+	 * 
+	 * @throws 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void Update();
+
+
+	/**
+	 * 게임을 화면에 렌더링합니다.
+	 * 
+	 * @throws 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void Render();
 
 
 private:
