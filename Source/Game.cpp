@@ -96,14 +96,19 @@ void Game::Update()
 
 	Player_->Update(Input, Timer_.DeltaTime());
 
-	for (auto Iter = Fruits_.begin(); Iter != Fruits_.end(); ++Iter)
+	auto Iter = Fruits_.begin();
+	while (Iter != Fruits_.end())
 	{
 		Iter->Update(Input, Timer_.DeltaTime());
 
 		if (Iter->GetPosition().y >= EndYPosition)
 		{
-			Iter = Fruits_.erase(Iter);
+			Fruits_.erase(Iter++);
 			Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition));
+		}
+		else
+		{
+			Iter++;
 		}
 	}
 }
