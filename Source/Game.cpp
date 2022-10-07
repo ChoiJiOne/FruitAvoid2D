@@ -69,7 +69,7 @@ void Game::Init()
 
 	Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
 
-	for (int32_t Index = 0; Index < 20; ++Index)
+	for (int32_t Count = 1; Count <= MaxFruits; ++Count)
 	{
 		Fruits_.push_back(Fruit::GenerateRandomFruit(100));
 	}
@@ -96,9 +96,15 @@ void Game::Update()
 
 	Player_->Update(Input, Timer_.DeltaTime());
 
-	for (auto& fruit : Fruits_)
+	for (auto Iter = Fruits_.begin(); Iter != Fruits_.end(); ++Iter)
 	{
-		fruit.Update(Input, Timer_.DeltaTime());
+		Iter->Update(Input, Timer_.DeltaTime());
+
+		if (Iter->GetPosition().y >= 650)
+		{
+			Iter = Fruits_.erase(Iter);
+			Fruits_.push_back(Fruit::GenerateRandomFruit(100));
+		}
 	}
 }
 
@@ -116,6 +122,10 @@ void Game::Render()
 	{
 		fruit.Render(Renderer);
 	}
+
+	Font& Mono = Resource.GetFont(Text::GetHash("Mono"));
+	Renderer.DrawText2D(Mono, Text::Format(L"time : %d", static_cast<int32_t>(Timer_.TotalTime())), Vec2i(200, 750), Color::Cyan);
+	Renderer.DrawText2D(Mono, Text::Format(L"life : %d", Life_), Vec2i(200, 770), Color::Cyan);
 
 	Renderer.EndFrame();
 }

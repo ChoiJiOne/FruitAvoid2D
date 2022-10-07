@@ -79,4 +79,16 @@ private:
 	 * 플레이어가 피해야 할 과일들입니다.
 	 */
 	std::list<Fruit> Fruits_;
+
+
+	/**
+	 * 게임 내의 최대 과일의 수입니다.
+	 */
+	int32_t MaxFruits = 10;
+
+
+	/**
+	 * 플레이어의 목숨입니다.
+	 */
+	int32_t Life_ = 3;
 };
