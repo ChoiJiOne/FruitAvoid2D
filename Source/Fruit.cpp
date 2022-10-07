@@ -105,13 +105,13 @@ void Fruit::Render(const RenderSystem& InRenderer)
 Fruit Fruit::GenerateRandomFruit(const int32_t& InYPosition)
 {
 	static float FruitSpeeds[] = {
-		100.0f,
-		150.0f,
 		200.0f,
 		250.0f,
 		300.0f,
 		350.0f,
 		400.0f,
+		450.0f,
+		500.0f,
 	};
 
 	static int32_t FruitSizes[] = {
