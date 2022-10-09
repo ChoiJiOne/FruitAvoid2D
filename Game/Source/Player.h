@@ -1,17 +1,15 @@
 #pragma once
 
+#include "GameObject.h"
 #include "Vector.h"
 
 #include <unordered_map>
-
-class InputSystem;
-class RenderSystem;
 
 
 /**
  * 게임 플레이어 클래스입니다.
  */
-class Player
+class Player : public GameObject
 {
 public:
 	/**
@@ -92,7 +90,7 @@ public:
 	 * @param InInput - 게임 엔진의 입력 시스템입니다.
 	 * @param InDeltaTime - 초단위 델타 시값값 입니다
 	 */
-	void Update(const InputSystem& InInput, float InDeltaTime);
+	virtual void Update(const InputSystem& InInput, float InDeltaTime) override;
 
 
 	/**
@@ -102,7 +100,7 @@ public:
 	 * 
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Render(const RenderSystem& InRenderer);
+	virtual void Render(const RenderSystem& InRenderer) override;
 
 
 private:
