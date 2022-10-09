@@ -4,9 +4,9 @@ int main(int argc, char* argv[])
 {
     try
     {
-        Game FruitAvoid2D;
-        FruitAvoid2D.Init();
-        FruitAvoid2D.Run();
+        auto Game = std::make_unique<FruitAvoid2D>();
+        Game->Init();
+        Game->Run();
     }
     catch (const std::exception& Exception)
     {

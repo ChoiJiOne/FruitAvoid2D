@@ -2,31 +2,32 @@
 
 #include "Player.h"
 #include "Fruit.h"
+#include "GameFramework.h"
 #include "GameEngine.h"
 
 
 /**
- * 게임을 실행하는 클래스입니다.
+ * FruitAvoid2D 게임을 실행하는 클래스입니다.
  */
-class Game
+class FruitAvoid2D : public GameFramework
 {
 public:
 	/**
-	 * 게임을 실행하는 클래스의 가상 소멸자입니다.
+	 * 게임을 실행하는 클래스의 생성자입니다.
 	 */
-	Game() = default;
+	FruitAvoid2D() = default;
 
 
 	/**
 	 * 게임을 실행하는 클래스의 가상 소멸자입니다.
 	 */
-	virtual ~Game();
+	virtual ~FruitAvoid2D();
 
 
 	/**
 	 * 복사 생성자와 대입 연산자를 명시적으로 삭제
 	 */
-	DISALLOW_COPY_AND_ASSIGN(Game);
+	DISALLOW_COPY_AND_ASSIGN(FruitAvoid2D);
 
 
 	/**
@@ -34,24 +35,23 @@ public:
 	 * 
 	 * @throws 게임 초기화에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Init();
-
+	virtual void Init() override;
+	
 
 	/**
 	 * 게임을 실행합니다.
 	 * 
 	 * @throws 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Run();
+	virtual void Run() override;
 
 
-private:
 	/**
 	 * 게임을 업데이트합니다.
 	 * 
 	 * @throws 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Update();
+	virtual void Update() override;
 
 
 	/**
@@ -59,7 +59,7 @@ private:
 	 * 
 	 * @throws 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void Render();
+	virtual void Render() override;
 
 
 private:

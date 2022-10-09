@@ -1,13 +1,12 @@
 #include "FruitAvoid2D.h"
 
-Game::~Game()
+FruitAvoid2D::~FruitAvoid2D()
 {
-	GameEngine::Quit();
 }
 
-void Game::Init()
+void FruitAvoid2D::Init()
 {
-	GameEngine::Init();
+	GameFramework::Init();
 
 	WindowSystem& Window = GameEngine::CreateWindowSystem("FruitAvoid2D", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 800, SDL_WINDOW_SHOWN);
 	RenderSystem& Renderer = GameEngine::CreateRenderSystem();
@@ -75,7 +74,7 @@ void Game::Init()
 	}
 }
 
-void Game::Run()
+void FruitAvoid2D::Run()
 {
 	InputSystem& Input = GameEngine::GetInputSystem();
 
@@ -90,7 +89,7 @@ void Game::Run()
 	}
 }
 
-void Game::Update()
+void FruitAvoid2D::Update()
 {
 	InputSystem& Input = GameEngine::GetInputSystem();
 
@@ -113,7 +112,7 @@ void Game::Update()
 	}
 }
 
-void Game::Render()
+void FruitAvoid2D::Render()
 {
 	RenderSystem& Renderer = GameEngine::GetRenderSystem();
 	ResourceSystem& Resource = GameEngine::GetResourceSystem();
