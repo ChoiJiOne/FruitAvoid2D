@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "FruitAvoid2D.h"
 
 Game::~Game()
 {

@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "FruitAvoid2D.h"
 
 int main(int argc, char* argv[])
 {
