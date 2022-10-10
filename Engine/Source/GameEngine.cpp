@@ -17,6 +17,10 @@ void GameEngine::Init()
 	CHECK((__argc > 1), "please insert root directory");
 	RootDirectory_ = __argv[1];
 #endif
+
+#if defined(SHIPPING)
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+#endif
 }
 
 void GameEngine::Quit()
