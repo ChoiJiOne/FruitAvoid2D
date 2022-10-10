@@ -114,6 +114,20 @@ std::array<Vec2i, 4> BoundingBox::CalculateBoundingPositions(const Vec2i& InCent
 		InCenter + Vec2i(+HalfWidth, +HalfHeight),
 	};
 
+	float CosTheta = cos(InRotate);
+	float SinTheta = sin(InRotate);
+
+	for (auto& BoundingPosition : BoundingPositions)
+	{
+		BoundingPosition = BoundingPosition - InCenter;
+
+		Vec2i RotatePosition;
+		RotatePosition.x = BoundingPosition.x * CosTheta - BoundingPosition.y * SinTheta;
+		RotatePosition.y = BoundingPosition.x * SinTheta + BoundingPosition.y * CosTheta;
+
+		BoundingPosition = RotatePosition;
+	}
+
 	return BoundingPositions;
 }
 
