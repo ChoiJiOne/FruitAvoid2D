@@ -125,7 +125,7 @@ std::array<Vec2i, 4> BoundingBox::CalculateBoundingPositions(const Vec2i& InCent
 		RotatePosition.x = static_cast<float>(BoundingPosition.x) * CosTheta - static_cast<float>(BoundingPosition.y) * SinTheta;
 		RotatePosition.y = static_cast<float>(BoundingPosition.x) * SinTheta + static_cast<float>(BoundingPosition.y) * CosTheta;
 
-		BoundingPosition = Vec2i(
+		BoundingPosition = InCenter + Vec2i(
 			static_cast<int32_t>(RotatePosition.x + 0.5f), 
 			static_cast<int32_t>(RotatePosition.y + 0.5f)
 		);
