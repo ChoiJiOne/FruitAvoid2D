@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Vector.h"
+#include "BoundingBox.h"
 
 #include <unordered_map>
 
@@ -9,7 +9,7 @@
 /**
  * 게임 플레이어 클래스입니다.
  */
-class Player : public GameObject
+class Player : public GameObject, public BoundingBox
 {
 public:
 	/**
@@ -105,28 +105,10 @@ public:
 
 private:
 	/**
-	 * 게임 플레이어의 위치입니다.
-	 */
-	Vec2i Position_;
-
-
-	/**
 	 * 게임 플레이어의 속도입니다.
 	 * 이때, 속도 계산 방식은 초당 이동할 픽셀값입니다.
 	 */
 	float Speed_ = 0.0f;
-
-
-	/**
-	 * 게임 플레이어의 가로 크기입니다.
-	 */
-	int32_t Width_ = 0;
-
-
-	/**
-	 * 게임 플레이어의 세로 크기입니다.
-	 */
-	int32_t Height_ = 0;
 
 
 	/**
