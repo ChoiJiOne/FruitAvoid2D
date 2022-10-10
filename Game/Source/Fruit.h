@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-#include "Vector.h"
+#include "BoundingBox.h"
 
 #include <unordered_map>
 
@@ -9,7 +9,7 @@
 /**
  * 과일 클래스 입니다.
  */
-class Fruit : public GameObject
+class Fruit : public GameObject, public BoundingBox
 {
 public:
 	/**
@@ -127,45 +127,12 @@ public:
 	static Fruit GenerateRandomFruit(const int32_t& InYPosition);
 
 
-	/**
-	 * 과일의 현재 위치를 얻습니다.
-	 * 
-	 * @return 과일의 현재 위치를 반환합니다.
-	 */
-	Vec2i GetPosition() const { return Position_; }
-
-
 private:
-	/**
-	 * 과일의 화면 상 현재 위치입니다.
-	 */
-	Vec2i Position_;
-
-
-	/**
-	 * 과일의 현재 각도입니다.
-	 * 이때, 회전 각도는 60분법 기준입니다.
-	 */
-	float Rotate_ = 0.0f;
-
-
 	/**
 	 * 과일의 낙하 속도입니다.
 	 * 이때, 속도 계산 방식은 초당 이동할 픽셀값입니다.
 	 */
 	float Speed_ = 0.0f;
-
-
-	/**
-	 * 과일의 가로 크기입니다.
-	 */
-	int32_t Width_ = 0;
-
-
-	/**
-	 * 과일의 세로 크기입니다.
-	 */
-	int32_t Height_ = 0;
 
 
 	/**

@@ -26,30 +26,22 @@ std::unordered_map<Fruit::EType, std::size_t> Fruit::FruitTextureKeys_ = {
 };
 
 Fruit::Fruit(const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EType& InType)
-	: Position_(InPosition)
+	: BoundingBox(InPosition, InWidth, InHeight, 0.0f)
 	, Speed_(InSpeed)
-	, Width_(InWidth)
-	, Height_(InHeight)
 	, Type_(InType)
 {
 }
 
 Fruit::Fruit(Fruit&& InInstance) noexcept
-	: Position_(InInstance.Position_)
-	, Rotate_(InInstance.Rotate_)
+	: BoundingBox(InInstance)
 	, Speed_(InInstance.Speed_)
-	, Width_(InInstance.Width_)
-	, Height_(InInstance.Height_)
 	, Type_(InInstance.Type_)
 {
 }
 
 Fruit::Fruit(const Fruit& InInstance) noexcept
-	: Position_(InInstance.Position_)
-	, Rotate_(InInstance.Rotate_)
+	: BoundingBox(InInstance)
 	, Speed_(InInstance.Speed_)
-	, Width_(InInstance.Width_)
-	, Height_(InInstance.Height_)
 	, Type_(InInstance.Type_)
 {
 }
@@ -62,11 +54,9 @@ Fruit& Fruit::operator=(Fruit&& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Position_ = InInstance.Position_;
-	Rotate_ = InInstance.Rotate_;
+	BoundingBox::operator=(InInstance);
+
 	Speed_ = InInstance.Speed_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
 	Type_ = InInstance.Type_;
 
 	return *this;
@@ -76,11 +66,9 @@ Fruit& Fruit::operator=(const Fruit& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Position_ = InInstance.Position_;
-	Rotate_ = InInstance.Rotate_;
+	BoundingBox::operator=(InInstance);
+
 	Speed_ = InInstance.Speed_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
 	Type_ = InInstance.Type_;
 
 	return *this;
@@ -88,9 +76,15 @@ Fruit& Fruit::operator=(const Fruit& InInstance) noexcept
 
 void Fruit::Update(const InputSystem& InInput, float InDeltaTime)
 {
-	Position_.y += static_cast<int32_t>(InDeltaTime * Speed_);
+	Vec2i Position = BoundingBox::GetCenter();
+	float Rotate = BoundingBox::GetRotate();
 
-	Rotate_ += static_cast<int32_t>(InDeltaTime * Speed_);
+	Position.y += static_cast<int32_t>(InDeltaTime * Speed_);
+
+	Rotate += static_cast<int32_t>(InDeltaTime * Speed_);
+
+	BoundingBox::SetCenter(Position);
+	BoundingBox::SetRotate(Rotate);
 }
 
 void Fruit::Render(const RenderSystem& InRenderer)
@@ -99,7 +93,13 @@ void Fruit::Render(const RenderSystem& InRenderer)
 	RenderSystem& Renderer = GameEngine::GetRenderSystem();
 
 	Texture& FruitTexture = Resource.GetTexture(FruitTextureKeys_.at(Type_));
-	Renderer.DrawTexture2D(FruitTexture, Position_, Width_, Height_, Rotate_);
+	Renderer.DrawTexture2D(
+		FruitTexture, 
+		BoundingBox::GetCenter(),
+		BoundingBox::GetWidth(),
+		BoundingBox::GetHeight(),
+		BoundingBox::GetRotate()
+	);
 }
 
 Fruit Fruit::GenerateRandomFruit(const int32_t& InYPosition)
