@@ -131,6 +131,12 @@ public:
 
 
 	/**
+	 * 경계 상자의 상태를 업데이트합니다.
+	 */
+	void UpdateState();
+
+
+	/**
 	 * 경계 상자의 충돌 여부를 확인합니다.
 	 * 
 	 * @param InBoundingBox - 충돌 여부를 검사할 다른 경계 상자입니다.
@@ -140,7 +146,7 @@ public:
 	bool IsCollision(const BoundingBox& InBoundingBox);
 
 
-protected:
+private:
 	/**
 	 * 경계 상자의 끝점들을 계산합니다.
 	 * 
@@ -163,7 +169,7 @@ protected:
 	static bool IsIncludePositionInBoundingBox(const Vec2i& InPosition, const std::array<Vec2i, 4>& InBoundingPositions);
 
 
-protected:
+private:
 	/**
 	 * 경계 상자의 중심 좌표입니다.
 	 */

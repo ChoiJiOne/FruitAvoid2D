@@ -79,23 +79,18 @@ void Fruit::Update(const InputSystem& InInput, float InDeltaTime)
 	Vec2i Position = BoundingBox::GetCenter();
 	float Rotate = BoundingBox::GetRotate();
 
-	Center_.y += static_cast<int32_t>(InDeltaTime * Speed_);
-	Rotate_ += InDeltaTime * Speed_;
+	Position.y += static_cast<int32_t>(InDeltaTime * Speed_);
+	Rotate += InDeltaTime * Speed_;
 
-	CalculateBoundingPositions(Center_, Width_, Height_, Rotate_);
-//	BoundingBox::SetRotate(Rotate);
-//	BoundingBox::SetCenter(Position);
+	BoundingBox::SetRotate(Rotate);
+	BoundingBox::SetCenter(Position);
+	BoundingBox::UpdateState();
 }
 
 void Fruit::Render(const RenderSystem& InRenderer)
 {
 	ResourceSystem& Resource = GameEngine::GetResourceSystem();
 	RenderSystem& Renderer = GameEngine::GetRenderSystem();
-
-	Renderer.DrawLine2D(BoundingPositions_[0], BoundingPositions_[1], Color::Black);
-	Renderer.DrawLine2D(BoundingPositions_[1], BoundingPositions_[3], Color::Black);
-	Renderer.DrawLine2D(BoundingPositions_[3], BoundingPositions_[2], Color::Black);
-	Renderer.DrawLine2D(BoundingPositions_[2], BoundingPositions_[0], Color::Black);
 
 	Texture& FruitTexture = Resource.GetTexture(FruitTextureKeys_.at(Type_));
 	Renderer.DrawTexture2D(
@@ -110,7 +105,13 @@ void Fruit::Render(const RenderSystem& InRenderer)
 Fruit Fruit::GenerateRandomFruit(const int32_t& InYPosition)
 {
 	static float FruitSpeeds[] = {
-		120.0f,
+		200.0f,
+		250.0f,
+		300.0f,
+		350.0f,
+		400.0f,
+		450.0f,
+		500.0f,
 	};
 
 	static int32_t FruitSizes[] = {

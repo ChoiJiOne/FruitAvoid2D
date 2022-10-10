@@ -60,24 +60,25 @@ BoundingBox& BoundingBox::operator=(const BoundingBox& InInstance) noexcept
 void BoundingBox::SetCenter(const Vec2i& InCenter)
 {
 	Center_ = InCenter;
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_, Rotate_);
 }
 
 void BoundingBox::SetWidth(const int32_t& InWidth)
 {
 	Width_ = InWidth;
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_, Rotate_);
 }
 
 void BoundingBox::SetHeight(const int32_t& InHeight)
 {
 	Height_ = InHeight;
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_, Rotate_);
 }
 
 void BoundingBox::SetRotate(const float& InRotate)
 {
 	Rotate_ = InRotate;
+}
+
+void BoundingBox::UpdateState()
+{
 	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_, Rotate_);
 }
 
@@ -114,8 +115,8 @@ std::array<Vec2i, 4> BoundingBox::CalculateBoundingPositions(const Vec2i& InCent
 		InCenter + Vec2i(+HalfWidth, +HalfHeight),
 	};
 
-	float CosTheta = static_cast<float>(cos(InRotate));
-	float SinTheta = static_cast<float>(sin(InRotate));
+	float CosTheta = static_cast<float>(cos(3.141592f * InRotate / 180.0f));
+	float SinTheta = static_cast<float>(sin(3.141592f * InRotate / 180.0f));
 
 	for (auto& BoundingPosition : BoundingPositions)
 	{
@@ -126,8 +127,8 @@ std::array<Vec2i, 4> BoundingBox::CalculateBoundingPositions(const Vec2i& InCent
 		RotatePosition.y = static_cast<float>(BoundingPosition.x) * SinTheta + static_cast<float>(BoundingPosition.y) * CosTheta;
 
 		BoundingPosition = InCenter + Vec2i(
-			static_cast<int32_t>(RotatePosition.x + 0.5f), 
-			static_cast<int32_t>(RotatePosition.y + 0.5f)
+			static_cast<int32_t>(RotatePosition.x), 
+			static_cast<int32_t>(RotatePosition.y)
 		);
 	}
 

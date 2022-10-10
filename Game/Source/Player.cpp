@@ -89,6 +89,7 @@ void Player::Update(const InputSystem& InInput, float InDeltaTime)
 	}
 
 	BoundingBox::SetCenter(Position);
+	BoundingBox::UpdateState();
 }
 
 void Player::Render(const RenderSystem& InRenderer)
