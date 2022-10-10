@@ -13,7 +13,7 @@ void FruitAvoid2D::Init()
 	InputSystem& Input = GameEngine::CreateInputSystem();
 	ResourceSystem& Resource = GameEngine::CreateResourceSystem();
 
-	std::string ResourcePath = GameEngine::GetRootDirectory() + "\\Game\\Content\\";
+	std::string ResourcePath = GameEngine::GetRootDirectory() + "Game\\Content\\";
 	std::vector<std::string> PngTextureNames = {
 		"Banana",
 		"Coconut",
