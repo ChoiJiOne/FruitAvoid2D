@@ -64,13 +64,13 @@ void FruitAvoid2D::Init()
 		);
 	}
 
-	Resource.LoadFontFromFile(Text::GetHash("Mono"), ResourcePath + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32);
+	Resource.LoadFontFromFile(Text::GetHash("Mono"), ResourcePath + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 
 	Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
 
 	for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
 	{
-		Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition_));
+		WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
 	}
 }
 
@@ -95,19 +95,27 @@ void FruitAvoid2D::Update()
 
 	Player_->Update(Input, Timer_.DeltaTime());
 
-	auto Iter = Fruits_.begin();
-	while (Iter != Fruits_.end())
+	for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
 	{
-		Iter->Update(Input, Timer_.DeltaTime());
+		auto UpdateFruit = WaitFruits_.front();
+		WaitFruits_.pop();
 
-		if (Iter->GetPosition().y >= EndYPosition_)
+		UpdateFruit.Update(Input, Timer_.DeltaTime());
+
+		if (Player_->IsCollision(UpdateFruit))
 		{
-			Fruits_.erase(Iter++);
-			Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition_));
+			CountOfCollision++;
+			WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
+			continue;
+		}
+
+		if (UpdateFruit.GetCenter().y >= EndYPosition_)
+		{
+			WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
 		}
 		else
 		{
-			Iter++;
+			WaitFruits_.push(UpdateFruit);
 		}
 	}
 }
@@ -122,9 +130,14 @@ void FruitAvoid2D::Render()
 	Renderer.DrawTexture2D(Resource.GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
 
 	Player_->Render(Renderer);
-	for (auto& fruit : Fruits_)
+
+	for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
 	{
-		fruit.Render(Renderer);
+		auto RenderFruit = WaitFruits_.front();
+		WaitFruits_.pop();
+
+		RenderFruit.Render(Renderer);
+		WaitFruits_.push(RenderFruit);
 	}
 
 	Font& Mono = Resource.GetFont(Text::GetHash("Mono"));

@@ -78,7 +78,7 @@ private:
 	/**
 	 * 플레이어가 피해야 할 과일들입니다.
 	 */
-	std::list<Fruit> Fruits_;
+	std::queue<Fruit> WaitFruits_;
 
 
 	/**
@@ -91,6 +91,13 @@ private:
 	 * 플레이어의 목숨입니다.
 	 */
 	int32_t Life_ = 3;
+
+
+	/**
+	 * 충돌 횟수를 확인합니다.
+	 * 나중에 반드시 삭제해야 합니다.
+	 */
+	int32_t CountOfCollision = 0;
 
 
 	/**

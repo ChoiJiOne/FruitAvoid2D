@@ -140,7 +140,7 @@ public:
 	bool IsCollision(const BoundingBox& InBoundingBox);
 
 
-private:
+protected:
 	/**
 	 * 경계 상자의 끝점들을 계산합니다.
 	 * 
@@ -163,7 +163,7 @@ private:
 	static bool IsIncludePositionInBoundingBox(const Vec2i& InPosition, const std::array<Vec2i, 4>& InBoundingPositions);
 
 
-private:
+protected:
 	/**
 	 * 경계 상자의 중심 좌표입니다.
 	 */
