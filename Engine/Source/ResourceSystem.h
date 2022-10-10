@@ -81,7 +81,7 @@ public:
 		const std::string& InPath, 
 		int32_t InBeginCodePoint,
 		int32_t InEndCodePoint, 
-		const int32_t InSize
+		const float InSize
 	);
 
 

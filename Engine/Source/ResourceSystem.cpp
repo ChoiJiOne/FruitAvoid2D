@@ -43,7 +43,7 @@ Texture& ResourceSystem::GetTexture(const std::size_t& InKey)
 	return *Textures_.at(InKey);
 }
 
-Font& ResourceSystem::LoadFontFromFile(const std::size_t& InKey, const std::string& InPath, int32_t InBeginCodePoint, int32_t InEndCodePoint, const int32_t InSize)
+Font& ResourceSystem::LoadFontFromFile(const std::size_t& InKey, const std::string& InPath, int32_t InBeginCodePoint, int32_t InEndCodePoint, const float InSize)
 {
 	auto Iter = Fonts_.find(InKey);
 	CHECK((Iter == Fonts_.end()), "hash key collision");
