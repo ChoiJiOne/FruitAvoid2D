@@ -13,8 +13,10 @@ void GameEngine::Init()
 	
 	CHECK((SDL_Init(SDLFlags) == 0), "failed to initialize SDL");
 
+#if defined(DEBUG) || defined(RELEASE)
 	CHECK((__argc > 1), "please insert root directory");
 	RootDirectory_ = __argv[1];
+#endif
 }
 
 void GameEngine::Quit()
