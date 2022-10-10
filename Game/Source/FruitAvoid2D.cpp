@@ -68,9 +68,9 @@ void FruitAvoid2D::Init()
 
 	Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
 
-	for (int32_t Count = 1; Count <= MaxFruits; ++Count)
+	for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
 	{
-		Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition));
+		Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition_));
 	}
 }
 
@@ -100,10 +100,10 @@ void FruitAvoid2D::Update()
 	{
 		Iter->Update(Input, Timer_.DeltaTime());
 
-		if (Iter->GetPosition().y >= EndYPosition)
+		if (Iter->GetPosition().y >= EndYPosition_)
 		{
 			Fruits_.erase(Iter++);
-			Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition));
+			Fruits_.push_back(Fruit::GenerateRandomFruit(RespawnYPosition_));
 		}
 		else
 		{

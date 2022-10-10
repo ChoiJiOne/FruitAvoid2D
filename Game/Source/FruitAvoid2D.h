@@ -84,7 +84,7 @@ private:
 	/**
 	 * 게임 내의 최대 과일의 수입니다.
 	 */
-	int32_t MaxFruits = 10;
+	int32_t MaxFruits_ = 10;
 
 
 	/**
@@ -96,11 +96,11 @@ private:
 	/**
 	 * 과일의 리스폰 Y좌표입니다.
 	 */
-	int32_t RespawnYPosition = 0;
+	int32_t RespawnYPosition_ = 0;
 
 
 	/**
 	 * 과일의 끝 지점입니다.
 	 */
-	int32_t EndYPosition = 800;
+	int32_t EndYPosition_ = 800;
 };
