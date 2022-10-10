@@ -149,8 +149,8 @@ void FruitAvoid2D::Render()
 	}
 
 	Font& Mono = Resource.GetFont(Text::GetHash("Mono"));
-	Renderer.DrawText2D(Mono, Text::Format(L"time : %3d", static_cast<int32_t>(Timer_.TotalTime())), Vec2i(200, 750), Color::Cyan);
-	Renderer.DrawText2D(Mono, Text::Format(L"life : %3d", Life_), Vec2i(200, 770), Color::Cyan);
+	Renderer.DrawText2D(Mono, Text::Format(L"time : %3d", static_cast<int32_t>(Timer_.TotalTime())), Vec2i(100, 750), Color::Blue);
+	Renderer.DrawText2D(Mono, Text::Format(L"life : %3d", Life_), Vec2i(100, 770), Color::Blue);
 
 	Renderer.EndFrame();
 }
