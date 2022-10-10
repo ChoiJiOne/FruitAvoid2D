@@ -74,3 +74,13 @@
 플레이어는 방향키를 이용해서 좌우로만 움직일 수 있고, 과일에 맞을 경우 라이프가 줄어듭니다.  
 라이프가 0이 되면 게임이 종료됩니다.  
 플레이 도중 게임을 종료하고 싶다면 ESC 키를 누르면 됩니다.  
+<br><br>
+
+
+## 리소스 출처
+
+게임 리소스의 출처는 다음과 같습니다.  
+- 과일 리소스 : https://opengameart.org/content/fruit-icons-redo
+- 배경 : https://icecoldart.artstation.com/projects/2xRvze
+- 유저 블럭 : https://opengameart.org/content/tetris-tiles
+- 폰트 : https://www.jetbrains.com/ko-kr/lp/mono/
