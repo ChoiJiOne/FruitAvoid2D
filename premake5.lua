@@ -82,7 +82,7 @@ workspace "FruitAvoid2D"
 
         -- Release 모드일 때의 설정을 추가합니다.
         filter "configurations:Release"
-            defines { "NDEBUG" }
+            defines { "RELEASE" }
             runtime "Release"
             optimize "On"
             symbols "On"
@@ -95,7 +95,7 @@ workspace "FruitAvoid2D"
         
         -- Shipping 모드일 때의 설정을 추가합니다.
         filter "configurations:Shipping"
-            defines { "NDEBUG" }
+            defines { "SHIPPING" }
             runtime "Release"
             optimize "Full"
             symbols "Off"
@@ -153,7 +153,7 @@ workspace "FruitAvoid2D"
 
         -- Release 모드일 때의 설정을 추가합니다.
         filter "configurations:Release"
-            defines { "NDEBUG" }
+            defines { "RELEASE" }
             runtime "Release"
             optimize "On"
             symbols "On"
@@ -166,7 +166,7 @@ workspace "FruitAvoid2D"
         
         -- Shipping 모드일 때의 설정을 추가합니다.
         filter "configurations:Shipping"
-            defines { "NDEBUG" }
+            defines { "SHIPPING" }
             runtime "Release"
             optimize "Full"
             symbols "Off"
