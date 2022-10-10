@@ -64,6 +64,12 @@ public:
 
 private:
 	/**
+	 * 게임 종료 여부를 확인합니다.
+	 */
+	bool bIsDone = false;
+
+
+	/**
 	 * 게임 타이머입니다.
 	 */
 	Timer Timer_;
@@ -91,13 +97,6 @@ private:
 	 * 플레이어의 목숨입니다.
 	 */
 	int32_t Life_ = 3;
-
-
-	/**
-	 * 충돌 횟수를 확인합니다.
-	 * 나중에 반드시 삭제해야 합니다.
-	 */
-	int32_t CountOfCollision = 0;
 
 
 	/**

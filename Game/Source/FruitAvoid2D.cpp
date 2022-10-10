@@ -80,8 +80,9 @@ void FruitAvoid2D::Run()
 
 	Timer_.Reset();
 
-	while (!Input.Tick())
+	while (!bIsDone)
 	{
+		bIsDone = Input.Tick();
 		Timer_.Tick();
 
 		Update();
@@ -92,6 +93,11 @@ void FruitAvoid2D::Run()
 void FruitAvoid2D::Update()
 {
 	InputSystem& Input = GameEngine::GetInputSystem();
+
+	if (Input.GetKeyboardState().GetKeyPressState(SDL_SCANCODE_ESCAPE) == EPressState::Pressed)
+	{
+		bIsDone = true;
+	}
 
 	Player_->Update(Input, Timer_.DeltaTime());
 
@@ -104,8 +110,10 @@ void FruitAvoid2D::Update()
 
 		if (Player_->IsCollision(UpdateFruit))
 		{
-			CountOfCollision++;
 			WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
+			Life_--;
+
+			if (Life_ <= 0) bIsDone = true;
 			continue;
 		}
 
