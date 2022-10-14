@@ -88,7 +88,7 @@ public:
 	 * 게임 플레이어 상태를 업데이트합니다.
 	 * 
 	 * @param InInput - 게임 엔진의 입력 시스템입니다.
-	 * @param InDeltaTime - 초단위 델타 시값값 입니다
+	 * @param InDeltaTime - 초단위 델타 시간값 입니다
 	 */
 	virtual void Update(const InputSystem& InInput, float InDeltaTime) override;
 
