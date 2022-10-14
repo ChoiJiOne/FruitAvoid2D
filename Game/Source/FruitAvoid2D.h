@@ -66,7 +66,7 @@ private:
 	/**
 	 * 게임 종료 여부를 확인합니다.
 	 */
-	bool bIsDone = false;
+	bool bIsDone_ = false;
 
 
 	/**
