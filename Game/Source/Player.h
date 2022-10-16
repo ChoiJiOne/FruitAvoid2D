@@ -90,7 +90,7 @@ public:
 	 * @param InInput - 게임 엔진의 입력 시스템입니다.
 	 * @param InDeltaTime - 초단위 델타 시간값 입니다
 	 */
-	virtual void Update(const InputSystem& InInput, float InDeltaTime) override;
+	virtual void Update(InputSystem& InInput, float InDeltaTime) override;
 
 
 	/**
@@ -100,7 +100,7 @@ public:
 	 * 
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	virtual void Render(const RenderSystem& InRenderer) override;
+	virtual void Render(RenderSystem& InRenderer) override;
 
 
 private:

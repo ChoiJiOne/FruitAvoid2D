@@ -30,7 +30,7 @@ public:
 	 * @param InInput - 게임 엔진의 입력 시스템입니다.
 	 * @param InDeltaTime - 초단위 델타 시값값 입니다.
 	 */
-	virtual void Update(const InputSystem& InInput, float InDeltaTime) = 0;
+	virtual void Update(InputSystem& InInput, float InDeltaTime) = 0;
 
 
 	/**
@@ -40,5 +40,5 @@ public:
 	 * 
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	virtual void Render(const RenderSystem& InRenderer) = 0;
+	virtual void Render(RenderSystem& InRenderer) = 0;
 };

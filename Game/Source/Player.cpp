@@ -92,13 +92,12 @@ void Player::Update(const InputSystem& InInput, float InDeltaTime)
 	BoundingBox::UpdateState();
 }
 
-void Player::Render(const RenderSystem& InRenderer)
+void Player::Render(RenderSystem& InRenderer)
 {
 	ResourceSystem& Resource = GameEngine::GetResourceSystem();
-	RenderSystem& Renderer = GameEngine::GetRenderSystem();
 
 	Texture& PlayerTexture = Resource.GetTexture(ColorTextureKeys_.at(Color_));
-	Renderer.DrawTexture2D(
+	InRenderer.DrawTexture2D(
 		PlayerTexture, 
 		BoundingBox::GetCenter(),
 		BoundingBox::GetWidth(),

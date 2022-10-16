@@ -74,7 +74,7 @@ Fruit& Fruit::operator=(const Fruit& InInstance) noexcept
 	return *this;
 }
 
-void Fruit::Update(const InputSystem& InInput, float InDeltaTime)
+void Fruit::Update(InputSystem& InInput, float InDeltaTime)
 {
 	Vec2i Position = BoundingBox::GetCenter();
 	float Rotate = BoundingBox::GetRotate();
@@ -87,13 +87,12 @@ void Fruit::Update(const InputSystem& InInput, float InDeltaTime)
 	BoundingBox::UpdateState();
 }
 
-void Fruit::Render(const RenderSystem& InRenderer)
+void Fruit::Render(RenderSystem& InRenderer)
 {
 	ResourceSystem& Resource = GameEngine::GetResourceSystem();
-	RenderSystem& Renderer = GameEngine::GetRenderSystem();
 
 	Texture& FruitTexture = Resource.GetTexture(FruitTextureKeys_.at(Type_));
-	Renderer.DrawTexture2D(
+	InRenderer.DrawTexture2D(
 		FruitTexture, 
 		BoundingBox::GetCenter(),
 		BoundingBox::GetWidth(),
