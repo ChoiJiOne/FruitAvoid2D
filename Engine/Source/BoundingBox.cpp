@@ -77,7 +77,7 @@ void BoundingBox::SetRotate(const float& InRotate)
 	Rotate_ = InRotate;
 }
 
-void BoundingBox::UpdateState()
+void BoundingBox::UpdateBoundingPositions()
 {
 	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_, Rotate_);
 }
