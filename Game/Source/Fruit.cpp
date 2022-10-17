@@ -84,7 +84,7 @@ void Fruit::Update(InputSystem& InInput, float InDeltaTime)
 
 	BoundingBox::SetRotate(Rotate);
 	BoundingBox::SetCenter(Position);
-	BoundingBox::UpdateState();
+	BoundingBox::UpdateBoundingPositions();
 }
 
 void Fruit::Render(RenderSystem& InRenderer)

@@ -60,7 +60,7 @@ Player& Player::operator=(const Player& InInstance) noexcept
 	return *this;
 }
 
-void Player::Update(const InputSystem& InInput, float InDeltaTime)
+void Player::Update(InputSystem& InInput, float InDeltaTime)
 {
 	Vec2i Position = BoundingBox::GetCenter();
 
@@ -89,7 +89,7 @@ void Player::Update(const InputSystem& InInput, float InDeltaTime)
 	}
 
 	BoundingBox::SetCenter(Position);
-	BoundingBox::UpdateState();
+	BoundingBox::UpdateBoundingPositions();
 }
 
 void Player::Render(RenderSystem& InRenderer)
