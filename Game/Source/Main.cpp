@@ -1,3 +1,5 @@
+#include "Window.h"
+
 #include <SDL2/SDL.h>
 
 int main(int argc, char* argv[])
@@ -7,7 +9,16 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	SDL_Window* Window = SDL_CreateWindow("FruitAvoid2D", 100, 100, 1000, 800, SDL_WINDOW_SHOWN);
+	Window window(
+		WindowConstructorParam{
+			"FruitAvoid2D",
+			100,
+			100,
+			1000,
+			800,
+			EWindowFlags::SHOWN | EWindowFlags::RESIZABLE
+		}
+	);
 
 	bool bIsDone = false;
 	SDL_Event Event;
@@ -22,9 +33,6 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
-	SDL_DestroyWindow(Window);
-	Window = nullptr;
 
 	SDL_Quit();
 	return 0;
