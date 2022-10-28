@@ -24,11 +24,13 @@ int main(int argc, char* argv[])
 			100,
 			1000,
 			800,
-			EWindowFlags::SHOWN | EWindowFlags::RESIZABLE
+			EWindowFlags::SHOWN
 		}
 	);
 
 	SDL_Renderer* Renderer = SDL_CreateRenderer(window.GetWindow(), -1, SDL_RENDERER_ACCELERATED);
+	SDL_Surface* BGSurface = IMG_Load("D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\Beach.jpg");
+	SDL_Texture* BGTexture = SDL_CreateTextureFromSurface(Renderer, BGSurface);
 
 	bool bIsDone = false;
 	SDL_Event Event;
@@ -45,9 +47,21 @@ int main(int argc, char* argv[])
 
 		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
 		SDL_RenderClear(Renderer);
+
+		SDL_Rect WindowRect = {
+			0, 0, 1000, 800
+		};
+
+		SDL_RenderCopy(Renderer, BGTexture, nullptr, &WindowRect);
 		
 		SDL_RenderPresent(Renderer);
 	}
+
+	SDL_DestroyTexture(BGTexture);
+	BGTexture = nullptr;
+
+	SDL_FreeSurface(BGSurface);
+	BGSurface = nullptr;
 
 	SDL_DestroyRenderer(Renderer);
 	Renderer = nullptr;
