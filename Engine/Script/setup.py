@@ -126,6 +126,7 @@ def create_premake5_script(project_name):
             debugdir "%{thirdparty}/Debug"
 
             links {
+                "Dbghelp.lib",
                 "%{thirdparty}/Debug/box2d.lib",
                 "%{thirdparty}/Debug/SDL2.lib",
                 "%{thirdparty}/Debug/SDL2main.lib",
@@ -143,6 +144,7 @@ def create_premake5_script(project_name):
             debugdir "%{thirdparty}/Release"
             
             links {
+                "Dbghelp.lib",
                 "%{thirdparty}/Release/box2d.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
@@ -160,6 +162,7 @@ def create_premake5_script(project_name):
             debugdir "%{thirdparty}/Release"
 
             links {
+                "Dbghelp.lib",
                 "%{thirdparty}/Release/box2d.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
@@ -197,6 +200,7 @@ def create_premake5_script(project_name):
             debugdir "%{thirdparty}/Debug"
 
             links {
+                "Dbghelp.lib",
                 "%{thirdparty}/Debug/box2d.lib",
                 "%{thirdparty}/Debug/SDL2.lib",
                 "%{thirdparty}/Debug/SDL2main.lib",
@@ -214,6 +218,7 @@ def create_premake5_script(project_name):
             debugdir "%{thirdparty}/Release"
             
             links {
+                "Dbghelp.lib",
                 "%{thirdparty}/Release/box2d.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
@@ -231,6 +236,7 @@ def create_premake5_script(project_name):
             debugdir "%{thirdparty}/Release"
 
             links {
+                "Dbghelp.lib",
                 "%{thirdparty}/Release/box2d.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
