@@ -9,7 +9,19 @@ int main(int argc, char* argv[])
 
 	SDL_Window* Window = SDL_CreateWindow("FruitAvoid2D", 100, 100, 1000, 800, SDL_WINDOW_SHOWN);
 
-	SDL_Delay(3000);
+	bool bIsDone = false;
+	SDL_Event Event;
+
+	while (!bIsDone)
+	{
+		while (SDL_PollEvent(&Event))
+		{
+			if (Event.type == SDL_QUIT)
+			{
+				bIsDone = true;
+			}
+		}
+	}
 
 	SDL_DestroyWindow(Window);
 	Window = nullptr;
