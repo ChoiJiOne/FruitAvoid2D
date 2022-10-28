@@ -4,10 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-	if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS))
-	{
-		return -1;
-	}
+	CHECK((SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS) == 0), "failed to initialize SDL");
 
 	Window window(
 		WindowConstructorParam{
@@ -19,6 +16,8 @@ int main(int argc, char* argv[])
 			EWindowFlags::SHOWN | EWindowFlags::RESIZABLE
 		}
 	);
+
+	SDL_Renderer* Renderer = SDL_CreateRenderer(window.GetWindow(), -1, SDL_RENDERER_ACCELERATED);
 
 	bool bIsDone = false;
 	SDL_Event Event;
@@ -32,7 +31,15 @@ int main(int argc, char* argv[])
 				bIsDone = true;
 			}
 		}
+
+		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
+		SDL_RenderClear(Renderer);
+		
+		SDL_RenderPresent(Renderer);
 	}
+
+	SDL_DestroyRenderer(Renderer);
+	Renderer = nullptr;
 
 	SDL_Quit();
 	return 0;
