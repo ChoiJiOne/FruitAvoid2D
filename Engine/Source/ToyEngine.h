@@ -17,6 +17,8 @@
 #include <spdlog/spdlog.h>
 #include <glm/glm.hpp>
 
+#include <string>
+#include <iostream>
 #include <vector>
 #include <list>
 #include <unordered_map>
