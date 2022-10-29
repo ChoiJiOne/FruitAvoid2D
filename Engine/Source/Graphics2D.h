@@ -91,6 +91,79 @@ public:
 	SDL_Renderer* GetRenderer() { return Renderer_; }
 
 
+	/**
+	 * 벡버퍼에 2D 점을 그립니다.
+	 *
+	 * @param InPosition - 점의 위치입니다.
+	 * @param InColor - 점의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawPoint(const Vec2i& InPosition, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 2D 선을 그립니다.
+	 *
+	 * @param InPosition0 - 선분의 한 끝점입니다.
+	 * @param InPosition1 - 선분의 다른 한 끝점입니다.
+	 * @param InColor - 선분의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawLine(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 2D 사각형을 그립니다.
+	 *
+	 * @param InPosition0 - 사각형의 왼쪽 상단점입니다.
+	 * @param InPosition1 - 사각형의 오른쪽 하단점입니다.
+	 * @param InColor - 사각형의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawRect(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 2D 사각형을 그립니다.
+	 *
+	 * @param InCenterPosition - 사각형의 중심이 위치할 화면상의 좌표입니다.
+	 * @param InWidth - 사각형의 가로 길이입니다.
+	 * @param InHeight - 사각형의 세로 길이입니다.
+	 * @param InColor - 사각형의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawRect(const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 채움 2D 사각형을 그립니다.
+	 *
+	 * @param InPosition0 - 채움 사각형의 왼쪽 상단점입니다.
+	 * @param InPosition1 - 채움 사각형의 오른쪽 하단점입니다.
+	 * @param InColor - 채움 사각형의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawFillRect(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 채움 2D 사각형을 그립니다.
+	 *
+	 * @param InCenterPosition - 사각형의 중심이 위치할 화면상의 좌표입니다.
+	 * @param InWidth - 사각형의 가로 길이입니다.
+	 * @param InHeight - 사각형의 세로 길이입니다
+	 * @param InColor - 사각형의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawFillRect(const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, const LinearColor& InColor);
+
+
 private:
 	/**
 	 * SDL 렌더러의 컬러 상태를 설정합니다.
