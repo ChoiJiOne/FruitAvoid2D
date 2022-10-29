@@ -2,6 +2,7 @@
 #include "CommandLine.h"
 #include "CrashReport.h"
 #include "Input.h"
+#include "Graphics2D.h"
 #include "Macro.h"
 #include "Random.h"
 #include "Text.h"

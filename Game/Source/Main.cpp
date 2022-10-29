@@ -15,30 +15,32 @@ int main(int argc, char* argv[])
 		}
 	);
 
+	Graphics2D graphics(
+		window,
+		EGraphicsFlags::ACCELERATED | EGraphicsFlags::PRESENTVSYNC
+	);
+
 	Input input;
 
-	SDL_Renderer* Renderer = SDL_CreateRenderer(window.GetWindow(), -1, SDL_RENDERER_ACCELERATED);
-
 	SDL_Surface* BGSurface = IMG_Load("D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\Beach.jpg");
-	SDL_Texture* BGTexture = SDL_CreateTextureFromSurface(Renderer, BGSurface);
+	SDL_Texture* BGTexture = SDL_CreateTextureFromSurface(graphics.GetRenderer(), BGSurface);
 
 	SDL_Surface* PlayerSurface = IMG_Load("D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\PlayerBlockBlue.png");
-	SDL_Texture* PlayerTexture = SDL_CreateTextureFromSurface(Renderer, PlayerSurface);
+	SDL_Texture* PlayerTexture = SDL_CreateTextureFromSurface(graphics.GetRenderer(), PlayerSurface);
 
 	int32_t x = 500, y = 700, w = 50, h = 50;
 
 	while (!input.Tick())
 	{
-		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
-		SDL_RenderClear(Renderer);
+		graphics.BeginFrame(Color::Black);
 
 		SDL_Rect WindowRect = { 0, 0, 1000, 800 };
-		SDL_RenderCopy(Renderer, BGTexture, nullptr, &WindowRect);
+		SDL_RenderCopy(graphics.GetRenderer(), BGTexture, nullptr, &WindowRect);
 
 		SDL_Rect PlayerRect = { x - w / 2, y - h / 2, w, h };
-		SDL_RenderCopy(Renderer, PlayerTexture, nullptr, &PlayerRect);
+		SDL_RenderCopy(graphics.GetRenderer(), PlayerTexture, nullptr, &PlayerRect);
 
-		SDL_RenderPresent(Renderer);
+		graphics.EndFrame();
 	}
 
 	SDL_DestroyTexture(PlayerTexture);
@@ -52,9 +54,6 @@ int main(int argc, char* argv[])
 
 	SDL_FreeSurface(BGSurface);
 	BGSurface = nullptr;
-
-	SDL_DestroyRenderer(Renderer);
-	Renderer = nullptr;
 
 	ToyEngine::Quit();
 	return 0;
