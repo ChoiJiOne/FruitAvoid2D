@@ -1,6 +1,7 @@
 #include "Color.h"
 #include "CommandLine.h"
 #include "CrashReport.h"
+#include "Input.h"
 #include "Macro.h"
 #include "Random.h"
 #include "Text.h"

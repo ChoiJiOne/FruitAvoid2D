@@ -15,6 +15,8 @@ int main(int argc, char* argv[])
 		}
 	);
 
+	Input input;
+
 	SDL_Renderer* Renderer = SDL_CreateRenderer(window.GetWindow(), -1, SDL_RENDERER_ACCELERATED);
 
 	SDL_Surface* BGSurface = IMG_Load("D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\Beach.jpg");
@@ -23,21 +25,10 @@ int main(int argc, char* argv[])
 	SDL_Surface* PlayerSurface = IMG_Load("D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\PlayerBlockBlue.png");
 	SDL_Texture* PlayerTexture = SDL_CreateTextureFromSurface(Renderer, PlayerSurface);
 
-	bool bIsDone = false;
-	SDL_Event Event;
-
 	int32_t x = 500, y = 700, w = 50, h = 50;
 
-	while (!bIsDone)
+	while (!input.Tick())
 	{
-		while (SDL_PollEvent(&Event))
-		{
-			if (Event.type == SDL_QUIT)
-			{
-				bIsDone = true;
-			}
-		}
-
 		SDL_SetRenderDrawColor(Renderer, 255, 0, 0, 255);
 		SDL_RenderClear(Renderer);
 
