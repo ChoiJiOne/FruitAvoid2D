@@ -37,6 +37,7 @@ def setup_project():
     create_premake5_script(project_name)
     create_git_ignore_file(project_name)
     create_game_directory()
+    create_directory("Dump")
 
 
 # 파일을 생성합니다.
@@ -53,7 +54,7 @@ def create_directory(directory_path):
 
 # git ignore 파일을 생성합니다.
 def create_git_ignore_file(project_name):
-    script_source="{}".format(project_name)
+    script_source="{}".format(project_name + "\nDump")
     create_file(".gitignore", script_source)
 
 
