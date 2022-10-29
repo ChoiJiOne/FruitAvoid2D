@@ -14,6 +14,10 @@ void ToyEngine::Init()
 
 	CommandLine::Parse();
 	CrashReport::Init();
+
+#if defined(SHIPPING)
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+#endif
 }
 
 void ToyEngine::Quit()
