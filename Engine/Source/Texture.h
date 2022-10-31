@@ -3,6 +3,7 @@
 #include "Macro.h"
 
 class Graphics2D;
+struct SDL_Surface;
 struct SDL_Texture;
 
 
@@ -14,6 +15,7 @@ class Texture
 public:
 	/**
 	 * 텍스처 클래스의 생성자입니다.
+	 * 이때, 텍스처 리소스는 텍스처 파일을 로딩해서 생성합니다.
 	 * 
 	 * @param InGraphics - 텍스처 리소스를 생성할 때 사용할 그래픽스 인스턴스입니다.
 	 * @param InPath - 텍스처 리소스의 경로입니다.
@@ -23,6 +25,20 @@ public:
 	 * - 텍스처 리소스 생성에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	explicit Texture(Graphics2D& InGraphics, const std::string& InPath);
+
+
+	/**
+	 * 텍스처 클래스의 생성자입니다.
+	 * 이때, 텍스처 리소스는 SDL_Surface를 기반으로 생성합니다.
+	 * 
+	 * @param InGraphics - 텍스처 리소스를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InSurface - 텍스처 표면입니다.
+	 * 
+	 * @throws 
+	 * - 파라미터가 유효하지 않으면 C++ 표준 예외를 던집니다.
+	 * - 텍스처 리소스 생성에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	explicit Texture(Graphics2D& InGraphics, SDL_Surface* InSurface);
 
 
 	/**
@@ -45,16 +61,35 @@ public:
 	SDL_Texture* GetTexture() { return Texture_; }
 
 
-private:
 	/**
-	 * 파일로 부터 텍스처 리소스를 로딩합니다.
+	 * 텍스처 리소스의 가로 세로 크기를 얻습니다.
+	 * 
+	 * @param OutWidth - 텍스처 리소스의 가로 크기입니다.
+	 * @param OutHeight - 텍스처 리소스의 세로 크기입니다.
+	 */
+	void GetSize(int32_t& OutWidth, int32_t& OutHeight);
+
+
+	/**
+	 * 파일로 부터 텍스처 SDL 텍스처 리소스를 생성합니다.
 	 * 
 	 * @param InGraphics - 텍스처 리소스를 생성할 때 사용할 그래픽스 인스턴스입니다.
 	 * @param InPath - 텍스처 리소스의 경로입니다.
 	 * 
 	 * @return 텍스처 파일 로딩에 성공하면 텍스처 리소스의 포인터, 실패하면 nullptr를 반환합니다.
 	 */
-	static SDL_Texture* LoadTextureFromFile(Graphics2D& InGraphics, const std::string& InPath);
+	static SDL_Texture* CreateTextureFromFile(Graphics2D& InGraphics, const std::string& InPath);
+
+
+	/**
+	 * SDL 텍스처 표면으로 부터 SDL 텍스처 리소스를 생성합니다.
+	 * 
+	 * @param InGraphics - 텍스처 리소스를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InSurface - 텍스처 표면입니다.
+	 *
+	 * @throws 텍스처 리소스 생성에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	static SDL_Texture* CreateTextureFromSurface(Graphics2D& InGraphics, SDL_Surface* InSurface);
 
 
 private:
