@@ -2,6 +2,11 @@
 
 echo generate project files...
 
+if not exist Dump (
+    echo don't exist dump directory...
+    mkdir Dump
+)
+
 if exist FruitAvoid2D (
     echo already exist FruitAvoid2D...
 )

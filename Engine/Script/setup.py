@@ -262,6 +262,11 @@ def create_generate_project_files_script(project_name):
 
 echo generate project files...
 
+if not exist Dump (
+    echo don't exist dump directory...
+    mkdir Dump
+)
+
 if exist {} (
     echo already exist {}...
 )
