@@ -1,49 +1,129 @@
 #include "ToyEngine.h"
 
-int main(int argc, char* argv[])
+
+/**
+ * FruitAvoid2D 과일 피하기 게임입니다.
+ */
+class FruitAvoid2D : public GameFramework
 {
-	ToyEngine::Init();
+public:
+	/**
+	 * FruitAvoid2D의 생성자입니다.
+	 */
+	FruitAvoid2D() = default;
 
-	Window window(
-		WindowConstructorParam{
-			"FruitAvoid2D",
-			100,
-			100,
-			1000,
-			800,
-			EWindowFlags::SHOWN
-		}
-	);
 
-	Graphics2D graphics(
-		window,
-		EGraphicsFlags::ACCELERATED | EGraphicsFlags::PRESENTVSYNC
-	);
-
-	Input input;
-
-	Texture BGTexture(graphics, "D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\Beach.jpg");
-	Texture PlayerTexture(graphics, "D:\\work\\FruitAvoid2D\\Game\\Content\\texture\\PlayerBlockBlue.png");
-
-	int32_t x = 500, y = 700, w = 50, h = 50;
-
-	while (!input.Tick())
+	/**
+	 * FruitAvoid2D의 가상 소멸자입니다.
+	 */
+	virtual ~FruitAvoid2D()
 	{
-		graphics.BeginFrame(Color::Black);
-
-		SDL_Rect WindowRect = { 0, 0, 1000, 800 };
-		SDL_RenderCopy(graphics.GetRenderer(), BGTexture.GetTexture(), nullptr, &WindowRect);
-
-		SDL_Rect PlayerRect = { x - w / 2, y - h / 2, w, h };
-		SDL_RenderCopy(graphics.GetRenderer(), PlayerTexture.GetTexture(), nullptr, &PlayerRect);
-
-		graphics.DrawLine(Vec2i(100, 100), Vec2i(900, 700), Color::Black);
-		graphics.DrawRect(Vec2i(100, 100), Vec2i(900, 700), Color::Black);
-		graphics.DrawFillRect(Vec2i(500, 400), 200, 200, Color::Cyan);
-
-		graphics.EndFrame();
+		Input_.reset();
+		Graphics_.reset();
+		Window_.reset();
 	}
 
-	ToyEngine::Quit();
+
+	/**
+	 * 복사 생성자와 대입 연산자를 명시적으로 삭제
+	 */
+	DISALLOW_COPY_AND_ASSIGN(FruitAvoid2D);
+
+
+	/**
+	 * ToyEngine2D 및 FruitAvoid2D 을 초기화합니다.
+	 *
+	 * @throws
+	 * - 게임 엔진 초기화에 실패하면 C++ 표준 예외를 던집니다.
+	 * - FruitAvoid2D 초기화에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Init() override
+	{
+		GameFramework::Init();
+
+		Window_ = std::make_unique<Window>(
+			WindowConstructorParam{
+				"FruitAvoid2D",
+				100,
+				100,
+				1000,
+				800,
+				EWindowFlags::SHOWN
+			}
+		);
+
+		Graphics_ = std::make_unique<Graphics2D>(
+			*Window_,
+			EGraphicsFlags::ACCELERATED | EGraphicsFlags::PRESENTVSYNC
+		);
+
+		Input_ = std::make_unique<Input>();
+	}
+
+
+	/**
+	 * FruitAvoid2D 게임을 실행합니다.
+	 *
+	 * @throws FruitAvoid2D 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Run() override
+	{
+		while (!Input_->Tick())
+		{
+			Update();
+			Render();
+		}
+	}
+
+
+	/**
+	 * FruitAvoid2D 게임을 업데이트합니다.
+	 *
+	 * @throws FruitAvoid2D 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Update() override
+	{
+
+	}
+
+
+	/**
+	 * FruitAvoid2D 게임을 화면에 렌더링합니다.
+	 *
+	 * @throws FruitAvoid2D 게임 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Render() override
+	{
+		Graphics_->BeginFrame(Color::Black);
+		Graphics_->EndFrame();
+	}
+
+
+private:
+	/**
+	 * FruitAvoid2D의 윈도우 창 처리를 위한 인스턴스입니다.
+	 */
+	std::unique_ptr<Window> Window_ = nullptr;
+
+
+	/**
+	 * FruitAvoid2D의 입력 처리를 위한 인스턴스입니다.
+	 */
+	std::unique_ptr<Input> Input_ = nullptr;
+
+
+	/**
+	 * FruitAvoid2D의 그래픽 관련 처리를 위한 인스턴스입니다.
+	 */
+	std::unique_ptr<Graphics2D> Graphics_ = nullptr;
+};
+
+
+int main(int argc, char* argv[])
+{
+	auto Game = std::make_unique<FruitAvoid2D>();
+	Game->Init();
+	Game->Run();
+
 	return 0;
 }
