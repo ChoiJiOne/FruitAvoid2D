@@ -118,6 +118,11 @@ workspace "FruitAvoid2D"
 
         links {"Engine"}
 
+        debugargs {
+            "-Content=%{wks.location}/../Game/Content",
+            "-Dump=%{wks.location}/../Dump"
+        }
+
         includedirs {
             "%{engine}/Source",
             "%{thirdparty}/Include",
