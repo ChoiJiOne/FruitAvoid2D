@@ -60,7 +60,10 @@ public:
 
 		Input_ = std::make_unique<Input>();
 
-		Font_ = std::make_unique<Font>("D:\\work\\FruitAvoid2D\\Game\\Content\\font\\JetBrainsMono-Bold.ttf", 32);
+		std::wstring ContentPath = CommandLine::GetValue(L"-Content");
+		std::string Content(ContentPath.begin(), ContentPath.end());
+
+		Font_ = std::make_unique<Font>(Content + "font\\JetBrainsMono-Bold.ttf", 32);
 	}
 
 
