@@ -2,7 +2,7 @@
 
 #include "Macro.h"
 
-class Graphics2D;
+class Graphics;
 struct SDL_Surface;
 struct SDL_Texture;
 
@@ -24,7 +24,7 @@ public:
 	 * - 텍스처 파일 로딩에 실패하면 C++ 표준 예외를 던집니다.
 	 * - 텍스처 리소스 생성에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	explicit Texture(Graphics2D& InGraphics, const std::string& InPath);
+	explicit Texture(Graphics& InGraphics, const std::string& InPath);
 
 
 	/**
@@ -38,7 +38,7 @@ public:
 	 * - 파라미터가 유효하지 않으면 C++ 표준 예외를 던집니다.
 	 * - 텍스처 리소스 생성에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	explicit Texture(Graphics2D& InGraphics, SDL_Surface* InSurface);
+	explicit Texture(Graphics& InGraphics, SDL_Surface* InSurface);
 
 
 	/**
@@ -89,7 +89,7 @@ public:
 	 * 
 	 * @return 텍스처 파일 로딩에 성공하면 텍스처 리소스의 포인터, 실패하면 nullptr를 반환합니다.
 	 */
-	static SDL_Texture* CreateTextureFromFile(Graphics2D& InGraphics, const std::string& InPath);
+	static SDL_Texture* CreateTextureFromFile(Graphics& InGraphics, const std::string& InPath);
 
 
 	/**
@@ -100,7 +100,7 @@ public:
 	 *
 	 * @throws 텍스처 리소스 생성에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	static SDL_Texture* CreateTextureFromSurface(Graphics2D& InGraphics, SDL_Surface* InSurface);
+	static SDL_Texture* CreateTextureFromSurface(Graphics& InGraphics, SDL_Surface* InSurface);
 
 
 private:

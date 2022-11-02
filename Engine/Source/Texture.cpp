@@ -1,18 +1,18 @@
 #include "Texture.h"
-#include "Graphics2D.h"
+#include "Graphics.h"
 
 // @third party code - BEGIN
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 // @third party code - END
 
-Texture::Texture(Graphics2D& InGraphics, const std::string& InPath)
+Texture::Texture(Graphics& InGraphics, const std::string& InPath)
 {
 	Texture_ = CreateTextureFromFile(InGraphics, InPath);
 	CHECK((Texture_ != nullptr), "failed to create texture resource");
 }
 
-Texture::Texture(Graphics2D& InGraphics, SDL_Surface* InSurface)
+Texture::Texture(Graphics& InGraphics, SDL_Surface* InSurface)
 {
 	CHECK((InSurface != nullptr), "invalid constructor parameter");
 
@@ -40,7 +40,7 @@ void Texture::GetSize(int32_t& OutWidth, int32_t& OutHeight)
 	CHECK((SDL_QueryTexture(Texture_, nullptr, nullptr, &OutWidth, &OutHeight) == 0), "failed to query texture size")
 }
 
-SDL_Texture* Texture::CreateTextureFromFile(Graphics2D& InGraphics, const std::string& InPath)
+SDL_Texture* Texture::CreateTextureFromFile(Graphics& InGraphics, const std::string& InPath)
 {
 	SDL_Surface* Surface = IMG_Load(InPath.c_str());
 	SDL_Texture* NewTexture = CreateTextureFromSurface(InGraphics, Surface);
@@ -51,7 +51,7 @@ SDL_Texture* Texture::CreateTextureFromFile(Graphics2D& InGraphics, const std::s
 	return NewTexture;
 }
 
-SDL_Texture* Texture::CreateTextureFromSurface(Graphics2D& InGraphics, SDL_Surface* InSurface)
+SDL_Texture* Texture::CreateTextureFromSurface(Graphics& InGraphics, SDL_Surface* InSurface)
 {
 	return SDL_CreateTextureFromSurface(InGraphics.GetRenderer(), InSurface);
 }

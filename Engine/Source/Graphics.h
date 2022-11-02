@@ -4,6 +4,8 @@
 #include "Color.h"
 
 class Window;
+class Texture;
+class Font;
 struct SDL_Renderer;
 
 
@@ -38,7 +40,7 @@ inline EGraphicsFlags operator|(const EGraphicsFlags& InLhs, const EGraphicsFlag
 /**
  * 게임 내에 그래픽스 관련 처리를 하는 클래스입니다.
  */
-class Graphics2D
+class Graphics
 {
 public:
 	/**
@@ -52,19 +54,19 @@ public:
 	 * 
 	 * @see https://wiki.libsdl.org/SDL_CreateRenderer
 	 */
-	explicit Graphics2D(Window& InWindow, const EGraphicsFlags& InFlags);
+	explicit Graphics(Window& InWindow, const EGraphicsFlags& InFlags);
 
 
 	/**
 	 * 그래픽스 클래스의 가상 소멸자입니다.
 	 */
-	virtual ~Graphics2D();
+	virtual ~Graphics();
 
 
 	/**
 	 * 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	DISALLOW_COPY_AND_ASSIGN(Graphics2D);
+	DISALLOW_COPY_AND_ASSIGN(Graphics);
 
 
 	/**
@@ -99,7 +101,7 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawPoint(const Vec2i& InPosition, const LinearColor& InColor);
+	void DrawPoint2D(const Vec2i& InPosition, const LinearColor& InColor);
 
 
 	/**
@@ -111,7 +113,7 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawLine(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
+	void DrawLine2D(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
 
 
 	/**
@@ -123,7 +125,7 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawRect(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
+	void DrawRect2D(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
 
 
 	/**
@@ -136,7 +138,7 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawRect(const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, const LinearColor& InColor);
+	void DrawRect2D(const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, const LinearColor& InColor);
 
 
 	/**
@@ -148,7 +150,7 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawFillRect(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
+	void DrawFillRect2D(const Vec2i& InPosition0, const Vec2i& InPosition1, const LinearColor& InColor);
 
 
 	/**
@@ -161,7 +163,75 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawFillRect(const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, const LinearColor& InColor);
+	void DrawFillRect2D(const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, const LinearColor& InColor);
+
+
+	/**
+	 * 백버퍼에 텍스처를 그립니다.
+	 * 이때, 회전 각도는 60분법 기준입니다.
+	 *
+	 * @param InTexture - 벡버퍼에 그릴 텍스처입니다.
+	 * @param InPosition0 - 텍스처의 왼쪽 상단이 위치할 화면상의 좌표입니다.
+	 * @param InPosition1 - 텍스처의 왼쪽 상단이 위치할 화면상의 좌표입니다.
+	 * @param InRotateAngle - 렌더링할 텍스처의 회전 각도입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawTexture2D(Texture& InTexture, const Vec2i& InPosition0, const Vec2i& InPosition1, float InRotateAngle = 0.0f);
+
+
+	/**
+	 * 백버퍼에 텍스처를 그립니다.
+	 * 이때, 회전 각도는 60분법 기준입니다.
+	 *
+	 * @param InTexture - 벡버퍼에 그릴 텍스처입니다.
+	 * @param InCenterPosition - 텍스처의 중심이 위치할 화면상의 좌표입니다.
+	 * @param InWidth- 백버퍼에 렌더링할 텍스처의 가로 크기 입니다
+	 * @param InHeight- 백버퍼에 렌더링할 텍스처의 원본 텍스처 대비 세로 크기 비율입니다.
+	 * @param InRotateAngle - 렌더링할 텍스처의 회전 각도입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawTexture2D(Texture& InTexture, const Vec2i& InCenterPosition, int32_t InWidth, int32_t InHeight, float InRotateAngle = 0.0f);
+
+
+	/**
+	 * 백버퍼에 텍스처 원본을 그립니다.
+	 * 이때, 회전 각도는 60분법 기준입니다.
+	 *
+	 * @param InTexture - 벡버퍼에 그릴 텍스처입니다.
+	 * @param InCenterPosition - 텍스처의 중심이 위치할 화면상의 좌표입니다.
+	 * @param InRotateAngle - 렌더링할 텍스처의 회전 각도입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawTexture2D(Texture& InTexture, const Vec2i& InCenterPosition, float InRotateAngle = 0.0f);
+
+
+	/**
+	 * 벡버퍼에 텍스트를 그립니다.
+	 *
+	 * @param InFont- 트루 타입 폰트입니다.
+	 * @param InText - 벡버퍼에 그릴 텍스트입니다.
+	 * @param InCenterPosition - 텍스트의 중심이 위치할 화면상의 좌표입니다.
+	 * @param InColor - 텍스트의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawText2D(Font& InFont, const std::string& InText, const Vec2i& InCenterPosition, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 텍스트를 그립니다.
+	 *
+	 * @param InFont- 트루 타입 폰트입니다.
+	 * @param InText - 벡버퍼에 그릴 텍스트입니다.
+	 * @param InCenterPosition - 텍스트의 중심이 위치할 화면상의 좌표입니다.
+	 * @param InColor - 텍스트의 색상입니다.
+	 *
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawText2D(Font& InFont, const std::wstring& InText, const Vec2i& InCenterPosition, const LinearColor& InColor);
 
 
 private:

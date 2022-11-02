@@ -4,7 +4,7 @@
 #include "Font.h"
 #include "GameFramework.h"
 #include "Input.h"
-#include "Graphics2D.h"
+#include "Graphics.h"
 #include "Macro.h"
 #include "Random.h"
 #include "Text.h"

@@ -1,6 +1,6 @@
 #include "Font.h"
 #include "Texture.h"
-#include "Graphics2D.h"
+#include "Graphics.h"
 
 // @third party code - BEGIN
 #include <SDL2/SDL.h>
@@ -23,7 +23,7 @@ Font::~Font()
 	}
 }
 
-SDL_Surface* Font::CreateTextSurface(Graphics2D& InGraphics, const std::string& InText, const LinearColor& InColor)
+SDL_Surface* Font::CreateTextSurface(Graphics& InGraphics, const std::string& InText, const LinearColor& InColor)
 {
 	SDL_Color TextColor;
 	Color::ToR8G8B8A8(InColor, TextColor.r, TextColor.g, TextColor.b, TextColor.a);
@@ -31,7 +31,7 @@ SDL_Surface* Font::CreateTextSurface(Graphics2D& InGraphics, const std::string& 
 	return TTF_RenderText_Solid(Font_, InText.c_str(), TextColor);
 }
 
-SDL_Surface* Font::CreateTextSurface(Graphics2D& InGraphics, const std::wstring& InText, const LinearColor& InColor)
+SDL_Surface* Font::CreateTextSurface(Graphics& InGraphics, const std::wstring& InText, const LinearColor& InColor)
 {
 	SDL_Color TextColor;
 	Color::ToR8G8B8A8(InColor, TextColor.r, TextColor.g, TextColor.b, TextColor.a);
@@ -39,7 +39,7 @@ SDL_Surface* Font::CreateTextSurface(Graphics2D& InGraphics, const std::wstring&
 	return TTF_RenderUNICODE_Solid(Font_, reinterpret_cast<const uint16_t*>(InText.c_str()), TextColor);
 }
 
-SDL_Texture* Font::CreateTextTexture(Graphics2D& InGraphics, const std::string& InText, const LinearColor& InColor)
+SDL_Texture* Font::CreateTextTexture(Graphics& InGraphics, const std::string& InText, const LinearColor& InColor)
 {
 	SDL_Surface* TextSurface = CreateTextSurface(InGraphics, InText, InColor);
 	SDL_Texture* TextTexture = Texture::CreateTextureFromSurface(InGraphics, TextSurface);
@@ -50,7 +50,7 @@ SDL_Texture* Font::CreateTextTexture(Graphics2D& InGraphics, const std::string& 
 	return TextTexture;
 }
 
-SDL_Texture* Font::CreateTextTexture(Graphics2D& InGraphics, const std::wstring& InText, const LinearColor& InColor)
+SDL_Texture* Font::CreateTextTexture(Graphics& InGraphics, const std::wstring& InText, const LinearColor& InColor)
 {
 	SDL_Surface* TextSurface = CreateTextSurface(InGraphics, InText, InColor);
 	SDL_Texture* TextTexture = Texture::CreateTextureFromSurface(InGraphics, TextSurface);

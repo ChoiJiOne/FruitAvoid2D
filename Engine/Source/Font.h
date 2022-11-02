@@ -3,7 +3,7 @@
 #include "Macro.h"
 #include "Color.h"
 
-class Graphics2D;
+class Graphics;
 struct SDL_Surface;
 struct SDL_Texture;
 typedef struct _TTF_Font TTF_Font;
@@ -62,7 +62,7 @@ public:
 	 * @param InText - 표면을 생성할 문자열입니다.
 	 * @param InColor - 문자열의 색상입니다.
 	 */
-	SDL_Surface* CreateTextSurface(Graphics2D& InGraphics, const std::string& InText, const LinearColor& InColor);
+	SDL_Surface* CreateTextSurface(Graphics& InGraphics, const std::string& InText, const LinearColor& InColor);
 
 
 	/**
@@ -72,7 +72,7 @@ public:
 	 * @param InText - 표면을 생성할 문자열입니다.
 	 * @param InColor - 문자열의 색상입니다.
 	 */
-	SDL_Surface* CreateTextSurface(Graphics2D& InGraphics, const std::wstring& InText, const LinearColor& InColor);
+	SDL_Surface* CreateTextSurface(Graphics& InGraphics, const std::wstring& InText, const LinearColor& InColor);
 
 
 	/**
@@ -82,7 +82,7 @@ public:
 	 * @param InText - 이미지 리소스를 생성할 문자열입니다.
 	 * @param InColor - 문자열의 색상입니다.
 	 */
-	SDL_Texture* CreateTextTexture(Graphics2D& InGraphics, const std::string& InText, const LinearColor& InColor);
+	SDL_Texture* CreateTextTexture(Graphics& InGraphics, const std::string& InText, const LinearColor& InColor);
 
 
 	/**
@@ -92,7 +92,7 @@ public:
 	 * @param InText - 이미지 리소스를 생성할 문자열입니다.
 	 * @param InColor - 문자열의 색상입니다.
 	 */
-	SDL_Texture* CreateTextTexture(Graphics2D& InGraphics, const std::wstring& InText, const LinearColor& InColor);
+	SDL_Texture* CreateTextTexture(Graphics& InGraphics, const std::wstring& InText, const LinearColor& InColor);
 
 
 private:
