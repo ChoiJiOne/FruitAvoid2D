@@ -20,6 +20,12 @@ Texture::Texture(Graphics2D& InGraphics, SDL_Surface* InSurface)
 	CHECK((Texture_ != nullptr), "failed to create texture resource");
 }
 
+Texture::Texture(SDL_Texture* InTexture)
+{
+	CHECK((InTexture != nullptr), "invalid constructor parameter");
+	Texture_ = InTexture;
+}
+
 Texture::~Texture()
 {
 	if (Texture_)

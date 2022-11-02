@@ -42,6 +42,17 @@ public:
 
 
 	/**
+	 * 텍스처 클래스의 생성자입니다.
+	 * 이때, 파라미터로 입력 받은 SDL_Texture를 관리합니다.
+	 * 
+	 * @param InTexture - 텍스처 리소스의 포인터입니다.
+	 * 
+	 * @throws 파라미터가 유효하지 않으면 C++ 표준 예외를 던집니다.
+	 */
+	explicit Texture(SDL_Texture* InTexture);
+
+
+	/**
 	 * 텍스처 클래스의 가상 소멸자입니다.
 	 */
 	virtual ~Texture();
