@@ -17,10 +17,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
-#include <Box2D/box2d.h>
 #include <json/json.hpp>
 #include <spdlog/spdlog.h>
-#include <glm/glm.hpp>
 
 #include <string>
 #include <iostream>
