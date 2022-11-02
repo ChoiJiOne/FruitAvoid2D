@@ -1,23 +1,24 @@
-#include "ToyEngine.h"
+ï»¿#include "ToyEngine.h"
 
 
 /**
- * FruitAvoid2D °úÀÏ ÇÇÇÏ±â °ÔÀÓÀÔ´Ï´Ù.
+ * FruitAvoid2D ê³¼ì¼ í”¼í•˜ê¸° ê²Œì„ì…ë‹ˆë‹¤.
  */
 class FruitAvoid2D : public GameFramework
 {
 public:
 	/**
-	 * FruitAvoid2DÀÇ »ı¼ºÀÚÀÔ´Ï´Ù.
+	 * FruitAvoid2Dì˜ ìƒì„±ìì…ë‹ˆë‹¤.
 	 */
 	FruitAvoid2D() = default;
 
 
 	/**
-	 * FruitAvoid2DÀÇ °¡»ó ¼Ò¸êÀÚÀÔ´Ï´Ù.
+	 * FruitAvoid2Dì˜ ê°€ìƒ ì†Œë©¸ìì…ë‹ˆë‹¤.
 	 */
 	virtual ~FruitAvoid2D()
 	{
+		Font_.reset();
 		Input_.reset();
 		Graphics_.reset();
 		Window_.reset();
@@ -25,17 +26,17 @@ public:
 
 
 	/**
-	 * º¹»ç »ı¼ºÀÚ¿Í ´ëÀÔ ¿¬»êÀÚ¸¦ ¸í½ÃÀûÀ¸·Î »èÁ¦
+	 * ë³µì‚¬ ìƒì„±ìì™€ ëŒ€ì… ì—°ì‚°ìë¥¼ ëª…ì‹œì ìœ¼ë¡œ ì‚­ì œ
 	 */
 	DISALLOW_COPY_AND_ASSIGN(FruitAvoid2D);
 
 
 	/**
-	 * ToyEngine2D ¹× FruitAvoid2D À» ÃÊ±âÈ­ÇÕ´Ï´Ù.
+	 * ToyEngine2D ë° FruitAvoid2D ì„ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
 	 *
 	 * @throws
-	 * - °ÔÀÓ ¿£Áø ÃÊ±âÈ­¿¡ ½ÇÆĞÇÏ¸é C++ Ç¥ÁØ ¿¹¿Ü¸¦ ´øÁı´Ï´Ù.
-	 * - FruitAvoid2D ÃÊ±âÈ­¿¡ ½ÇÆĞÇÏ¸é C++ Ç¥ÁØ ¿¹¿Ü¸¦ ´øÁı´Ï´Ù.
+	 * - ê²Œì„ ì—”ì§„ ì´ˆê¸°í™”ì— ì‹¤íŒ¨í•˜ë©´ C++ í‘œì¤€ ì˜ˆì™¸ë¥¼ ë˜ì§‘ë‹ˆë‹¤.
+	 * - FruitAvoid2D ì´ˆê¸°í™”ì— ì‹¤íŒ¨í•˜ë©´ C++ í‘œì¤€ ì˜ˆì™¸ë¥¼ ë˜ì§‘ë‹ˆë‹¤.
 	 */
 	virtual void Init() override
 	{
@@ -52,19 +53,21 @@ public:
 			}
 		);
 
-		Graphics_ = std::make_unique<Graphics2D>(
+		Graphics_ = std::make_unique<Graphics>(
 			*Window_,
 			EGraphicsFlags::ACCELERATED | EGraphicsFlags::PRESENTVSYNC
 		);
 
 		Input_ = std::make_unique<Input>();
+
+		Font_ = std::make_unique<Font>("D:\\work\\FruitAvoid2D\\Game\\Content\\font\\JetBrainsMono-Bold.ttf", 32);
 	}
 
 
 	/**
-	 * FruitAvoid2D °ÔÀÓÀ» ½ÇÇàÇÕ´Ï´Ù.
+	 * FruitAvoid2D ê²Œì„ì„ ì‹¤í–‰í•©ë‹ˆë‹¤.
 	 *
-	 * @throws FruitAvoid2D °ÔÀÓ ½ÇÇà¿¡ ½ÇÆĞÇÏ¸é C++ Ç¥ÁØ ¿¹¿Ü¸¦ ´øÁı´Ï´Ù.
+	 * @throws FruitAvoid2D ê²Œì„ ì‹¤í–‰ì— ì‹¤íŒ¨í•˜ë©´ C++ í‘œì¤€ ì˜ˆì™¸ë¥¼ ë˜ì§‘ë‹ˆë‹¤.
 	 */
 	virtual void Run() override
 	{
@@ -77,9 +80,9 @@ public:
 
 
 	/**
-	 * FruitAvoid2D °ÔÀÓÀ» ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
+	 * FruitAvoid2D ê²Œì„ì„ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
 	 *
-	 * @throws FruitAvoid2D °ÔÀÓ ¾÷µ¥ÀÌÆ®¿¡ ½ÇÆĞÇÏ¸é C++ Ç¥ÁØ ¿¹¿Ü¸¦ ´øÁı´Ï´Ù.
+	 * @throws FruitAvoid2D ê²Œì„ ì—…ë°ì´íŠ¸ì— ì‹¤íŒ¨í•˜ë©´ C++ í‘œì¤€ ì˜ˆì™¸ë¥¼ ë˜ì§‘ë‹ˆë‹¤.
 	 */
 	virtual void Update() override
 	{
@@ -88,34 +91,43 @@ public:
 
 
 	/**
-	 * FruitAvoid2D °ÔÀÓÀ» È­¸é¿¡ ·»´õ¸µÇÕ´Ï´Ù.
+	 * FruitAvoid2D ê²Œì„ì„ í™”ë©´ì— ë Œë”ë§í•©ë‹ˆë‹¤.
 	 *
-	 * @throws FruitAvoid2D °ÔÀÓ ·»´õ¸µ¿¡ ½ÇÆĞÇÏ¸é C++ Ç¥ÁØ ¿¹¿Ü¸¦ ´øÁı´Ï´Ù.
+	 * @throws FruitAvoid2D ê²Œì„ ë Œë”ë§ì— ì‹¤íŒ¨í•˜ë©´ C++ í‘œì¤€ ì˜ˆì™¸ë¥¼ ë˜ì§‘ë‹ˆë‹¤.
 	 */
 	virtual void Render() override
 	{
 		Graphics_->BeginFrame(Color::Black);
+
+		Graphics_->DrawText2D(*Font_, L"Hello World", Vec2i(500, 400), Color::Cyan);
+
 		Graphics_->EndFrame();
 	}
 
 
 private:
 	/**
-	 * FruitAvoid2DÀÇ À©µµ¿ì Ã¢ Ã³¸®¸¦ À§ÇÑ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * FruitAvoid2Dì˜ ìœˆë„ìš° ì°½ ì²˜ë¦¬ë¥¼ ìœ„í•œ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	std::unique_ptr<Window> Window_ = nullptr;
 
 
 	/**
-	 * FruitAvoid2DÀÇ ÀÔ·Â Ã³¸®¸¦ À§ÇÑ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * FruitAvoid2Dì˜ ì…ë ¥ ì²˜ë¦¬ë¥¼ ìœ„í•œ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
 	std::unique_ptr<Input> Input_ = nullptr;
 
 
 	/**
-	 * FruitAvoid2DÀÇ ±×·¡ÇÈ °ü·Ã Ã³¸®¸¦ À§ÇÑ ÀÎ½ºÅÏ½ºÀÔ´Ï´Ù.
+	 * FruitAvoid2Dì˜ ê·¸ë˜í”½ ê´€ë ¨ ì²˜ë¦¬ë¥¼ ìœ„í•œ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
 	 */
-	std::unique_ptr<Graphics2D> Graphics_ = nullptr;
+	std::unique_ptr<Graphics> Graphics_ = nullptr;
+
+
+	/**
+	 * FruitAvoid2Dì˜ í°íŠ¸ ì¸ìŠ¤í„´ìŠ¤ì…ë‹ˆë‹¤.
+	 */
+	std::unique_ptr<Font> Font_ = nullptr;
 };
 
 
