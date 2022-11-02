@@ -34,15 +34,6 @@ workspace "FruitAvoid2D"
         files {
             "%{engine}/Source/*",
 
-            "%{thirdparty}/Include/Box2D/*",
-
-            "%{thirdparty}/Include/glm/*",
-            "%{thirdparty}/Include/glm/detail/*",
-            "%{thirdparty}/Include/glm/ext/*",
-            "%{thirdparty}/Include/glm/gtc/*",
-            "%{thirdparty}/Include/glm/gtx/*",
-            "%{thirdparty}/Include/glm/simd/*",
-
             "%{thirdparty}/Include/json/*",
 
             "%{thirdparty}/Include/SDL2/*",
@@ -64,7 +55,6 @@ workspace "FruitAvoid2D"
 
             links {
                 "Dbghelp.lib",
-                "%{thirdparty}/Debug/box2d.lib",
                 "%{thirdparty}/Debug/SDL2.lib",
                 "%{thirdparty}/Debug/SDL2main.lib",
                 "%{thirdparty}/Debug/SDL2_image.lib",
@@ -82,7 +72,6 @@ workspace "FruitAvoid2D"
             
             links {
                 "Dbghelp.lib",
-                "%{thirdparty}/Release/box2d.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
                 "%{thirdparty}/Release/SDL2_image.lib",
@@ -100,7 +89,6 @@ workspace "FruitAvoid2D"
 
             links {
                 "Dbghelp.lib",
-                "%{thirdparty}/Release/box2d.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
                 "%{thirdparty}/Release/SDL2_image.lib",
@@ -141,34 +129,12 @@ workspace "FruitAvoid2D"
             symbols "On"
             debugdir "%{thirdparty}/Debug"
 
-            links {
-                "Dbghelp.lib",
-                "%{thirdparty}/Debug/box2d.lib",
-                "%{thirdparty}/Debug/SDL2.lib",
-                "%{thirdparty}/Debug/SDL2main.lib",
-                "%{thirdparty}/Debug/SDL2_image.lib",
-                "%{thirdparty}/Debug/SDL2_mixer.lib",
-                "%{thirdparty}/Debug/SDL2_net.lib",
-                "%{thirdparty}/Debug/SDL2_ttf.lib",
-            }
-
         filter "configurations:Release"
             defines { "RELEASE" }
             runtime "Release"
             optimize "On"
             symbols "On"
             debugdir "%{thirdparty}/Release"
-            
-            links {
-                "Dbghelp.lib",
-                "%{thirdparty}/Release/box2d.lib",
-                "%{thirdparty}/Release/SDL2.lib",
-                "%{thirdparty}/Release/SDL2main.lib",
-                "%{thirdparty}/Release/SDL2_image.lib",
-                "%{thirdparty}/Release/SDL2_mixer.lib",
-                "%{thirdparty}/Release/SDL2_net.lib",
-                "%{thirdparty}/Release/SDL2_ttf.lib",
-            }
         
         filter "configurations:Shipping"
             defines { "SHIPPING" }
@@ -176,14 +142,3 @@ workspace "FruitAvoid2D"
             optimize "Full"
             symbols "Off"
             debugdir "%{thirdparty}/Release"
-
-            links {
-                "Dbghelp.lib",
-                "%{thirdparty}/Release/box2d.lib",
-                "%{thirdparty}/Release/SDL2.lib",
-                "%{thirdparty}/Release/SDL2main.lib",
-                "%{thirdparty}/Release/SDL2_image.lib",
-                "%{thirdparty}/Release/SDL2_mixer.lib",
-                "%{thirdparty}/Release/SDL2_net.lib",
-                "%{thirdparty}/Release/SDL2_ttf.lib",
-            }
