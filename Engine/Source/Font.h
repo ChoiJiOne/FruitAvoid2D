@@ -1,7 +1,11 @@
 #pragma once
 
 #include "Macro.h"
+#include "Color.h"
 
+class Graphics2D;
+struct SDL_Surface;
+struct SDL_Texture;
 typedef struct _TTF_Font TTF_Font;
 
 /**
@@ -49,6 +53,46 @@ public:
 	 * @return 트루 타입 폰트의 크기를 반환합니다.
 	 */
 	int32_t GetSize() { return Size_; }
+
+
+	/**
+	 * 문자열의 표면을 생성합니다.
+	 * 
+	 * @param InGraphics - 표면을 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InText - 표면을 생성할 문자열입니다.
+	 * @param InColor - 문자열의 색상입니다.
+	 */
+	SDL_Surface* CreateTextSurface(Graphics2D& InGraphics, const std::string& InText, const LinearColor& InColor);
+
+
+	/**
+	 * 문자열의 표면을 생성합니다.
+	 * 
+	 * @param InGraphics - 텍스처를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InText - 표면을 생성할 문자열입니다.
+	 * @param InColor - 문자열의 색상입니다.
+	 */
+	SDL_Surface* CreateTextSurface(Graphics2D& InGraphics, const std::wstring& InText, const LinearColor& InColor);
+
+
+	/**
+	 * 문자열의 이미지 리소스를 생성합니다.
+	 * 
+	 * @param InGraphics - 텍스처를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InText - 이미지 리소스를 생성할 문자열입니다.
+	 * @param InColor - 문자열의 색상입니다.
+	 */
+	SDL_Texture* CreateTextTexture(Graphics2D& InGraphics, const std::string& InText, const LinearColor& InColor);
+
+
+	/**
+	 * 문자열의 이미지 리소스를 생성합니다.
+	 *
+	 * @param InGraphics - 텍스처를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InText - 이미지 리소스를 생성할 문자열입니다.
+	 * @param InColor - 문자열의 색상입니다.
+	 */
+	SDL_Texture* CreateTextTexture(Graphics2D& InGraphics, const std::wstring& InText, const LinearColor& InColor);
 
 
 private:
