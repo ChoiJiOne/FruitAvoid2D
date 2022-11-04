@@ -1,5 +1,6 @@
 #include "ColorUtils.h"
 #include "CommandLineUtils.h"
+#include "ContentUtils.h"
 #include "DebugUtils.h"
 #include "Font.h"
 #include "GameFramework.h"
