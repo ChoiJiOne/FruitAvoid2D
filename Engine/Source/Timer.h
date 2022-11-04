@@ -96,20 +96,35 @@ public:
 
 
 	/**
-	 * 타이머의 초단위 델타 시간값을 반환합니다.
-	 *
+	 * 타이머의 초 단위 델타 시간값을 얻습니다.
+	 * 
 	 * @return 초 단위의 델타 시간값을 반환합니다.
 	 */
-	float DeltaTime() const;
+	float GetDeltaSeconds() const;
+
+
+	/**
+	 * 타이머의 밀리초 단위의 델타 시간값을 얻습니다.
+	 * 
+	 * @return 밀리초 단위의 델타 시간값을 반환합니다.
+	 */
+	float GetDeltaMilliseconds() const;
 
 
 	/**
 	 * 타이머가 중지된 시간을 제외한 전체 시간값을 반환합니다.
-	 * 이때, 시간값의 단위는 초단위 입니다.
-	 *
-	 * @return 타이머가 시작된 이후의 중지된 시간을 제외한 전체 시간값을 초 단위로 반환합니다.
+	 * 
+	 * @return 타이머가 시작된 이후의 중지된 시간을 제외한 전체 시간값을 반환합니다.
 	 */
-	float TotalTime() const;
+	float GetTotalSeconds() const;
+
+
+	/**
+	 * 타이머가 중지된 시간을 제외한 전체 시간값을 반환합니다.
+	 *
+	 * @return 타이머가 시작된 이후의 중지된 시간을 제외한 전체 시간값을 반환합니다.
+	 */
+	float GetTotalMilliseconds() const;
 
 
 	/**

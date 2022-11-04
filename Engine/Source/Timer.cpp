@@ -8,7 +8,12 @@ Timer::~Timer()
 {
 }
 
-float Timer::DeltaTime() const
+float Timer::GetDeltaSeconds() const
+{
+	return GetDeltaMilliseconds() / 1000.0f;
+}
+
+float Timer::GetDeltaMilliseconds() const
 {
 	if (bIsStop_)
 	{
@@ -16,19 +21,24 @@ float Timer::DeltaTime() const
 	}
 	else
 	{
-		return static_cast<float>(CurrTime_ - PrevTime_) / 1000.0f;
+		return static_cast<float>(CurrTime_ - PrevTime_);
 	}
 }
 
-float Timer::TotalTime() const
+float Timer::GetTotalSeconds() const
+{
+	return GetTotalMilliseconds() / 1000.0f;
+}
+
+float Timer::GetTotalMilliseconds() const
 {
 	if (bIsStop_)
 	{
-		return static_cast<float>(StopTime_ - PausedTime_ - BaseTime_) / 1000.0f;
+		return static_cast<float>(StopTime_ - PausedTime_ - BaseTime_);
 	}
 	else
 	{
-		return static_cast<float>(CurrTime_ - PausedTime_ - BaseTime_) / 1000.0f;
+		return static_cast<float>(CurrTime_ - PausedTime_ - BaseTime_);
 	}
 }
 
