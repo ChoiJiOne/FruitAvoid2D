@@ -163,8 +163,8 @@ def create_premake5_script(project_name):
         links {"Engine"}
 
         debugargs {
-            "-Content=%{wks.location}..\\Game\\Content\\",
-            "-Dump=%{wks.location}..\\Dump\\"
+            "-Content=%{wks.location}..\\\\Game\\\\Content\\\\",
+            "-Dump=%{wks.location}..\\\\Dump\\\\"
         }
 
         includedirs {
