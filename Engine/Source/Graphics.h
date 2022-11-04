@@ -218,19 +218,6 @@ public:
 	 *
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
-	void DrawText2D(Font& InFont, const std::string& InText, const Vec2i& InCenterPosition, const LinearColor& InColor);
-
-
-	/**
-	 * 벡버퍼에 텍스트를 그립니다.
-	 *
-	 * @param InFont- 트루 타입 폰트입니다.
-	 * @param InText - 벡버퍼에 그릴 텍스트입니다.
-	 * @param InCenterPosition - 텍스트의 중심이 위치할 화면상의 좌표입니다.
-	 * @param InColor - 텍스트의 색상입니다.
-	 *
-	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
-	 */
 	void DrawText2D(Font& InFont, const std::wstring& InText, const Vec2i& InCenterPosition, const LinearColor& InColor);
 
 

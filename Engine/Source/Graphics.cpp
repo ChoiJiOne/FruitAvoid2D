@@ -133,16 +133,47 @@ void Graphics::DrawTexture2D(Texture& InTexture, const Vec2i& InCenterPosition, 
 	DrawTexture2D(InTexture, InCenterPosition, TextureWidth, TextureHeight, InRotateAngle);
 }
 
-void Graphics::DrawText2D(Font& InFont, const std::string& InText, const Vec2i& InCenterPosition, const LinearColor& InColor)
-{
-	Texture TextTexture(InFont.CreateTextTexture(*this, InText, InColor));
-	DrawTexture2D(TextTexture, InCenterPosition);
-}
-
 void Graphics::DrawText2D(Font& InFont, const std::wstring& InText, const Vec2i& InCenterPosition, const LinearColor& InColor)
 {
-	Texture TextTexture(InFont.CreateTextTexture(*this, InText, InColor));
-	DrawTexture2D(TextTexture, InCenterPosition);
+	int32_t TextWidth = 0, TextHeight = 0;
+	InFont.MeasureText(InText, TextWidth, TextHeight);
+
+	Vec2i Position(
+		InCenterPosition.x - static_cast<int32_t>(static_cast<float>(TextWidth) / 2.0f),
+		InCenterPosition.y + static_cast<int32_t>(static_cast<float>(TextHeight) / 2.0f)
+	);
+
+	uint8_t R = 0, G = 0, B = 0, A = 0;
+	Color::ToR8G8B8A8(InColor, R, G, B, A);
+
+	for (auto& Unicode : InText)
+	{
+		SDL_Texture* TextureAtlas = InFont.GetTextureAtlas();
+
+		CHECK((SDL_SetTextureColorMod(TextureAtlas, R, G, B) == 0), SDL_GetError());
+		CHECK((SDL_SetTextureAlphaMod(TextureAtlas, A) == 0), SDL_GetError());
+
+		const CharacterInfo& UnicodeInfo = InFont.GetCharacterInfo(static_cast<int32_t>(Unicode));
+
+		SDL_Rect Src =
+		{
+			UnicodeInfo.Position0.x,
+			UnicodeInfo.Position0.y,
+			UnicodeInfo.Position1.x - UnicodeInfo.Position0.x,
+			UnicodeInfo.Position1.y - UnicodeInfo.Position0.y
+		};
+
+		SDL_Rect Dst =
+		{
+			Position.x + static_cast<int32_t>(UnicodeInfo.XOffset),
+			Position.y + static_cast<int32_t>(UnicodeInfo.YOffset),
+			(UnicodeInfo.Position1.x - UnicodeInfo.Position0.x),
+			(UnicodeInfo.Position1.y - UnicodeInfo.Position0.y)
+		};
+
+		SDL_RenderCopy(Renderer_, TextureAtlas, &Src, &Dst);
+		Position.x += static_cast<int32_t>(UnicodeInfo.XAdvance);
+	}
 }
 
 void Graphics::SetDrawColor(const LinearColor& InColor)
