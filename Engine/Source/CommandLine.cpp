@@ -2,35 +2,33 @@
 
 #include <Windows.h>
 
-std::wstring CommandLine::CommandLine_;
-std::vector<std::wstring> CommandLine::Arguments_;
-std::unordered_map<std::wstring, std::wstring> CommandLine::Options_;
+std::string CommandLine::CommandLine_;
+std::vector<std::string> CommandLine::Arguments_;
+std::unordered_map<std::string, std::string> CommandLine::Options_;
 
-void CommandLine::Parse()
+void CommandLine::Init()
 {
-	CommandLine_ = GetCommandLineW();
-	Arguments_ = Text::Split(CommandLine_, L" ");
+	CommandLine_ = GetCommandLineA();
+	Arguments_ = Text::Split(CommandLine_, " ");
 
 	for (const auto& Argument : Arguments_)
 	{
-		if (Argument.find(L"=") != std::string::npos)
+		if (Argument.find("=") != std::string::npos)
 		{
-			std::vector<std::wstring> Tokens = Text::Split(Argument, L"=");
+			std::vector<std::string> Tokens = Text::Split(Argument, "=");
 			Options_.insert({ Tokens.front(), Tokens.back() });
 		}
 	}
 }
 
-bool CommandLine::HaveOption(const std::wstring& InOption)
+bool CommandLine::HaveOption(const std::string& InOption)
 {
-	auto Iter = Options_.find(InOption);
-
-	return Iter != Options_.end();
+	return Options_.find(InOption) != Options_.end();
 }
 
-std::wstring CommandLine::GetValue(const std::wstring& InOption)
+std::string CommandLine::GetValue(const std::string& InOption)
 {
-	if (!HaveOption(InOption)) return L"";
+	if (!HaveOption(InOption)) return "";
 
 	return Options_.at(InOption);
 }

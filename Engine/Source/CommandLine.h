@@ -14,7 +14,15 @@ public:
 	/**
 	 * 입력받은 커맨드 라인을 파싱하고, 초기화합니다.
 	 */
-	static void Parse();
+	static void Init();
+
+
+	/**
+	 * 전체 커맨드 라인을 얻습니다.
+	 * 
+	 * @return 전체 커맨드 라인 문자열을 반환합니다.
+	 */
+	static std::string GetCommanLine() { return CommandLine_; }
 
 
 	/**
@@ -24,7 +32,7 @@ public:
 	 * 
 	 * @return 옵션이 존재하면 true, 그렇지 않다면 false를 반환합니다.
 	 */
-	static bool HaveOption(const std::wstring& InOption);
+	static bool HaveOption(const std::string& InOption);
 
 
 	/**
@@ -35,24 +43,24 @@ public:
 	 * 
 	 * @return 옵션에 대응하는 값을 반환합니다.
 	 */
-	static std::wstring GetValue(const std::wstring& InOption);
+	static std::string GetValue(const std::string& InOption);
 
 
 private:
 	/**
 	 * 게임 실행 시 전달 받은 전체 커맨드 라인입니다.
 	 */
-	static std::wstring CommandLine_;
+	static std::string CommandLine_;
 	
 
 	/**
 	 * 게임 실행 시에 전달 받은 커맨드 라인의 인자입니다.
 	 */
-	static std::vector<std::wstring> Arguments_;
+	static std::vector<std::string> Arguments_;
 
 
 	/**
 	 * 커맨드 라인 입력으로 받은 옵션입니다.
 	 */
-	static std::unordered_map<std::wstring, std::wstring> Options_;
+	static std::unordered_map<std::string, std::string> Options_;
 };
