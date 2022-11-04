@@ -4,16 +4,18 @@
 #include <Dbghelp.h>
 #include <minidumpapiset.h>
 
+#include <string>
+#include <queue>
+
 
 /**
- * 구조화 되지 않은 에러 처리 및 덤프 파일을 생성하는 클래스입니다.
+ * 게임 내에 버그를 탐지하고 관리하는 클래스입니다.
  */
-class CrashReport
+class DebugUtils
 {
 public:
 	/**
-	 * 크래쉬 덤프 클래스를 초기화합니다.
-	 * 덤프 파일을 생성하기 위해서는 반드시 호출해야 합니다.
+	 * 초기화합니다.
 	 */
 	static void Init();
 
@@ -34,5 +36,5 @@ public:
 	 * 
 	 * @param InExceptionInfo - 예외가 발생한 지점의 관련된 정보입니다.
 	 */
-	static void CreateCrashDumpFile(struct _EXCEPTION_POINTERS* InExceptionInfo);
+	static void CreateDumpFile(struct _EXCEPTION_POINTERS* InExceptionInfo);
 };

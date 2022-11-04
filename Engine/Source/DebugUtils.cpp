@@ -1,29 +1,29 @@
-#include "CrashReport.h"
-#include "CommandLine.h"
+#include "DebugUtils.h"
+#include "CommandLineUtils.h"
 
 #include <chrono>
 #include <ctime>
 #include <string>
 
-void CrashReport::Init()
+void DebugUtils::Init()
 {
 	SetUnhandledExceptionFilter(UnhandledExceptionHandler);
 }
 
-LONG __stdcall CrashReport::UnhandledExceptionHandler(_EXCEPTION_POINTERS* InExceptionInfo)
+LONG __stdcall DebugUtils::UnhandledExceptionHandler(_EXCEPTION_POINTERS* InExceptionInfo)
 {
-	CreateCrashDumpFile(InExceptionInfo);
+	CreateDumpFile(InExceptionInfo);
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
-void CrashReport::CreateCrashDumpFile(_EXCEPTION_POINTERS* InExceptionInfo)
+void DebugUtils::CreateDumpFile(_EXCEPTION_POINTERS* InExceptionInfo)
 {
 	time_t CurrentTime = time(nullptr);
 	tm* CurrentLocalTime = localtime(&CurrentTime);
 
-	std::wstring DumpFile = Text::Format(
-		L"%s%d-%d-%d-%d-%d-%d.dmp",
-		CommandLine::GetValue(L"-Dump").c_str(),
+	std::string DumpFile = Text::Format(
+		"%s%d-%d-%d-%d-%d-%d.dmp",
+		CommandLineUtils::GetValue("-Dump").c_str(),
 		CurrentLocalTime->tm_year + 1900,
 		CurrentLocalTime->tm_mon + 1,
 		CurrentLocalTime->tm_mday,
@@ -32,7 +32,7 @@ void CrashReport::CreateCrashDumpFile(_EXCEPTION_POINTERS* InExceptionInfo)
 		CurrentLocalTime->tm_sec
 	);
 	
-	HANDLE  FileHandler = CreateFile(
+	HANDLE  FileHandler = CreateFileA(
 		DumpFile.c_str(),
 		GENERIC_WRITE, 
 		FILE_SHARE_WRITE, 
