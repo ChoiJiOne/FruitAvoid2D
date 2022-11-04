@@ -6,7 +6,7 @@
 #include "Input.h"
 #include "Graphics.h"
 #include "Macro.h"
-#include "Random.h"
+#include "MathUtils.h"
 #include "Text.h"
 #include "Texture.h"
 #include "Timer.h"
@@ -16,7 +16,6 @@
 #include <SDL2/SDL.h>
 #include <json/json.hpp>
 #include <miniaudio/miniaudio.h>
-#include <SDL2/SDL.h>
 #include <spdlog/spdlog.h>
 #include <stb/stb_image.h>
 #include <stb/stb_image_resize.h>
