@@ -8,7 +8,7 @@
 /**
  * 커맨드 라인을 파싱하고, 커맨드 라인 인자를 관리하는 클래스입니다.
  */
-class CommandLine
+class CommandLineUtils
 {
 public:
 	/**
