@@ -108,6 +108,10 @@ def create_premake5_script(project_name):
             "%{thirdparty}/Include/spdlog/fmt/*",
             "%{thirdparty}/Include/spdlog/fmt/bundled/*",
             "%{thirdparty}/Include/spdlog/sinks/*",
+
+            "%{thirdparty}/Include/stb/*",
+
+            "%{thirdparty}/Include/miniaudio/*",
         }
 
         filter "configurations:Debug"
@@ -121,10 +125,6 @@ def create_premake5_script(project_name):
                 "Dbghelp.lib",
                 "%{thirdparty}/Debug/SDL2.lib",
                 "%{thirdparty}/Debug/SDL2main.lib",
-                "%{thirdparty}/Debug/SDL2_image.lib",
-                "%{thirdparty}/Debug/SDL2_mixer.lib",
-                "%{thirdparty}/Debug/SDL2_net.lib",
-                "%{thirdparty}/Debug/SDL2_ttf.lib",
             }
 
         filter "configurations:Release"
@@ -138,10 +138,6 @@ def create_premake5_script(project_name):
                 "Dbghelp.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
-                "%{thirdparty}/Release/SDL2_image.lib",
-                "%{thirdparty}/Release/SDL2_mixer.lib",
-                "%{thirdparty}/Release/SDL2_net.lib",
-                "%{thirdparty}/Release/SDL2_ttf.lib",
             }
         
         filter "configurations:Shipping"
@@ -155,10 +151,6 @@ def create_premake5_script(project_name):
                 "Dbghelp.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
-                "%{thirdparty}/Release/SDL2_image.lib",
-                "%{thirdparty}/Release/SDL2_mixer.lib",
-                "%{thirdparty}/Release/SDL2_net.lib",
-                "%{thirdparty}/Release/SDL2_ttf.lib",
             }
 
     project "Game"
