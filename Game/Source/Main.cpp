@@ -74,8 +74,12 @@ public:
 	 */
 	virtual void Run() override
 	{
+		Timer_.Reset();
+
 		while (!Input_->Tick())
 		{
+			Timer_.Tick();
+
 			Update();
 			Render();
 		}
@@ -102,7 +106,7 @@ public:
 	{
 		Graphics_->BeginFrame(Color::Black);
 
-		Graphics_->DrawText2D(*Font_, L"Hello World", Vec2i(500, 400), Color::Cyan);
+		Graphics_->DrawText2D(*Font_, Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(500, 400), Color::Cyan);
 
 		Graphics_->EndFrame();
 	}
@@ -131,6 +135,12 @@ private:
 	 * FruitAvoid2D의 폰트 인스턴스입니다.
 	 */
 	std::unique_ptr<Font> Font_ = nullptr;
+
+
+	/**
+	 * FruitAvoid2D의 타이머입니다.
+	 */
+	Timer Timer_;
 };
 
 
