@@ -19,6 +19,7 @@ public:
 	virtual ~FruitAvoid2D()
 	{
 		Font_.reset();
+		Texture_.reset();
 		Input_.reset();
 		Graphics_.reset();
 		Window_.reset();
@@ -60,10 +61,10 @@ public:
 
 		Input_ = std::make_unique<Input>();
 
-		std::wstring ContentPath = CommandLine::GetValue(L"-Content");
-		std::string Content(ContentPath.begin(), ContentPath.end());
+		std::string Path = CommandLineUtils::GetValue("-Content");
 
-		Font_ = std::make_unique<Font>(Content + "font\\JetBrainsMono-Bold.ttf", 32);
+		Texture_ = std::make_unique<Texture>(*Graphics_, Path + "texture\\Beach.jpg");
+		Font_ = std::make_unique<Font>(*Graphics_, Path + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 	}
 
 
@@ -104,9 +105,10 @@ public:
 	 */
 	virtual void Render() override
 	{
-		Graphics_->BeginFrame(Color::Black);
+		Graphics_->BeginFrame(ColorUtils::Black);
 
-		Graphics_->DrawText2D(*Font_, Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(500, 400), Color::Cyan);
+		Graphics_->DrawTexture2D(*Texture_, Vec2i(500, 400), 1000, 800);
+		Graphics_->DrawText2D(*Font_, Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
 
 		Graphics_->EndFrame();
 	}
@@ -132,13 +134,19 @@ private:
 
 
 	/**
-	 * FruitAvoid2D의 폰트 인스턴스입니다.
+	 * 텍스처 리소스입니다.
 	 */
-	std::unique_ptr<Font> Font_ = nullptr;
+	std::unique_ptr<Texture> Texture_ = nullptr;
 
 
 	/**
-	 * FruitAvoid2D의 타이머입니다.
+	 * 폰트 리소스입니다.
+	 */
+	std::unique_ptr<Font> Font_ = nullptr;
+
+	
+	/**
+	 * 타이머입니다.
 	 */
 	Timer Timer_;
 };

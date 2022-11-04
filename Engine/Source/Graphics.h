@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Macro.h"
-#include "Color.h"
+#include "ColorUtils.h"
 
 class Window;
 class Texture;

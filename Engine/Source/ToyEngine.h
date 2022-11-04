@@ -1,6 +1,6 @@
-#include "Color.h"
-#include "CommandLine.h"
-#include "CrashReport.h"
+#include "ColorUtils.h"
+#include "CommandLineUtils.h"
+#include "DebugUtils.h"
 #include "Font.h"
 #include "GameFramework.h"
 #include "Input.h"
@@ -14,11 +14,15 @@
 #include "Window.h"
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
 #include <json/json.hpp>
+#include <miniaudio/miniaudio.h>
+#include <SDL2/SDL.h>
 #include <spdlog/spdlog.h>
+#include <stb/stb_image.h>
+#include <stb/stb_image_resize.h>
+#include <stb/stb_image_write.h>
+#include <stb/stb_rect_pack.h>
+#include <stb/stb_truetype.h>
 
 #include <string>
 #include <iostream>
