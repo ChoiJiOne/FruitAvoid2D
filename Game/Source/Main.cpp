@@ -64,6 +64,20 @@ public:
 
 		FontKey = Text::GetHash("font");
 		ContentUtils::AddFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
+
+
+		json Json = ContentUtils::AddJson(0, "Content.json");
+
+		for (const auto& Element : Json)
+		{
+			if (Element.is_array())
+			{
+				for (auto& e : Element)
+				{
+					std::cout << e << std::endl;
+				}
+			}
+		}
 	}
 
 

@@ -1,0 +1,43 @@
+{
+  "font": [
+    "JetBrainsMono-Bold.ttf",
+    "JetBrainsMono-ExtraBold.ttf",
+    "JetBrainsMono-ExtraLight.ttf",
+    "JetBrainsMono-Italic.ttf",
+    "JetBrainsMono-BoldItalic.ttf",
+    "JetBrainsMono-ExtraBoldItalic.ttf",
+    "JetBrainsMono-ExtraLightItalic.ttf",
+    "JetBrainsMono-Light.ttf"
+  ],
+
+  "texture": [
+    "Banana.png",
+    "Orange.png",
+    "Plum.png",
+    "Beach.jpg",
+    "Peach.png",
+    "Raspberry.png",
+    "BlackBerryDark.png",
+    "Pear.png",
+    "RedApple.png",
+    "BlackBerryLight.png",
+    "PlayerBlockBlue.png",
+    "RedCherry.png",
+    "BlackCherry.png",
+    "PlayerBlockGreen.png",
+    "RedGrape.png",
+    "Coconut.png",
+    "PlayerBlockOrange.png",
+    "StarFruit.png",
+    "GreenApple.png",
+    "PlayerBlockPurple.png",
+    "Strawberry.png",
+    "GreenGrape.png",
+    "PlayerBlockRed.png",
+    "WaterMelon.png",
+    "Lemon.png",
+    "PlayerBlockSky.png",
+    "Lime.png",
+    "PlayerBlockYellow.png"
+  ]
+}
