@@ -27,14 +27,14 @@ public:
 
 
 	/**
-	 * 텍스처 컨텐츠를 추가합니다.
+	 * 텍스처를 추가합니다.
 	 * 
-	 * @param InKey - 텍스처 리소스의 해쉬 키값입니다.
-	 * @param InGraphics - 텍스처 리소스를 생성할 때 사용할 그래픽스 인스턴스입니다.
-	 * @param InPath - 텍스처 리소스의 경로 입니다. 이때, Content 폴더를 기준으로 인자를 전달해야 합니다.
+	 * @param InKey - 텍스처의 해쉬 키값입니다.
+	 * @param InGraphics - 텍스처를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InPath - 텍스처의 경로 입니다. 이때, Content 폴더를 기준으로 인자를 전달해야 합니다.
 	 * 
 	 * @throws 
-	 * - 추가할 텍스처 컨텐츠가 경로에 없으면 C++ 표준 예외를 던집니다.
+	 * - 추가할 텍스처가 경로에 없으면 C++ 표준 예외를 던집니다.
 	 * - 텍스처 로딩에 실패하면 C++ 표준 예외를 던집니다.
 	 * 
 	 * @return 추가한 텍스처의 참조자를 반환합니다.
@@ -65,9 +65,67 @@ public:
 	 * 
 	 * @param InKey - 대상이 되는 텍스처의 키 값입니다.
 	 * 
+	 * @throws 키 값에 대응하는 텍스처가 없으면 C++ 표준 예외를 던집니다.
+	 * 
 	 * @return 키 값에 대응하는 텍스처의 참조자를 반환합니다.
 	 */
 	static Texture& GetTexture(const std::size_t& InKey);
+
+
+	/**
+	 * 트루 타입 폰트를 추가합니다.
+	 *
+	 * @param InKey - 폰트의 해쉬 키값입니다.
+	 * @param InGraphics - 폰트를 생성할 때 사용할 그래픽스 인스턴스입니다.
+	 * @param InPath - 폰트의 경로 입니다. 이때, Content 폴더를 기준으로 인자를 전달해야 합니다.
+	 * @param InBeginCodePoint - 문자 텍스처 아틀라스의 코드 포인트 시작점입니다.
+	 * @param InEndCodePoint - 문자 텍스처 아틀라스의 코드 포인트 끝점입니다.
+	 * @param InFontSize - 폰트의 크기입니다.
+	 *
+	 * @throws
+	 * - 추가할 폰트가 경로에 없으면 C++ 표준 예외를 던집니다.
+	 * - 폰트 로딩에 실패하면 C++ 표준 예외를 던집니다.
+	 *
+	 * @return 추가한 폰트의 참조자를 반환합니다.
+	 */
+	static Font& AddFont(
+		const std::size_t& InKey, 
+		Graphics& InGraphics, 
+		const std::string& InPath, 
+		int32_t InBeginCodePoint,
+		int32_t InEndCodePoint,
+		float InFontSize
+	);
+
+
+	/**
+	 * 관리 중인 폰트를 삭제합니다.
+	 *
+	 * @param InKey - 삭제할 폰트의 해쉬 키 값입니다.
+	 */
+	static void RemoveFont(const std::size_t& InKey);
+
+
+	/**
+	 * 키 값에 대응하는 폰트가 있는지 확인합니다.
+	 *
+	 * @param InKey - 폰트가 있는지 확인할 키 값입니다.
+	 *
+	 * @return 키 값이 관리 중인 폰트의 키 값 이라면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool HaveFont(const std::size_t& InKey);
+
+
+	/**
+	 * 관리 중인 폰트를 얻습니다.
+	 *
+	 * @param InKey - 대상이 되는 폰트의 키 값입니다.
+	 *
+	 * @throws 키 값에 대응하는 폰트가 없으면 C++ 표준 예외를 던집니다.
+	 * 
+	 * @return 키 값에 대응하는 폰트의 참조자를 반환합니다.
+	 */
+	static Font& GetFont(const std::size_t& InKey);
 
 
 private:

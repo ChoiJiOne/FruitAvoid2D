@@ -18,7 +18,6 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
-		Font_.reset();
 		Input_.reset();
 		Graphics_.reset();
 		Window_.reset();
@@ -60,12 +59,11 @@ public:
 
 		Input_ = std::make_unique<Input>();
 
-		std::string Path = CommandLineUtils::GetValue("-Content");
-
-		Font_ = std::make_unique<Font>(*Graphics_, Path + "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
-
 		TextureKey = Text::GetHash("background");
 		ContentUtils::AddTexture(TextureKey, *Graphics_, "texture\\Beach.jpg");
+
+		FontKey = Text::GetHash("font");
+		ContentUtils::AddFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 	}
 
 
@@ -109,7 +107,7 @@ public:
 		Graphics_->BeginFrame(ColorUtils::Black);
 
 		Graphics_->DrawTexture2D(ContentUtils::GetTexture(TextureKey), Vec2i(500, 400), 1000, 800);
-		Graphics_->DrawText2D(*Font_, Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
+		Graphics_->DrawText2D(ContentUtils::GetFont(FontKey), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
 
 		Graphics_->EndFrame();
 	}
@@ -143,7 +141,7 @@ private:
 	/**
 	 * 폰트 리소스입니다.
 	 */
-	std::unique_ptr<Font> Font_ = nullptr;
+	std::size_t FontKey = 0;
 
 	
 	/**
