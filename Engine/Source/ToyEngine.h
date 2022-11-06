@@ -4,6 +4,7 @@
 #include "DebugUtils.h"
 #include "Font.h"
 #include "GameFramework.h"
+#include "GameObject.h"
 #include "Input.h"
 #include "Graphics.h"
 #include "Macro.h"
