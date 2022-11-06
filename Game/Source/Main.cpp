@@ -1,5 +1,7 @@
 ﻿#include "ToyEngine.h"
+
 #include "Player.h"
+#include "Fruit.h"
 
 
 /**
@@ -62,13 +64,33 @@ public:
 		Input_ = std::make_unique<Input>();
 
 		std::vector <std::string> TextureNames = {
-			"PlayerBlockBlue",
-			"PlayerBlockGreen",
+			"Banana",
+			"Coconut",
+			"Orange",
 			"PlayerBlockOrange",
+			"Plum",
+			"StarFruit",
+			"GreenApple",
+			"Peach",
 			"PlayerBlockPurple",
+			"Raspberry",
+			"Strawberry",
+			"BlackBerryDark",
+			"GreenGrape",
+			"Pear",
 			"PlayerBlockRed",
+			"RedApple",
+			"WaterMelon",
+			"BlackBerryLight",
+			"Lemon",
+			"PlayerBlockBlue",
 			"PlayerBlockSky",
-			"PlayerBlockYellow"
+			"RedCherry",
+			"BlackCherry",
+			"Lime",
+			"PlayerBlockGreen",
+			"PlayerBlockYellow",
+			"RedGrape"
 		};
 
 		for (const auto& TextureName : TextureNames)
@@ -83,6 +105,11 @@ public:
 		ContentUtils::AddFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 
 		Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
+
+		for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
+		{
+			WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
+		}
 	}
 
 
@@ -113,6 +140,23 @@ public:
 	virtual void Update() override
 	{
 		Player_->Update(*Input_, Timer_.GetDeltaSeconds());
+
+		for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
+		{
+			auto UpdateFruit = WaitFruits_.front();
+			WaitFruits_.pop();
+
+			UpdateFruit.Update(*Input_, Timer_.GetDeltaSeconds());
+
+			if (UpdateFruit.GetPosition().y >= EndYPosition_)
+			{
+				WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
+			}
+			else
+			{
+				WaitFruits_.push(UpdateFruit);
+			}
+		}
 	}
 
 
@@ -128,6 +172,15 @@ public:
 		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
 
 		Player_->Render(*Graphics_);
+
+		for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
+		{
+			auto RenderFruit = WaitFruits_.front();
+
+			WaitFruits_.pop();
+			RenderFruit.Render(*Graphics_);
+			WaitFruits_.push(RenderFruit);
+		}
 
 		Graphics_->DrawText2D(ContentUtils::GetFont(Text::GetHash("font")), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
 
@@ -164,6 +217,30 @@ private:
 	 * 게임 플레이어 입니다.
 	 */
 	std::unique_ptr<Player> Player_ = nullptr;
+
+
+	/**
+	 * 플레이어가 피해야 할 과일들입니다.
+	 */
+	std::queue<Fruit> WaitFruits_;
+
+
+	/**
+	 * 게임 내의 최대 과일의 수입니다.
+	 */
+	int32_t MaxFruits_ = 10;
+
+
+	/**
+	 * 과일의 리스폰 Y좌표입니다.
+	 */
+	int32_t RespawnYPosition_ = 0;
+
+
+	/**
+	 * 과일의 끝 지점입니다.
+	 */
+	int32_t EndYPosition_ = 800;
 };
 
 
