@@ -8,7 +8,7 @@
 std::string ContentUtils::ContentPath_;
 std::unordered_map<std::size_t, std::unique_ptr<Texture>> ContentUtils::Textures_;
 std::unordered_map<std::size_t, std::unique_ptr<Font>> ContentUtils::Fonts_;
-std::unordered_map<std::size_t, json> ContentUtils::Jsons_;
+std::unordered_map<std::size_t, Json> ContentUtils::Jsons_;
 
 void ContentUtils::Init()
 {
@@ -82,14 +82,14 @@ Font& ContentUtils::GetFont(const std::size_t& InKey)
 	return *Fonts_.at(InKey);
 }
 
-json& ContentUtils::AddJson(const std::size_t& InKey, const std::string& InPath)
+Json& ContentUtils::AddJson(const std::size_t& InKey, const std::string& InPath)
 {
 	CHECK(!HaveJson(InKey), "collision Json key or already load json resource");
 
 	std::ifstream JsonFile(ContentPath_ + InPath);
 	CHECK((JsonFile.is_open()), "failed to load json file");
 	
-	Jsons_.insert({ InKey, json::parse(JsonFile) });
+	Jsons_.insert({ InKey, Json::parse(JsonFile) });
 
 	return Jsons_.at(InKey);
 }
@@ -105,7 +105,7 @@ bool ContentUtils::HaveJson(const std::size_t& InKey)
 	return Jsons_.find(InKey) != Jsons_.end();
 }
 
-json& ContentUtils::GetJson(const std::size_t& InKey)
+Json& ContentUtils::GetJson(const std::size_t& InKey)
 {
 	CHECK(HaveJson(InKey), "can't find json resource");
 	return Jsons_.at(InKey);

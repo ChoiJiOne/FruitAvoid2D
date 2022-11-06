@@ -1,7 +1,7 @@
 #pragma once
 
 #include <json/json.hpp>
-using json = nlohmann::json;
+using Json = nlohmann::json;
 
 class Graphics;
 class Texture;
@@ -140,7 +140,7 @@ public:
 	 *
 	 * @return 추가한 Json 객체의 참조자를 반환합니다.
 	 */
-	static json& AddJson(const std::size_t& InKey, const std::string& InPath);
+	static Json& AddJson(const std::size_t& InKey, const std::string& InPath);
 
 
 	/**
@@ -170,7 +170,7 @@ public:
 	 *
 	 * @return 키 값에 대응하는 Json 객체의 참조자를 반환합니다.
 	 */
-	static json& GetJson(const std::size_t& InKey);
+	static Json& GetJson(const std::size_t& InKey);
 
 
 private:
@@ -195,5 +195,5 @@ private:
 	/**
 	 * ContentUtils이 관리하는 Json 파일입니다.
 	 */
-	static std::unordered_map<std::size_t, json> Jsons_;
+	static std::unordered_map<std::size_t, Json> Jsons_;
 };
