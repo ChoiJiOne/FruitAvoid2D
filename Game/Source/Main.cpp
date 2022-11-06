@@ -1,4 +1,5 @@
 ﻿#include "ToyEngine.h"
+#include "Player.h"
 
 
 /**
@@ -18,6 +19,7 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
+		Player_.reset();
 		Input_.reset();
 		Graphics_.reset();
 		Window_.reset();
@@ -59,11 +61,28 @@ public:
 
 		Input_ = std::make_unique<Input>();
 
-		TextureKey = Text::GetHash("background");
-		ContentUtils::AddTexture(TextureKey, *Graphics_, "texture\\Beach.jpg");
+		std::vector <std::string> TextureNames = {
+			"PlayerBlockBlue",
+			"PlayerBlockGreen",
+			"PlayerBlockOrange",
+			"PlayerBlockPurple",
+			"PlayerBlockRed",
+			"PlayerBlockSky",
+			"PlayerBlockYellow"
+		};
 
-		FontKey = Text::GetHash("font");
+		for (const auto& TextureName : TextureNames)
+		{
+			std::size_t Key = Text::GetHash(TextureName);
+			ContentUtils::AddTexture(Key, *Graphics_, Text::Format("texture\\%s.png", TextureName.c_str()));
+		}
+
+		ContentUtils::AddTexture(Text::GetHash("Beach"), *Graphics_, "texture\\Beach.jpg");
+
+		std::size_t FontKey = Text::GetHash("font");
 		ContentUtils::AddFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
+
+		Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
 	}
 
 
@@ -93,7 +112,7 @@ public:
 	 */
 	virtual void Update() override
 	{
-
+		Player_->Update(*Input_, Timer_.GetDeltaSeconds());
 	}
 
 
@@ -106,8 +125,11 @@ public:
 	{
 		Graphics_->BeginFrame(ColorUtils::Black);
 
-		Graphics_->DrawTexture2D(ContentUtils::GetTexture(TextureKey), Vec2i(500, 400), 1000, 800);
-		Graphics_->DrawText2D(ContentUtils::GetFont(FontKey), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
+		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
+
+		Player_->Render(*Graphics_);
+
+		Graphics_->DrawText2D(ContentUtils::GetFont(Text::GetHash("font")), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
 
 		Graphics_->EndFrame();
 	}
@@ -131,23 +153,17 @@ private:
 	 */
 	std::unique_ptr<Graphics> Graphics_ = nullptr;
 
-
-	/**
-	 * 텍스처 리소스의 키 값입니다.
-	 */
-	std::size_t TextureKey = 0;
-
-
-	/**
-	 * 폰트 리소스입니다.
-	 */
-	std::size_t FontKey = 0;
-
 	
 	/**
 	 * 타이머입니다.
 	 */
 	Timer Timer_;
+
+
+	/**
+	 * 게임 플레이어 입니다.
+	 */
+	std::unique_ptr<Player> Player_ = nullptr;
 };
 
 
