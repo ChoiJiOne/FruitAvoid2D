@@ -14,6 +14,7 @@
 #include "Timer.h"
 #include "Vector.h"
 #include "Window.h"
+#include "World.h"
 
 #include <SDL2/SDL.h>
 #include <json/json.hpp>
