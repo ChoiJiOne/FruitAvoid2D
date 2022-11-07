@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Texture.h"
 #include "Text.h"
+#include "World.h"
 
 std::unordered_map<Player::EColor, std::size_t> Player::ColorTextureKeys_ = {
 	{ Player::EColor::Blue,   Text::GetHash("PlayerBlockBlue")   },
@@ -15,7 +16,8 @@ std::unordered_map<Player::EColor, std::size_t> Player::ColorTextureKeys_ = {
 	{ Player::EColor::Yellow, Text::GetHash("PlayerBlockYellow") }
 };
 
-Player::Player(const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EColor& InColor)
+Player::Player(World* InWorld, const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EColor& InColor)
+	: GameObject(InWorld)
 {
 	Position_ = InPosition;
 	Speed_ = InSpeed;
@@ -25,6 +27,7 @@ Player::Player(const Vec2i& InPosition, const float& InSpeed, const int32_t& InW
 }
 
 Player::Player(Player&& InInstance) noexcept
+	: GameObject(InInstance.World_)
 {
 	Position_ = InInstance.Position_;
 	Speed_ = InInstance.Speed_;
@@ -34,6 +37,7 @@ Player::Player(Player&& InInstance) noexcept
 }
 
 Player::Player(const Player& InInstance) noexcept
+	: GameObject(InInstance.World_)
 {
 	Position_ = InInstance.Position_;
 	Speed_ = InInstance.Speed_;
@@ -50,10 +54,9 @@ Player& Player::operator=(Player&& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Position_ = InInstance.Position_;
+	GameObject::operator=(InInstance);
+
 	Speed_ = InInstance.Speed_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
 	Color_ = InInstance.Color_;
 
 	return *this;
@@ -63,10 +66,9 @@ Player& Player::operator=(const Player& InInstance) noexcept
 {
 	if (this == &InInstance) return *this;
 
-	Position_ = InInstance.Position_;
+	GameObject::operator=(InInstance);
+
 	Speed_ = InInstance.Speed_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
 	Color_ = InInstance.Color_;
 
 	return *this;
@@ -82,6 +84,18 @@ void Player::Update(Input& InInput, float InDeltaSeconds)
 	if (InInput.GetKeyPressState(EScanCode::CODE_RIGHT) == EPressState::HELD)
 	{
 		Position_.x += static_cast<int32_t>(InDeltaSeconds * Speed_);
+	}
+
+	int32_t WoldWidth = World_->GetWidth();
+
+	if (Position_.x < 0)
+	{
+		Position_.x = WoldWidth;
+	}
+
+	if (Position_.x > WoldWidth)
+	{
+		Position_.x = 0;
 	}
 }
 

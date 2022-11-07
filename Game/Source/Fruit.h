@@ -45,13 +45,14 @@ public:
 	 * 과일 클래스의 생성자입니다.
 	 * 이때, 과일의 떨어지는 속도는 초당 픽셀 이동값으로 계산됩니다.
 	 *
+	 * @param InWorld - 과일이 위치할 월드입니다.
 	 * @param InPosition - 과일의 화면상 위치입니다.
 	 * @param InSpeed - 과일의 떨어지는 속도입니다.
 	 * @param InWidth - 과일의 가로 크기입니다.
 	 * @param InHeight - 과일의 세로 크기입니다.
 	 * @param InType - 과일의 종류입니다.
 	 */
-	explicit Fruit(const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EType& InType);
+	explicit Fruit(World* InWorld, const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EType& InType);
 
 
 	/**
@@ -114,48 +115,23 @@ public:
 
 
 	/**
-	 * 과일의 위치를 얻습니다.
-	 * 
-	 * @return 과일의 위치를 반환합니다.
-	 */
-	Vec2i GetPosition() const { return Position_; }
-
-
-	/**
 	 * 임의의 과일을 생성합니다.
 	 * 이때, 생성된 과일의 가로 세로 크기는 일치합니다.
 	 *
+	 * @param InWorld - 과일이 위치할 게임 월드입니다.
 	 * @param InYPosition - 과일의 Y좌표 값입니다.
 	 *
 	 * @return 임의의로 생성한 과일 객체를 반환합니다.
 	 */
-	static Fruit GenerateRandomFruit(const int32_t& InYPosition);
+	static Fruit GenerateRandomFruit(World* InWorld, const int32_t& InYPosition);
 
 
 private:
-	/**
-	 * 과일의 위치입니다.
-	 */
-	Vec2i Position_;
-
-
 	/**
 	 * 과일의 낙하 속도입니다.
 	 * 이때, 속도 계산 방식은 초당 이동할 픽셀값입니다.
 	 */
 	float Speed_ = 0.0f;
-
-
-	/**
-	 * 과일의 가로 크기입니다.
-	 */
-	int32_t Width_ = 0;
-
-
-	/**
-	 * 과일의 세로 크기입니다.
-	 */
-	int32_t Height_ = 0;
 
 
 	/**

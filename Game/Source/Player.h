@@ -32,13 +32,14 @@ public:
 	 * 게임 플레이어 클래스의 생성자입니다.
 	 * 이때, 게임 플레이어의 속도는 초당 픽셀 이동값으로 계산됩니다.
 	 *
+	 * @param InWorld - 게임 플레이어가 위치할 월드입니다.
 	 * @param InPosition - 게임 플레이어의 화면상 위치입니다.
 	 * @param InSpeed - 게임 플레이어의 속도입니다.
 	 * @param InWidth - 게임 플레이어의 가로 크기입니다.
 	 * @param InHeight - 게임 플레이어의 세로 크기입니다.
 	 * @param InColor - 게임 플레이어의 색상입니다.
 	 */
-	explicit Player(const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EColor& InColor);
+	explicit Player(World* InWorld, const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EColor& InColor);
 
 
 	/**
@@ -102,27 +103,9 @@ public:
 
 private:
 	/**
-	 * 게임 플레이어의 위치입니다.
-	 */
-	Vec2i Position_;
-
-
-	/**
 	 * 게임 플레이어의 속도입니다.
 	 */
 	float Speed_ = 0.0f;
-
-	
-	/**
-	 * 게임 플레이어의 가로 크기입니다.
-	 */
-	int32_t Width_ = 0;
-
-
-	/**
-	 * 게임 플레이어의 세로 크기입니다.
-	 */
-	int32_t Height_ = 0;
 
 
 	/**
