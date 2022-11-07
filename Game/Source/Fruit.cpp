@@ -111,6 +111,7 @@ Fruit Fruit::GenerateRandomFruit(World* InWorld, const int32_t& InYPosition)
 	};
 
 	static int32_t FruitSizes[] = {
+		40,
 		50,
 		60,
 		70
