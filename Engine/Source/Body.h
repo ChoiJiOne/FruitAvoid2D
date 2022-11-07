@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 #include "Vector.h"
 
 
@@ -216,6 +218,29 @@ public:
 
 private:
 	/**
+	 * 경계 영역 점들을 계산합니다.
+	 * 
+	 * @param InCenter - 경계 영역의 중심 좌표입니다.
+	 * @param InWidth - 경계 영역의 가로 크기입니다.
+	 * @param InHeight - 경계 영역의 세로 크기입니다.
+	 * @param InDirection - 경계 영역의 방향입니다.
+	 */
+	static std::array<Vec2i, 4> CalculateBoundingPositions(const Vec2i& InCenter, const int32_t& InWidth, const int32_t& InHeight, const Vec2f& InDirection);
+
+
+	/**
+	 * 점이 경계 영역 내에 포함되는지 확인합니다.
+	 *
+	 * @param InPosition - 검사할 점입니다.
+	 * @param InBoundingPositions - 경계 상자들의 끝점입니다.
+	 *
+	 * @return 점이 경계 상자 내에 포함되면 true, 그렇지 않으면 false를 반환합니다.
+	 */
+	static bool IsIncludePositionInBounding(const Vec2i& InPosition, const std::array<Vec2i, 4>& InBoundingPositions);
+
+
+private:
+	/**
 	 * 오브젝트 몸체의 형식입니다.
 	 */
 	Type Type_ = Type::NONE;
@@ -249,4 +274,10 @@ private:
 	 * 오브젝트 몸체의 속력입니다.
 	 */
 	float Velocity_ = 0.0f;
+
+
+	/**
+	 * 오브젝트의 경계 영역점입니다.
+	 */
+	std::array<Vec2i, 4> BoundingPositions;
 };

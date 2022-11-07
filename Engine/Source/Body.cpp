@@ -82,3 +82,13 @@ bool Body::IsCollision(const Body& InBody)
 {
 	return false;
 }
+
+std::array<Vec2i, 4> Body::CalculateBoundingPositions(const Vec2i& InCenter, const int32_t& InWidth, const int32_t& InHeight, const Vec2f& InDirection)
+{
+	return std::array<Vec2i, 4>();
+}
+
+bool Body::IsIncludePositionInBounding(const Vec2i& InPosition, const std::array<Vec2i, 4>& InBoundingPositions)
+{
+	return false;
+}
