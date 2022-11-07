@@ -4,6 +4,7 @@
 #include "Graphics.h"
 #include "Texture.h"
 #include "Text.h"
+#include "MathUtils.h"
 #include "World.h"
 
 std::unordered_map<Player::EColor, std::size_t> Player::ColorTextureKeys_ = {
@@ -86,17 +87,7 @@ void Player::Update(Input& InInput, float InDeltaSeconds)
 		Position_.x += static_cast<int32_t>(InDeltaSeconds * Speed_);
 	}
 
-	int32_t WoldWidth = World_->GetWidth();
-
-	if (Position_.x < 0)
-	{
-		Position_.x = WoldWidth;
-	}
-
-	if (Position_.x > WoldWidth)
-	{
-		Position_.x = 0;
-	}
+	Position_.x = MathUtils::Clamp(Position_.x, 0, World_->GetWidth());
 }
 
 void Player::Render(Graphics& InGraphics)
