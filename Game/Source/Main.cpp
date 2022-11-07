@@ -21,8 +21,14 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
+		while (!WaitFruits_.empty())
+		{
+			WaitFruits_.pop();
+		}
+
 		Player_.reset();
 		Input_.reset();
+		World_.reset();
 		Graphics_.reset();
 		Window_.reset();
 	}
@@ -62,6 +68,8 @@ public:
 		);
 
 		Input_ = std::make_unique<Input>();
+
+		World_ = std::make_unique<World>(1000, 800);
 
 		std::vector <std::string> TextureNames = {
 			"Banana",
@@ -104,11 +112,11 @@ public:
 		std::size_t FontKey = Text::GetHash("font");
 		ContentUtils::AddFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 
-		Player_ = std::make_unique<Player>(Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
+		Player_ = std::make_unique<Player>(World_.get(), Vec2i(500, 650), 400.0f, 50, 50, Player::EColor::Blue);
 
 		for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
 		{
-			WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
+			WaitFruits_.push(Fruit::GenerateRandomFruit(World_.get(), RespawnYPosition_));
 		}
 	}
 
@@ -150,7 +158,7 @@ public:
 
 			if (UpdateFruit.GetPosition().y >= EndYPosition_)
 			{
-				WaitFruits_.push(Fruit::GenerateRandomFruit(RespawnYPosition_));
+				WaitFruits_.push(Fruit::GenerateRandomFruit(World_.get(), RespawnYPosition_));
 			}
 			else
 			{
@@ -169,7 +177,7 @@ public:
 	{
 		Graphics_->BeginFrame(ColorUtils::Black);
 
-		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), 1000, 800);
+		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
 
 		Player_->Render(*Graphics_);
 
@@ -189,6 +197,12 @@ public:
 
 
 private:
+	/**
+	 * 2D 게임 월드입니다.
+	 */
+	std::unique_ptr<World> World_ = nullptr;
+
+
 	/**
 	 * FruitAvoid2D의 윈도우 창 처리를 위한 인스턴스입니다.
 	 */
