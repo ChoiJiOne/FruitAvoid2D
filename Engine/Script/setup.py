@@ -220,8 +220,9 @@ if exist {} (
 
 echo run premake5.exe...
 Engine\\Bin\\premake5.exe vs2019
+start {}\\{}.sln
 PAUSE
-""".format(project_name, project_name)
+""".format(project_name, project_name, project_name, project_name)
 
     create_file("GenerateProjectFiles.bat", script_source)
 
