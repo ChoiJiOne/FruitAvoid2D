@@ -12,18 +12,6 @@ class Body
 {
 public:
 	/**
-	 * 오브젝트의 몸체 형식입니다. 
-	 */
-	enum class Type
-	{
-		NONE      = 0,
-		CIRCLE    = 1,
-		RECTANGLE = 2
-	};
-
-
-public:
-	/**
 	 * 오브젝트의 몸체를 나타내는 클래스의 기본 생성자입니다.
 	 * 이때, 생성자에서 초기화를 수행하지 않으므로, 사용하기 전에 적절한 초기화를 수행해야 합니다.
 	 */
@@ -32,7 +20,6 @@ public:
 
 	/**
 	 * 오브젝트의 몸체를 나타내는 클래스의 생성자입니다.
-	 * 이때, 이 생성자의 오브젝트 몸체 형식은 RECTANGLE 입니다.
 	 * 
 	 * @param InCenter - 오브젝트 몸체의 중심 좌표입니다.
 	 * @param InWidth - 오브젝트 몸체의 가로 크기입니다.
@@ -48,23 +35,6 @@ public:
 		const float& InVelocity = 0.0f
 	);
 	
-
-	/**
-	 * 오브젝트의 몸체를 나타내는 클래스의 생성자입니다.
-	 * 이때, 이 생성자의 오브젝트 몸체 형식은 CIRCLE 입니다.
-	 *
-	 * @param InCenter - 오브젝트 몸체의 중심 좌표입니다.
-	 * @param InRadius - 오브젝트 몸체의 반지름 길이입니다.
-     * @param InRotate - 오브젝트 몸체의 회전 각 입니다.
-	 * @param InVelocity - 오브젝트 몸체의 속력입니다.
-	 */
-	explicit Body(
-		const Vec2f& InCenter, 
-		const float& InRadius,
-		const float& InRotate = 0.0f,
-		const float& InVelocity = 0.0f
-	);
-
 	
 	/**
 	 * 오브젝트 몸체 클래스의 복사 생성자입니다.
@@ -247,46 +217,7 @@ private:
 	static bool IsIncludePositionInBounding(const Vec2f& InPosition, const std::array<Vec2f, 4>& InBoundingPositions);
 
 
-	/**
-	 * 원형 타입의 바디와 직사각형 타입의 바디 충돌 검사를 수행합니다.
-	 * 
-	 * @param InCircleBody - 원형 타입의 바디입니다.
-	 * @param InRectangleBody - 직사각형 타입의 바디입니다.
-	 * 
-	 * @return 두 바디가 충돌하면 true, 그렇지 않다면 false를 반환합니다.
-	 */
-	static bool IsCollisionCircleAndRectangle(const Body& InCircleBody, const Body& InRectangleBody);
-
-
-	/**
-	 * 원형 타입의 바디와 원형 타입의 바디 충돌 검사를 수행합니다.
-	 * 
-	 * @param InCircleBody - 원형 타입의 바디입니다.
-	 * @param InOtherCircleBody - 또 다른 원형 타입의 바디입니다.
-	 *
-	 * @return 두 바디가 충돌하면 true, 그렇지 않다면 false를 반환합니다.
-	 */
-	static bool IsColiisionCircleAndCircle(const Body& InCircleBody, const Body& InOtherCircleBody);
-
-
-	/**
-	 * 직사각형 타입의 바디와 직사각형 타입의 바디 충돌 검사를 수행합니다.
-	 * 
-	 * @param InRectangleBody - 직사각형 타입의 바디입니다.
-	 * @param InOtherRectangleBody - 또 다른 직사각형 타입의 바디입니다.
-	 *
-	 * @return 두 바디가 충돌하면 true, 그렇지 않다면 false를 반환합니다.
-	 */
-	static bool IsCollisionRectangleAndRectangle(const Body& InRectangleBody, const Body& InOtherRectangleBody);
-
-
 private:
-	/**
-	 * 오브젝트 몸체의 형식입니다.
-	 */
-	Type Type_ = Type::NONE;
-
-
 	/**
 	 * 오브젝트 몸체의 월드상 중심 좌표입니다.
 	 */
