@@ -7,51 +7,12 @@ GameObject::GameObject(World* InWorld)
 	World_->AddOjbect(this);
 }
 
-GameObject::GameObject(GameObject&& InInstance)
-{
-	World_ = InInstance.World_;
-	bIsVisible_ = InInstance.bIsVisible_;
-	Position_ = InInstance.Position_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
-}
-
-GameObject::GameObject(const GameObject& InInstance)
-{
-	World_ = InInstance.World_;
-	bIsVisible_ = InInstance.bIsVisible_;
-	Position_ = InInstance.Position_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
-}
-
 GameObject::~GameObject()
 {
+	if (Body_) Body_.reset();
+	if (Input_) Input_.reset();
+	if (Physic_) Physic_.reset();
+	if (Graphics_) Graphics_.reset();
+
 	World_->RemoveObject(this);
-}
-
-GameObject& GameObject::operator=(GameObject&& InInstance)
-{
-	if (this == &InInstance) return *this;
-
-	World_ = InInstance.World_;
-	bIsVisible_ = InInstance.bIsVisible_;
-	Position_ = InInstance.Position_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
-
-	return *this;
-}
-
-GameObject& GameObject::operator=(const GameObject& InInstance)
-{
-	if (this == &InInstance) return *this;
-
-	World_ = InInstance.World_;
-	bIsVisible_ = InInstance.bIsVisible_;
-	Position_ = InInstance.Position_;
-	Width_ = InInstance.Width_;
-	Height_ = InInstance.Height_;
-
-	return *this;
 }

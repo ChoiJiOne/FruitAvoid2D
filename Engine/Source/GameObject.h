@@ -1,12 +1,18 @@
 #pragma once
 
 #include "Vector.h"
+#include "Macro.h"
 
 #include <memory>
 
 class World;
+class Body;
 class Input;
 class Graphics;
+class InputComponent;
+class BodyComponent;
+class PhysicComponent;
+class GraphicsComponent;
 
 
 /**
@@ -25,45 +31,15 @@ public:
 
 
 	/**
-	 * 게임 오브젝트의 복사 생성자입니다.
-	 * 
-	 * @param InInstance - 복사할 게임 오브젝트의 인스턴스입니다.
-	 */
-	explicit GameObject(GameObject&& InInstance);
-
-
-	/**
-	 * 게임 오브젝트의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사할 게임 오브젝트의 인스턴스입니다.
-	 */
-	explicit GameObject(const GameObject& InInstance);
-
-
-	/**
 	 * 게임 오브젝트의 가상 소멸자입니다.
 	 */
 	virtual ~GameObject();
 
 	
 	/**
-	 * 게임 오브젝트의 대입 연산자입니다.
-	 * 
-	 * @param InInstance - 복사할 게임 오브젝트의 인스턴스입니다.
-	 * 
-	 * @return 복사한 게임 오브젝트의 참조자를 반환합니다.
+	 * 게임 오브젝트의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	GameObject& operator=(GameObject&& InInstance);
-
-
-	/**
-	 * 게임 오브젝트의 대입 연산자입니다.
-	 *
-	 * @param InInstance - 복사할 게임 오브젝트의 인스턴스입니다.
-	 *
-	 * @return 복사한 게임 오브젝트의 참조자를 반환합니다.
-	 */
-	GameObject& operator=(const GameObject& InInstance);
+	DISALLOW_COPY_AND_ASSIGN(GameObject);
 
 
 	/**
@@ -83,96 +59,6 @@ public:
 	virtual void Render(Graphics& InGraphics) = 0;
 
 
-	/**
-	 * 게임 오브젝트가 화면에 표시될지 확인합니다.
-	 * 
-	 * @return 게임 오브젝트가 화면에 표시되어야 한다면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool IsVisible() const { return bIsVisible_; }
-
-
-	/**
-	 * 게임 오브젝트가 화면에 표시될지 말지 설정합니다.
-	 * 
-	 * @param bIsVisible - true 이면 화면에 표시하고, false 라면 화면에 표시하지 않습니다.
-	 */
-	void SetVisible(bool bIsVisible) { bIsVisible_ = bIsVisible; }
-
-
-	/**
-	 * 게임 오브젝트의 위치를 얻습니다.
-	 * 
-	 * @return 게임 오브젝트의 위치를 반환합니다.
-	 */
-	Vec2i GetPosition() const { return Position_; }
-
-
-	/**
-	 * 게임 오브젝트의 위치를 변경합니다.
-	 * 
-	 * @param InPosition - 변경할 게임 오브젝트의 위치입니다.
-	 */
-	void SetPosition(const Vec2i& InPosition) { Position_ = InPosition; }
-
-
-	/**
-	 * 게임 오브젝트의 가로 크기를 얻습니다.
-	 * 
-	 * @return 게임 오브젝트의 가로 크기를 반환합니다.
-	 */
-	int32_t GetWidth() const { return Width_; }
-
-
-	/**
-	 * 게임 오브젝트의 가로 크기를 변경합니다.
-	 * 
-	 * @param InWidth - 변경할 게임 오브젝트의 가로 크기입니다.
-	 */
-	void SetWidth(const int32_t& InWidth) { Width_ = InWidth; }
-
-
-	/**
-	 * 게임 오브젝트의 세로 크기를 얻습니다.
-	 *
-	 * @return 게임 오브젝트의 세로 크기를 반환합니다.
-	 */
-	int32_t GetHeight() const { return Height_; }
-
-
-	/**
-	 * 게임 오브젝트의 세로 크기를 변경합니다.
-	 *
-	 * @param InWidth - 변경할 게임 오브젝트의 세로 크기입니다.
-	 */
-	void SetHeight(const int32_t& InHeight) { Height_ = InHeight; }
-
-
-	/**
-	 * 게임 오브젝트의 가로, 세로 크기를 얻습니다.
-	 * 
-	 * @param OutWidth - 게임 오브젝트의 가로 크기입니다.
-	 * @param OutHeight - 게임 오브젝트의 세로 크기입니다.
-	 */
-	void GetSize(int32_t& OutWidth, int32_t& OutHeight) const
-	{
-		OutWidth = Width_;
-		OutHeight = Height_;
-	}
-
-
-	/**
-	 * 게임 오브젝트의 가로, 세로 크기를 변경합니다.
-	 *
-	 * @param OutWidth - 변경할 게임 오브젝트의 가로 크기입니다.
-	 * @param OutHeight - 변경할 게임 오브젝트의 세로 크기입니다.
-	 */
-	void SetSize(const int32_t& OutWidth, const int32_t& OutHeight)
-	{
-		Width_ = OutWidth;
-		Height_ = OutHeight;
-	}
-
-
 protected:
 	/**
 	 * 게임 오브젝트가 위치한 월드입니다.
@@ -181,25 +67,25 @@ protected:
 
 
 	/**
-	 * 화면에 보이는지 확인합니다.
+	 * 게임 오브젝트의 바디입니다.
 	 */
-	bool bIsVisible_ = true;
+	std::unique_ptr<Body> Body_ = nullptr;
 
 
 	/**
-	 * 게임 오브젝트의 월드상 중심 위치입니다.
+	 * 게임 오브젝트의 입력 처리 컴포넌트입니다.
 	 */
-	Vec2i Position_;
+	std::unique_ptr<InputComponent> Input_ = nullptr;
 
 
 	/**
-	 * 게임 오브젝트의 가로 크기입니다.
+	 * 게임 오브젝트의 물리 처리 컴포넌트입니다.
 	 */
-	int32_t Width_ = 0;
+	std::unique_ptr<PhysicComponent> Physic_ = nullptr;
 
 
 	/**
-	 * 게임 오브젝트의 세로 크기입니다.
+	 * 게임 오브젝트의 렌더링 처리 컴포넌트입니다.
 	 */
-	int32_t Height_ = 0;
+	std::unique_ptr<GraphicsComponent> Graphics_ = nullptr;
 };
