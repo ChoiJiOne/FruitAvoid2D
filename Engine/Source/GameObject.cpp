@@ -1,4 +1,8 @@
 #include "GameObject.h"
+#include "Body.h"
+#include "InputComponent.h"
+#include "GraphicsComponent.h"
+#include "PhysicComponent.h"
 #include "World.h"
 
 GameObject::GameObject(World* InWorld)
