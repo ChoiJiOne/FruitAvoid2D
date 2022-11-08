@@ -43,7 +43,7 @@ Body::Body(Body&& InInstance) noexcept
 	Velocity_ = InInstance.Velocity_;
 }
 
-Body::Body(const Body& InInstance)
+Body::Body(const Body& InInstance) noexcept
 {
 	Type_ = InInstance.Type_;
 	Center_ = InInstance.Center_;
