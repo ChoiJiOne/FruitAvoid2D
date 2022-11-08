@@ -1,7 +1,7 @@
 ﻿#include "ToyEngine.h"
 
 #include "Player.h"
-//#include "Fruit.h"
+#include "Fruit.h"
 
 
 /**
@@ -21,6 +21,7 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
+		Fruit_.reset();
 		Player_.reset();
 		Input_.reset();
 		World_.reset();
@@ -108,6 +109,7 @@ public:
 		ContentUtils::LoadFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 
 		Player_ = std::make_unique<Player>(World_.get(), Vec2f(500.0f, 650.0f), 50.0f, 50.0f, 400.0f, Player::EColor::Blue);
+		Fruit_ = std::make_unique<Fruit>(World_.get(), Vec2f(500.0f, 100.0f), 100.0f, 100.0f, 150.0f, Fruit::EType::Banana);
 	}
 
 
@@ -137,6 +139,7 @@ public:
 	 */
 	virtual void Update() override
 	{
+		Fruit_->Update(*Input_, Timer_.GetDeltaSeconds());
 		Player_->Update(*Input_, Timer_.GetDeltaSeconds());
 	}
 
@@ -152,6 +155,7 @@ public:
 
 		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
 
+		Fruit_->Render(*Graphics_);
 		Player_->Render(*Graphics_);
 
 		Graphics_->DrawText2D(ContentUtils::GetFont(Text::GetHash("font")), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
@@ -195,6 +199,12 @@ private:
 	 * 게임 플레이어 입니다.
 	 */
 	std::unique_ptr<Player> Player_ = nullptr;
+
+
+	/**
+	 * 게임 과일입니다.
+	 */
+	std::unique_ptr<Fruit> Fruit_ = nullptr;
 };
 
 

@@ -47,28 +47,19 @@ public:
 	 *
 	 * @param InWorld - 과일이 위치할 월드입니다.
 	 * @param InPosition - 과일의 화면상 위치입니다.
-	 * @param InSpeed - 과일의 떨어지는 속도입니다.
 	 * @param InWidth - 과일의 가로 크기입니다.
 	 * @param InHeight - 과일의 세로 크기입니다.
+	 * @param InVelocity - 과일의 떨어지는 속도입니다.
 	 * @param InType - 과일의 종류입니다.
 	 */
-	explicit Fruit(World* InWorld, const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EType& InType);
-
-
-	/**
-	 * 과일 클래스의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 */
-	Fruit(Fruit&& InInstance) noexcept;
-
-
-	/**
-	 * 과일 클래스의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 */
-	Fruit(const Fruit& InInstance) noexcept;
+	explicit Fruit(
+		World* InWorld, 
+		const Vec2f& InPosition, 
+		const float& InWidth, 
+		const float& InHeight,
+		const float& InVelocity,
+		const EType& InType
+	);
 
 
 	/**
@@ -78,23 +69,9 @@ public:
 
 
 	/**
-	 * 과일 클래스의 대입 연산자입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 *
-	 * @return 복사한 객체의 참조자를 반환합니다.
+	 * 과일의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	Fruit& operator=(Fruit&& InInstance) noexcept;
-
-
-	/**
-	 * 과일 클래스의 대입 연산자 입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 *
-	 * @return 복사한 객체의 참조자를 반환합니다.
-	 */
-	Fruit& operator=(const Fruit& InInstance) noexcept;
+	DISALLOW_COPY_AND_ASSIGN(Fruit);
 
 
 	/**
@@ -114,26 +91,7 @@ public:
 	virtual void Render(Graphics& InGraphics) override;
 
 
-	/**
-	 * 임의의 과일을 생성합니다.
-	 * 이때, 생성된 과일의 가로 세로 크기는 일치합니다.
-	 *
-	 * @param InWorld - 과일이 위치할 게임 월드입니다.
-	 * @param InYPosition - 과일의 Y좌표 값입니다.
-	 *
-	 * @return 임의의로 생성한 과일 객체를 반환합니다.
-	 */
-	static Fruit GenerateRandomFruit(World* InWorld, const int32_t& InYPosition);
-
-
 private:
-	/**
-	 * 과일의 낙하 속도입니다.
-	 * 이때, 속도 계산 방식은 초당 이동할 픽셀값입니다.
-	 */
-	float Speed_ = 0.0f;
-
-
 	/**
 	 * 과일의 타입 입니다.
 	 */
