@@ -34,28 +34,19 @@ public:
 	 *
 	 * @param InWorld - 게임 플레이어가 위치할 월드입니다.
 	 * @param InPosition - 게임 플레이어의 화면상 위치입니다.
-	 * @param InSpeed - 게임 플레이어의 속도입니다.
 	 * @param InWidth - 게임 플레이어의 가로 크기입니다.
 	 * @param InHeight - 게임 플레이어의 세로 크기입니다.
+	 * @param InVelocity - 게임 플레이어의 속도입니다.
 	 * @param InColor - 게임 플레이어의 색상입니다.
 	 */
-	explicit Player(World* InWorld, const Vec2i& InPosition, const float& InSpeed, const int32_t& InWidth, const int32_t& InHeight, const EColor& InColor);
-
-
-	/**
-	 * 게임 플레이어 클래스의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 */
-	Player(Player&& InInstance) noexcept;
-
-
-	/**
-	 * 게임 플레이어 클래스의 복사 생성자입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 */
-	Player(const Player& InInstance) noexcept;
+	explicit Player(
+		World* InWorld, 
+		const Vec2f& InPosition, 
+		const float& InWidth, 
+		const float& InHeight, 
+		const float& InVelocity,
+		const EColor& InColor
+	);
 
 
 	/**
@@ -65,23 +56,9 @@ public:
 
 
 	/**
-	 * 게임 플레이어 클래스의 대입 연산자입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 *
-	 * @return 복사한 객체의 참조자를 반환합니다.
+	 * 게임 플레이어의 복사 생성자와 대입 연산자를 명시적으로 삭제합니다.
 	 */
-	Player& operator=(Player&& InInstance) noexcept;
-
-
-	/**
-	 * 게임 플레이어 클래스의 대입 연산자 입니다.
-	 *
-	 * @param InInstance - 복사할 객체입니다.
-	 *
-	 * @return 복사한 객체의 참조자를 반환합니다.
-	 */
-	Player& operator=(const Player& InInstance) noexcept;
+	DISALLOW_COPY_AND_ASSIGN(Player);
 
 
 	/**
@@ -102,12 +79,6 @@ public:
 
 
 private:
-	/**
-	 * 게임 플레이어의 속도입니다.
-	 */
-	float Speed_ = 0.0f;
-
-
 	/**
 	 * 게임 플레이어의 색상 타입입니다.
 	 */
