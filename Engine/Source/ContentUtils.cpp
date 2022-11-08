@@ -28,7 +28,7 @@ void ContentUtils::Quit()
 	}
 }
 
-Texture& ContentUtils::AddTexture(const std::size_t& InKey, Graphics& InGraphics, const std::string& InPath)
+Texture& ContentUtils::LoadTexture(const std::size_t& InKey, Graphics& InGraphics, const std::string& InPath)
 {
 	CHECK(!HaveTexture(InKey), "collision texture key or already load texture resource");
 
@@ -55,7 +55,7 @@ Texture& ContentUtils::GetTexture(const std::size_t& InKey)
 	return *Textures_.at(InKey);
 }
 
-Font& ContentUtils::AddFont(const std::size_t& InKey, Graphics& InGraphics, const std::string& InPath, int32_t InBeginCodePoint, int32_t InEndCodePoint, float InFontSize)
+Font& ContentUtils::LoadFont(const std::size_t& InKey, Graphics& InGraphics, const std::string& InPath, int32_t InBeginCodePoint, int32_t InEndCodePoint, float InFontSize)
 {
 	CHECK(!HaveFont(InKey), "collision font key or already load font resource");
 
@@ -82,7 +82,7 @@ Font& ContentUtils::GetFont(const std::size_t& InKey)
 	return *Fonts_.at(InKey);
 }
 
-Json& ContentUtils::AddJson(const std::size_t& InKey, const std::string& InPath)
+Json& ContentUtils::LoadJson(const std::size_t& InKey, const std::string& InPath)
 {
 	CHECK(!HaveJson(InKey), "collision Json key or already load json resource");
 

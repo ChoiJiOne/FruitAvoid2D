@@ -39,7 +39,7 @@ public:
 	 * 
 	 * @return 추가한 텍스처의 참조자를 반환합니다.
 	 */
-	static Texture& AddTexture(const std::size_t& InKey, Graphics& InGraphics, const std::string& InPath);
+	static Texture& LoadTexture(const std::size_t& InKey, Graphics& InGraphics, const std::string& InPath);
 
 
 	/**
@@ -88,7 +88,7 @@ public:
 	 *
 	 * @return 추가한 폰트의 참조자를 반환합니다.
 	 */
-	static Font& AddFont(
+	static Font& LoadFont(
 		const std::size_t& InKey, 
 		Graphics& InGraphics, 
 		const std::string& InPath, 
@@ -140,7 +140,7 @@ public:
 	 *
 	 * @return 추가한 Json 객체의 참조자를 반환합니다.
 	 */
-	static Json& AddJson(const std::size_t& InKey, const std::string& InPath);
+	static Json& LoadJson(const std::size_t& InKey, const std::string& InPath);
 
 
 	/**
