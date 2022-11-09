@@ -7,10 +7,14 @@
 void PlayerPhysicComponent::Tick(GameObject& InObject, World& InWorld, float InDeltaSeconds)
 {
 	Body& ObjectBody = InObject.GetBody();
-	Vec2f Position = ObjectBody.GetCenter();
 
-	Position.x += InDeltaSeconds * ObjectBody.GetVelocity() * static_cast<float>(cos(ObjectBody.GetRotate()));
-	Position.x = MathUtils::Clamp<float>(Position.x, 0.0f, static_cast<float>(InWorld.GetWidth()));
+	if (ObjectBody.CanMove())
+	{
+		Vec2f Position = ObjectBody.GetCenter();
 
-	ObjectBody.SetCenter(Position);
+		Position.x += InDeltaSeconds * ObjectBody.GetVelocity() * static_cast<float>(cos(MathUtils::ToRadian(ObjectBody.GetRotate())));
+		Position.x = MathUtils::Clamp<float>(Position.x, 0.0f, static_cast<float>(InWorld.GetWidth()));
+
+		ObjectBody.SetCenter(Position);
+	}
 }
