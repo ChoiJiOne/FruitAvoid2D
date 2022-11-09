@@ -70,6 +70,12 @@ public:
 
 
 	/**
+	 * 회색입니다.
+	 */
+	static LinearColor Gray;
+
+
+	/**
 	 * R8, G8, B8, A8 값을 RGBA32로 변환합니다.
 	 *
 	 * @param InRed - 색상 변환을 수행할 R값입니다.

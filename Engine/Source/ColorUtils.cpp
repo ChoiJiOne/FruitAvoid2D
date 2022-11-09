@@ -10,6 +10,7 @@ LinearColor ColorUtils::Yellow  = LinearColor(1.0f, 1.0f, 0.0f, 1.0f);
 LinearColor ColorUtils::Magenta = LinearColor(1.0f, 0.0f, 1.0f, 1.0f);
 LinearColor ColorUtils::Cyan    = LinearColor(0.0f, 1.0f, 1.0f, 1.0f);
 LinearColor ColorUtils::White   = LinearColor(1.0f, 1.0f, 1.0f, 1.0f);
+LinearColor ColorUtils::Gray    = LinearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
 RGBA32 ColorUtils::ToRGBA32(uint8_t InRed, uint8_t InGreen, uint8_t InBlue, uint8_t InAlpha)
 {
