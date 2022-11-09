@@ -99,7 +99,7 @@ bool Body::IsCollision(const Body& InBody)
 
 	for (const auto& BoundingPosition : BoundingPositions_)
 	{
-		if (IsIncludePositionInBounding(BoundingPosition, InBody.BoundingPositions_))
+		if (InBody.IsIncludePositionInBounding(BoundingPosition))
 		{
 			bIsCollision = true;
 		}
@@ -107,7 +107,7 @@ bool Body::IsCollision(const Body& InBody)
 
 	for (const auto& BoundingPosition : InBody.BoundingPositions_)
 	{
-		if (IsIncludePositionInBounding(BoundingPosition, BoundingPositions_))
+		if (IsIncludePositionInBounding(BoundingPosition))
 		{
 			bIsCollision = true;
 		}
@@ -145,15 +145,37 @@ std::array<Vec2f, 4> Body::CalculateBoundingPositions(const Vec2f& InCenter, con
 	return BoundingPositions;
 }
 
-bool Body::IsIncludePositionInBounding(const Vec2f& InPosition, const std::array<Vec2f, 4>& InBoundingPositions)
+bool Body::IsIncludePositionInBounding(const Vec2f& InPosition) const
 {
-	float MinX = InBoundingPositions[0].x;
-	float MaxX = InBoundingPositions[1].x;
-	float MinY = InBoundingPositions[0].y;
-	float MaxY = InBoundingPositions[2].y;
+	float HalfOfWidth = Width_ / 2.0f;
+	float HalfOfHeight = Height_ / 2.0f;
 
-	if ((MinX <= InPosition.x && InPosition.x <= MaxX) &&
-		(MinY <= InPosition.y && InPosition.y <= MaxY))
+	std::array<Vec2f, 4> BoundingPositions = {
+		Vec2f(-HalfOfWidth, -HalfOfHeight),
+		Vec2f(+HalfOfWidth, -HalfOfHeight),
+		Vec2f(-HalfOfWidth, +HalfOfHeight),
+		Vec2f(+HalfOfWidth, +HalfOfHeight),
+	};
+
+	float CosTheta = static_cast<float>(cos(MathUtils::ToRadian(static_cast<double>(-Rotate_))));
+	float SinTheta = static_cast<float>(sin(MathUtils::ToRadian(static_cast<double>(-Rotate_))));
+
+	Vec2f Position = InPosition;
+	Vec2f NewPosition;
+	Position -= Center_;
+
+	NewPosition.x = Position.x * CosTheta - Position.y * SinTheta;
+	NewPosition.y = Position.x * SinTheta + Position.y * CosTheta;
+
+	Position = NewPosition;
+	
+	float MinX = BoundingPositions[0].x;
+	float MaxX = BoundingPositions[1].x;
+	float MinY = BoundingPositions[0].y;
+	float MaxY = BoundingPositions[2].y;
+
+	if ((MinX <= Position.x && Position.x <= MaxX) &&
+		(MinY <= Position.y && Position.y <= MaxY))
 	{
 		return true;
 	}

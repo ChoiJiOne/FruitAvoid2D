@@ -210,11 +210,10 @@ private:
 	 * 점이 경계 영역 내에 포함되는지 확인합니다.
 	 *
 	 * @param InPosition - 검사할 점입니다.
-	 * @param InBoundingPositions - 경계 상자들의 끝점입니다.
 	 *
 	 * @return 점이 경계 상자 내에 포함되면 true, 그렇지 않으면 false를 반환합니다.
 	 */
-	static bool IsIncludePositionInBounding(const Vec2f& InPosition, const std::array<Vec2f, 4>& InBoundingPositions);
+	bool IsIncludePositionInBounding(const Vec2f& InPosition) const;
 
 
 private:
