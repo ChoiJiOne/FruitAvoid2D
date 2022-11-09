@@ -11,6 +11,19 @@ class FruitAvoid2D : public GameFramework
 {
 public:
 	/**
+	 * FruitAvoid2D 게임의 상태입니다.
+	 */
+	enum class GameState : int32_t
+	{
+		Start = 0,
+		Play  = 1,
+		Pause = 2,
+		Done  = 3
+	};
+
+
+public:
+	/**
 	 * FruitAvoid2D의 생성자입니다.
 	 */
 	FruitAvoid2D() = default;
@@ -21,7 +34,6 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
-		Button_.reset();
 		Input_.reset();
 		World_.reset();
 		Graphics_.reset();
@@ -106,18 +118,6 @@ public:
 
 		std::size_t FontKey = Text::GetHash("font");
 		ContentUtils::LoadFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
-
-		Button_ = std::make_unique<Button>(
-			Vec2f(250.0f, 400.0f),
-			200.0f,
-			100.0f, 
-			L"LEFT BUTTON",
-			FontKey,
-			ColorUtils::White,
-			ColorUtils::Gray,
-			[&]() { std::cout << "Press Button!" << std::endl; },
-			0.98f
-		);
 	}
 
 
@@ -147,7 +147,6 @@ public:
 	 */
 	virtual void Update() override
 	{
-		Button_->Update(*Input_);
 	}
 
 
@@ -162,8 +161,6 @@ public:
 
 		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
 
-		Button_->Render(*Graphics_);
-
 		Graphics_->DrawText2D(ContentUtils::GetFont(Text::GetHash("font")), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
 
 		Graphics_->EndFrame();
@@ -171,6 +168,12 @@ public:
 
 
 private:
+	/**
+	 * 현재 게임 상태입니다.
+	 */
+	GameState CurrentGameState = GameState::Start;
+
+
 	/**
 	 * 2D 게임 월드입니다.
 	 */
@@ -199,12 +202,6 @@ private:
 	 * 타이머입니다.
 	 */
 	Timer Timer_;
-
-
-	/**
-	 * 버튼입니다.
-	 */
-	std::unique_ptr<Button> Button_ = nullptr;
 };
 
 
