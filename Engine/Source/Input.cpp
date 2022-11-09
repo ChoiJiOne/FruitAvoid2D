@@ -161,6 +161,22 @@ EPressState Input::GetMousePressState(const EMouseButton& InMouseButton) const
 	return PressState;
 }
 
+Vec2f Input::GetPrevCursorPosition() const
+{
+	return Vec2f(
+		static_cast<float>(PrevCursorPosition_.x),
+		static_cast<float>(PrevCursorPosition_.y)
+	);
+}
+
+Vec2f Input::GetCurrCursorPosition() const
+{
+	return Vec2f(
+		static_cast<float>(CurrCursorPosition_.x),
+		static_cast<float>(CurrCursorPosition_.y)
+	);
+}
+
 void Input::GetCurrentMouseState(Vec2i& OutCursorPosition, uint32_t& OutButtonState)
 {
 	OutButtonState = SDL_GetMouseState(&OutCursorPosition.x, &OutCursorPosition.y);

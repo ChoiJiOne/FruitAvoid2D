@@ -379,6 +379,22 @@ public:
     EPressState GetMousePressState(const EMouseButton& InMouseButton) const;
 
 
+    /**
+     * 업데이트 이전의 마우스 위치를 얻습니다.
+     * 
+     * @return 업데이트 이전의 마우스 위치를 반환합니다.
+     */
+    Vec2f GetPrevCursorPosition() const;
+
+
+    /**
+     * 현재의 마우스 위치를 얻습니다.
+     * 
+     * @return 현재의 마우스 위치를 반환합니다.
+     */
+    Vec2f GetCurrCursorPosition() const;
+
+
 private:
     /**
 	 * 특정 키가 눌렸는지 확인합니다.
