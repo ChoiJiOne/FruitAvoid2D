@@ -79,22 +79,6 @@ public:
 
 
 	/**
-	 * 오브젝트 몸체의 타입을 얻습니다.
-	 * 
-	 * @return 오브젝트 몸체의 타입을 반환합니다.
-	 */
-	Type GetType() const { return Type_; }
-
-
-	/**
-	 * 오브젝트 몸체의 타입을 설정합니다.
-	 * 
-	 * @param InType - 설정할 오브젝트 몸체의 타입입니다.
-	 */
-	void SetType(const Type& InType) { Type_ = InType; }
-
-
-	/**
 	 * 오브젝트 몸체의 중심 좌표를 얻습니다.
 	 *
 	 * @return 오브젝트 몸체의 중심 좌표를 반환합니다.
