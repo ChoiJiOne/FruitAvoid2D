@@ -198,17 +198,6 @@ public:
 
 private:
 	/**
-	 * 경계 영역 점들을 계산합니다.
-	 * 
-	 * @param InCenter - 경계 영역의 중심 좌표입니다.
-	 * @param InWidth - 경계 영역의 가로 크기입니다.
-	 * @param InHeight - 경계 영역의 세로 크기입니다.
-	 */
-	static std::array<Vec2f, 4> CalculateBoundingPositions(const Vec2f& InCenter, const float& InWidth, const float& InHeight);
-
-
-private:
-	/**
 	 * 오브젝트 몸체의 월드상 중심 좌표입니다.
 	 */
 	Vec2f Center_;

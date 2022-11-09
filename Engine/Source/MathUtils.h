@@ -108,4 +108,27 @@ public:
 	{
 		return std::clamp<T>(InValue, InMinValue, InMaxValue);
 	}
+
+
+	/**
+	 * 경계 영역 점들을 계산합니다.
+	 *
+	 * @param InCenter - 경계 영역의 중심 좌표입니다.
+	 * @param InWidth - 경계 영역의 가로 크기입니다.
+	 * @param InHeight - 경계 영역의 세로 크기입니다.
+	 */
+	static std::array<Vec2f, 4> CalculateBoundingPositions(const Vec2f& InCenter, const float& InWidth, const float& InHeight)
+	{
+		float HalfOfWidth = InWidth / 2.0f;
+		float HalfOfHeight = InHeight / 2.0f;
+
+		std::array<Vec2f, 4> BoundingPositions = {
+			Vec2f(-HalfOfWidth, -HalfOfHeight) + InCenter,
+			Vec2f(+HalfOfWidth, -HalfOfHeight) + InCenter,
+			Vec2f(+HalfOfWidth, +HalfOfHeight) + InCenter,
+			Vec2f(-HalfOfWidth, +HalfOfHeight) + InCenter,
+		};
+
+		return BoundingPositions;
+	}
 };

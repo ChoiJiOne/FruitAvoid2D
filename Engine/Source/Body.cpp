@@ -18,7 +18,7 @@ Body::Body(
 	Velocity_ = InVelocity;
 	bCanMove_ = bCanMove;
 
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_);
+	BoundingPositions_ = MathUtils::CalculateBoundingPositions(Center_, Width_, Height_);
 }
 
 Body::Body(Body&& InInstance) noexcept
@@ -80,19 +80,19 @@ Body& Body::operator=(const Body& InInstance) noexcept
 void Body::SetCenter(const Vec2f& InCenter)
 {
 	Center_ = InCenter;
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_);
+	BoundingPositions_ = MathUtils::CalculateBoundingPositions(Center_, Width_, Height_);
 }
 
 void Body::SetWidth(const float& InWidth)
 {
 	Width_ = InWidth;
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_);
+	BoundingPositions_ = MathUtils::CalculateBoundingPositions(Center_, Width_, Height_);
 }
 
 void Body::SetHeight(const float& InHeight)
 {
 	Height_ = InHeight;
-	BoundingPositions_ = CalculateBoundingPositions(Center_, Width_, Height_);
+	BoundingPositions_ = MathUtils::CalculateBoundingPositions(Center_, Width_, Height_);
 }
 
 bool Body::IsCollision(const Body& InBody)
@@ -114,19 +114,4 @@ bool Body::IsCollision(const Body& InBody)
 	}
 
 	return true;
-}
-
-std::array<Vec2f, 4> Body::CalculateBoundingPositions(const Vec2f& InCenter, const float& InWidth, const float& InHeight)
-{
-	float HalfOfWidth = InWidth / 2.0f;
-	float HalfOfHeight = InHeight / 2.0f;
-
-	std::array<Vec2f, 4> BoundingPositions = {
-		Vec2f(-HalfOfWidth, -HalfOfHeight) + InCenter,
-		Vec2f(+HalfOfWidth, -HalfOfHeight) + InCenter,
-		Vec2f(+HalfOfWidth, +HalfOfHeight) + InCenter,
-		Vec2f(-HalfOfWidth, +HalfOfHeight) + InCenter,
-	};
-
-	return BoundingPositions;
 }
