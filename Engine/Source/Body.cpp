@@ -97,17 +97,23 @@ void Body::SetHeight(const float& InHeight)
 
 bool Body::IsCollision(const Body& InBody)
 {
-	bool bIsCollision = false;
-
 	Vec2f MinPosition = BoundingPositions_[0];
 	Vec2f MaxPosition = BoundingPositions_[2];
 
 	Vec2f OtherMinPosition = InBody.BoundingPositions_[0];
 	Vec2f OtherMaxPosition = InBody.BoundingPositions_[2];
 
+	if (MinPosition.x > OtherMaxPosition.x || MaxPosition.x < OtherMinPosition.x)
+	{
+		return false;
+	}
 
+	if (MinPosition.y > OtherMaxPosition.y || MaxPosition.y < OtherMinPosition.y)
+	{
+		return false;
+	}
 
-	return bIsCollision;
+	return true;
 }
 
 std::array<Vec2f, 4> Body::CalculateBoundingPositions(const Vec2f& InCenter, const float& InWidth, const float& InHeight)
