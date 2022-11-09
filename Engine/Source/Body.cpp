@@ -20,6 +20,7 @@ Body::Body(
 Body::Body(Body&& InInstance) noexcept
 {
 	Center_ = InInstance.Center_;
+	bCanMove_ = InInstance.bCanMove_;
 	Width_ = InInstance.Width_;
 	Height_ = InInstance.Height_;
 	Rotate_ = InInstance.Rotate_;
@@ -29,6 +30,7 @@ Body::Body(Body&& InInstance) noexcept
 Body::Body(const Body& InInstance) noexcept
 {
 	Center_ = InInstance.Center_;
+	bCanMove_ = InInstance.bCanMove_;
 	Width_ = InInstance.Width_;
 	Height_ = InInstance.Height_;
 	Rotate_ = InInstance.Rotate_;
@@ -44,6 +46,7 @@ Body& Body::operator=(Body&& InInstance) noexcept
 	if (this == &InInstance) return *this;
 
 	Center_ = InInstance.Center_;
+	bCanMove_ = InInstance.bCanMove_;
 	Width_ = InInstance.Width_;
 	Height_ = InInstance.Height_;
 	Rotate_ = InInstance.Rotate_;
@@ -57,6 +60,7 @@ Body& Body::operator=(const Body& InInstance) noexcept
 	if (this == &InInstance) return *this;
 
 	Center_ = InInstance.Center_;
+	bCanMove_ = InInstance.bCanMove_;
 	Width_ = InInstance.Width_;
 	Height_ = InInstance.Height_;
 	Rotate_ = InInstance.Rotate_;

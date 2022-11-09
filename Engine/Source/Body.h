@@ -95,6 +95,22 @@ public:
 
 
 	/**
+	 * 오브젝트 몸체의 움직임 여부를 얻습니다.
+	 * 
+	 * @return 오브젝트 몸체의 움직임 여부를 반환합니다.
+	 */
+	bool CanMove() const { return bCanMove_; }
+
+
+	/**
+	 * 오브젝트 몸체의 움직임 여부를 설정합니다.
+	 * 
+	 * @param 설정할 오브젝트 몸체의 움직임 여부입니다.
+	 */
+	bool SetCanMove(bool bCanMove) { bCanMove_ = bCanMove; }
+
+
+	/**
 	 * 오브젝트 몸체의 가로 크기를 얻습니다.
 	 *
 	 * @return 오브젝트 몸체의 가로 크기를 반환합니다.
@@ -206,6 +222,12 @@ private:
 	 * 오브젝트 몸체의 월드상 중심 좌표입니다.
 	 */
 	Vec2f Center_;
+
+
+	/**
+	 * 오브젝트 몸체의 움직임 여부입니다.
+	 */
+	bool bCanMove_ = true;
 
 
 	/**
