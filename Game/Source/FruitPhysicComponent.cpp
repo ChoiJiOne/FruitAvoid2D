@@ -10,8 +10,4 @@ void FruitPhysicComponent::Tick(GameObject& InObject, World& InWorld, float InDe
 	Vec2f Position = ObjectBody.GetCenter();
 	Position.y += InDeltaSeconds * ObjectBody.GetVelocity();
 	ObjectBody.SetCenter(Position);
-
-	float Rotate = ObjectBody.GetRotate();
-	Rotate += InDeltaSeconds * ObjectBody.GetVelocity();
-	ObjectBody.SetRotate(Rotate);
 }
