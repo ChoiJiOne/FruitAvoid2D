@@ -93,6 +93,22 @@ bool Body::IsCollision(const Body& InBody)
 {
 	bool bIsCollision = false;
 
+	for (const auto& BoundingPosition : BoundingPositions_)
+	{
+		if (IsIncludePositionInBounding(BoundingPosition, InBody.BoundingPositions_))
+		{
+			bIsCollision = true;
+		}
+	}
+
+	for (const auto& BoundingPosition : InBody.BoundingPositions_)
+	{
+		if (IsIncludePositionInBounding(BoundingPosition, BoundingPositions_))
+		{
+			bIsCollision = true;
+		}
+	}
+
 	return bIsCollision;
 }
 
