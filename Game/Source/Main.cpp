@@ -152,10 +152,9 @@ public:
 		for (auto Iter = Fruits_.begin(); Iter != Fruits_.end(); )
 		{
 			bool bIsRemove = false;
-			Fruit* CurrentFruit = Iter->get();
 
-			if (CurrentFruit->GetBody().IsCollision(Player_->GetBody()) || 
-				CurrentFruit->GetBody().GetCenter().y >= static_cast<float>(World_->GetHeight()))
+			if (Iter->get()->GetBody().IsCollision(Player_->GetBody()) ||
+				Iter->get()->GetBody().GetCenter().y >= static_cast<float>(World_->GetHeight()))
 			{
 				bIsRemove = true;
 			}
