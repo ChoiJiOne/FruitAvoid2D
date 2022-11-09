@@ -78,14 +78,6 @@ public:
 
 
 	/**
-	 * 2D 게임 월드의 중심 좌표를 얻습니다.
-	 * 
-	 * @return 2D 게임 월드의 중심 좌표를 반환합니다.
-	 */
-	Vec2f GetCenter() const { return Vec2f(static_cast<float>(Width_) / 2.0f, static_cast<float>(Height_) / 2.0f); }
-
-
-	/**
 	 * 2D 게임 월드의 가로 세로 크기를 얻습니다.
 	 * 
 	 * @param OutWidth - 2D 게임 월드의 가로 크기입니다.
