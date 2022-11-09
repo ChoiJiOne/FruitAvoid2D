@@ -7,6 +7,7 @@
 
 /**
  * 오브젝트의 몸체를 나타내는 클래스입니다.
+ * 이때, 오브젝트의 몸체는 AABB 기반입니다.
  */
 class Body
 {
@@ -24,7 +25,7 @@ public:
 	 * @param InCenter - 오브젝트 몸체의 중심 좌표입니다.
 	 * @param InWidth - 오브젝트 몸체의 가로 크기입니다.
 	 * @param InHeight - 오브젝트 몸체의 세로 크기입니다.
-	 * @param InRotate - 오브젝트 몸체의 회전 각 입니다.
+	 * @param InRotate - 오브젝트의 이동 방향 각도입니다.
 	 * @param InVelocity - 오브젝트 몸체의 속력입니다.
 	 */
 	explicit Body(
@@ -32,7 +33,8 @@ public:
 		const float& InWidth, 
 		const float& InHeight,
 		const float& InRotate = 0.0f,
-		const float& InVelocity = 0.0f
+		const float& InVelocity = 0.0f,
+		bool bCanMove = false
 	);
 	
 	
@@ -151,12 +153,12 @@ public:
 
 
 	/**
-	 * 오브젝트 몸체의 회전 각을 설정합니다.
+	 * 오브젝트 몸체의 이동 방향 각을 설정합니다.
 	 *
-	 * @param InRotate - 설정할 오브젝트 몸체의 회전 각을 방향입니다.
+	 * @param InRotate - 설정할 오브젝트 몸체의 이동 방향 각을 방향입니다.
 	 */
-	void SetRotate(const float& InRotate);
-
+	void SetRotate(const float& InRotate) { Rotate_ = InRotate; }
+	
 
 	/**
 	 * 오브젝트 몸체의 속도를 얻습니다.
@@ -201,19 +203,8 @@ private:
 	 * @param InCenter - 경계 영역의 중심 좌표입니다.
 	 * @param InWidth - 경계 영역의 가로 크기입니다.
 	 * @param InHeight - 경계 영역의 세로 크기입니다.
-	 * @param InRotate - 경계 영역의 회전 각입니다.
 	 */
-	static std::array<Vec2f, 4> CalculateBoundingPositions(const Vec2f& InCenter, const float& InWidth, const float& InHeight, const float& InRotate);
-
-
-	/**
-	 * 점이 경계 영역 내에 포함되는지 확인합니다.
-	 *
-	 * @param InPosition - 검사할 점입니다.
-	 *
-	 * @return 점이 경계 상자 내에 포함되면 true, 그렇지 않으면 false를 반환합니다.
-	 */
-	bool IsIncludePositionInBounding(const Vec2f& InPosition) const;
+	static std::array<Vec2f, 4> CalculateBoundingPositions(const Vec2f& InCenter, const float& InWidth, const float& InHeight);
 
 
 private:
@@ -242,7 +233,7 @@ private:
 
 
 	/**
-	 * 오브젝트 몸체의 월드상 회전 각도입니다.
+	 * 오브젝트 몸체의 월드상 이동 방향 각도입니다.
 	 */
 	float Rotate_ = 0.0f;
 
