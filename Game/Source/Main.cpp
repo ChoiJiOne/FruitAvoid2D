@@ -108,7 +108,7 @@ public:
 		std::size_t FontKey = Text::GetHash("font");
 		ContentUtils::LoadFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 
-		Player_ = std::make_unique<Player>(World_.get(), Vec2f(500.0f, 650.0f), 50.0f, 50.0f, 400.0f, Player::EColor::Blue);
+		Player_ = std::make_unique<Player>(World_.get(), Vec2f(500.0f, 650.0f), 50.0f, 50.0f, 500.0f, Player::EColor::Blue);
 		Fruit_ = std::make_unique<Fruit>(World_.get(), Vec2f(500.0f, 100.0f), 100.0f, 100.0f, 150.0f, Fruit::EType::Banana);
 	}
 
