@@ -107,7 +107,7 @@ public:
 	 * 
 	 * @param 설정할 오브젝트 몸체의 움직임 여부입니다.
 	 */
-	bool SetCanMove(bool bCanMove) { bCanMove_ = bCanMove; }
+	void SetCanMove(bool bCanMove) { bCanMove_ = bCanMove; }
 
 
 	/**
