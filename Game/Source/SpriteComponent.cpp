@@ -18,6 +18,7 @@ void SpriteComponent::Tick(GameObject& InObject, Graphics& InGraphics)
 		ContentUtils::GetTexture(SpriteKey_),
 		Position,
 		static_cast<int32_t>(ObjectBody.GetWidth()),
-		static_cast<int32_t>(ObjectBody.GetHeight())
+		static_cast<int32_t>(ObjectBody.GetHeight()),
+		bIsRotate_ ? ObjectBody.GetRotate() : 0.0f
 	);
 }
