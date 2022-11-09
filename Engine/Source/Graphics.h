@@ -3,6 +3,7 @@
 #include "Macro.h"
 #include "ColorUtils.h"
 
+class Body;
 class Window;
 class Texture;
 class Font;
@@ -219,6 +220,17 @@ public:
 	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	void DrawText2D(Font& InFont, const std::wstring& InText, const Vec2i& InCenterPosition, const LinearColor& InColor);
+
+
+	/**
+	 * 벡버퍼에 오브젝트 몸체의 외곽선을 그립니다.
+	 * 
+	 * @param InBody - 외곽선을 그릴 오브젝트의 몸체입니다.
+	 * @param InColor - 외곽선의 색상입니다.
+	 * 
+	 * @throws 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	void DrawBodyOutline(Body& InBody, const LinearColor& InColor);
 
 
 private:
