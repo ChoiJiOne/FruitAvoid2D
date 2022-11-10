@@ -22,8 +22,9 @@
 #include "World.h"
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_net.h>
 #include <json/json.hpp>
-#include <miniaudio/miniaudio.h>
 #include <spdlog/spdlog.h>
 #include <stb/stb_image.h>
 #include <stb/stb_image_resize.h>

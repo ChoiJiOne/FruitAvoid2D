@@ -34,8 +34,6 @@ workspace "FruitAvoid2D"
         files {
             "%{engine}/Source/*",
 
-            "%{thirdparty}/Include/irrKlang/*",
-
             "%{thirdparty}/Include/json/*",
 
             "%{thirdparty}/Include/SDL2/*",
@@ -59,9 +57,10 @@ workspace "FruitAvoid2D"
 
             links {
                 "Dbghelp.lib",
-                "%{thirdparty}/Debug/irrKlang.lib",
                 "%{thirdparty}/Debug/SDL2.lib",
                 "%{thirdparty}/Debug/SDL2main.lib",
+                "%{thirdparty}/Debug/SDL2_mixer.lib",
+                "%{thirdparty}/Debug/SDL2_net.lib",
             }
 
         filter "configurations:Release"
@@ -73,9 +72,10 @@ workspace "FruitAvoid2D"
             
             links {
                 "Dbghelp.lib",
-                "%{thirdparty}/Release/irrKlang.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
+                "%{thirdparty}/Release/SDL2_mixer.lib",
+                "%{thirdparty}/Release/SDL2_net.lib",
             }
         
         filter "configurations:Shipping"
@@ -87,9 +87,10 @@ workspace "FruitAvoid2D"
 
             links {
                 "Dbghelp.lib",
-                "%{thirdparty}/Release/irrKlang.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
+                "%{thirdparty}/Release/SDL2_mixer.lib",
+                "%{thirdparty}/Release/SDL2_net.lib",
             }
 
     project "Game"
