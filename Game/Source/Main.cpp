@@ -34,6 +34,9 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
+		RemoveFruits();
+
+		Player_.reset();
 		QuitButton_.reset();
 		ResetButton_.reset();
 		ContinueButton_.reset();
@@ -92,7 +95,46 @@ public:
 	{
 		if (CurrentGameState == GameState::Play)
 		{
+			if (Input_->GetKeyPressState(EScanCode::CODE_ESCAPE) == EPressState::PRESSED)
+			{
+				CurrentGameState = GameState::Pause;
+			}
 
+			for (auto& fruit : Fruits_)
+			{
+				fruit->Update(*Input_, Timer_.GetDeltaSeconds());
+			}
+
+			Player_->Update(*Input_, Timer_.GetDeltaSeconds());
+
+			int32_t CountOfNewFruit = 0;
+			for (auto Iter = Fruits_.begin(); Iter != Fruits_.end(); )
+			{
+				if (Iter->get()->GetBody().IsCollision(Player_->GetBody()))
+				{
+					Iter = Fruits_.erase(Iter);
+
+					CountOfNewFruit++;
+					Life--;
+
+					if (Life <= 0) CurrentGameState = GameState::Done;
+					continue;
+				}
+
+				if (Iter->get()->GetBody().GetCenter().y >= static_cast<float>(World_->GetHeight()))
+				{
+					Iter = Fruits_.erase(Iter);
+					CountOfNewFruit++;
+					continue;
+				}
+
+				Iter++;
+			}
+
+			for (int32_t Count = 1; Count <= CountOfNewFruit; ++Count)
+			{
+				AddNewFruit();
+			}
 		}
 		else
 		{
@@ -132,7 +174,12 @@ public:
 
 		if (CurrentGameState == GameState::Play)
 		{
+			Player_->Render(*Graphics_);
 
+			for (auto& fruit : Fruits_)
+			{
+				fruit->Render(*Graphics_);
+			}
 		}
 		else
 		{
@@ -262,7 +309,11 @@ private:
 			Font32Key,
 			ColorUtils::Blue,
 			ColorUtils::Black,
-			[&]() { CurrentGameState = GameState::Play; },
+			[&]() { 
+				CurrentGameState = GameState::Play;
+				CreateFruits();
+				Player_->GetBody().SetCenter(PlayerStartPosition);
+			},
 			0.98f
 		);
 
@@ -286,7 +337,13 @@ private:
 			Font32Key,
 			ColorUtils::Blue,
 			ColorUtils::Black,
-			[&]() { CurrentGameState = GameState::Play; },
+			[&]() { 
+				CurrentGameState = GameState::Play;
+				RemoveFruits();
+				CreateFruits();
+				Player_->GetBody().SetCenter(PlayerStartPosition);
+				Life = 3;
+			},
 			0.98f
 		);
 
@@ -301,6 +358,93 @@ private:
 			[&]() { bIsDone_ = true; },
 			0.98f
 		);
+
+		Player_ = std::make_unique<Player>(World_.get(), PlayerStartPosition, 50.0f, 50.0f, 500.0f, Player::EColor::Blue);
+	}
+
+
+	/**
+	 * 게임 내의 과일 오브젝트들을 생성합니다.
+	 */
+	void CreateFruits()
+	{
+		if (Fruits_.size() > 0)
+		{
+			RemoveFruits();
+		}
+
+		for (int32_t Count = 1; Count <= MaxFruits_; ++Count)
+		{
+			AddNewFruit();
+		}
+	}
+
+
+	/**
+	 * 게임 내의 과일 오브젝트들을 삭제합니다.
+	 */
+	void RemoveFruits()
+	{
+		Fruits_.clear();
+	}
+
+
+	/**
+	 * 임의의 과일을 추가합니다.
+	 */
+	void AddNewFruit()
+	{
+		static float FruitSpeeds[] = {
+			100.0f,
+			250.0f,
+			300.0f,
+			350.0f,
+			400.0f,
+			450.0f,
+			500.0f
+		};
+
+		static float FruitSizes[] = {
+			50.0f,
+			60.0f,
+			70.0f,
+			80.0f,
+			90.0f
+		};
+
+		static Fruit::EType FruitTypes[] = {
+			Fruit::EType::Banana,
+			Fruit::EType::BlackBerryDark,
+			Fruit::EType::BlackBerryLight,
+			Fruit::EType::BlackCherry,
+			Fruit::EType::Coconut,
+			Fruit::EType::GreenApple,
+			Fruit::EType::GreenGrape,
+			Fruit::EType::Lemon,
+			Fruit::EType::Lime,
+			Fruit::EType::Orange,
+			Fruit::EType::Peach,
+			Fruit::EType::Pear,
+			Fruit::EType::Plum,
+			Fruit::EType::Raspberry,
+			Fruit::EType::RedApple,
+			Fruit::EType::RedCherry,
+			Fruit::EType::RedGrape,
+			Fruit::EType::StarFruit,
+			Fruit::EType::Strawberry,
+			Fruit::EType::WaterMelon
+		};
+
+		float FruitSize = FruitSizes[MathUtils::GenerateRandomInt<int32_t>(0, std::size(FruitSizes) - 1)];
+
+		Fruits_.push_back(std::make_unique<Fruit>(
+			World_.get(),
+			Vec2f(MathUtils::GenerateRandomFloat<float>(0.0f, static_cast<float>(World_->GetWidth())), 0.0f),
+			FruitSize,
+			FruitSize,
+			FruitSpeeds[MathUtils::GenerateRandomInt<int32_t>(0, std::size(FruitSpeeds) - 1)],
+			FruitTypes[MathUtils::GenerateRandomInt<int32_t>(0, std::size(FruitTypes) - 1)]
+		));
 	}
 
 
@@ -339,6 +483,36 @@ private:
 	 * 게임을 종료하는 버튼입니다.
 	 */
 	std::unique_ptr<Button> QuitButton_ = nullptr;
+
+
+	/**
+	 * 게임 플레이어 입니다.
+	 */
+	std::unique_ptr<Player> Player_ = nullptr;
+
+
+	/**
+	 * 게임 플레이어 시작 위치입니다.
+	 */
+	Vec2f PlayerStartPosition = Vec2f(500.0f, 650.0f);
+
+
+	/**
+	 * 게임 플레이어의 라이프입니다.
+	 */
+	int32_t Life = 3;
+
+
+	/**
+	 * 플레이어가 피해야 할 과일들입니다.
+	 */
+	std::list<std::unique_ptr<Fruit>> Fruits_;
+
+
+	/**
+	 * 과일의 최대 개수입니다.
+	 */
+	const int32_t MaxFruits_ = 15;
 };
 
 
