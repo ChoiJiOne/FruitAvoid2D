@@ -34,13 +34,10 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
-		StartButton_.reset();
 		QuitButton_.reset();
-
-		Input_.reset();
-		World_.reset();
-		Graphics_.reset();
-		Window_.reset();
+		ResetButton_.reset();
+		ContinueButton_.reset();
+		StartButton_.reset();
 	}
 
 
@@ -93,8 +90,22 @@ public:
 	 */
 	virtual void Update() override
 	{
-		StartButton_->Update(*Input_);
-		QuitButton_->Update(*Input_);
+		switch (CurrentGameState)
+		{
+		case GameState::Start:
+			StartButton_->Update(*Input_);
+			QuitButton_->Update(*Input_);
+			break;
+
+		case GameState::Play:
+			break;
+
+		case GameState::Pause:
+			break;
+
+		case GameState::Done:
+			break;
+		}
 	}
 
 
@@ -109,15 +120,29 @@ public:
 
 		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
 
-		Graphics_->DrawText2D(
-			ContentUtils::GetFont(Text::GetHash("font64")),
-			L"Fruit Avoid 2D",
-			Vec2i(500, 200),
-			ColorUtils::Cyan
-		);
+		switch (CurrentGameState)
+		{
+		case GameState::Start:
+			Graphics_->DrawText2D(
+				ContentUtils::GetFont(Text::GetHash("font64")),
+				L"Fruit Avoid 2D",
+				Vec2i(500, 200),
+				ColorUtils::Cyan
+			);
 
-		StartButton_->Render(*Graphics_);
-		QuitButton_->Render(*Graphics_);
+			StartButton_->Render(*Graphics_);
+			QuitButton_->Render(*Graphics_);
+			break;
+
+		case GameState::Play:
+			break;
+
+		case GameState::Pause:
+			break;
+
+		case GameState::Done:
+			break;
+		}
 
 		Graphics_->EndFrame();
 	}
@@ -211,8 +236,8 @@ private:
 
 		StartButton_ = std::make_unique<Button>(
 			Vec2f(500.0f, 400.0f),
-			200.0f,
-			100.0f,
+			300.0f,
+			80.0f,
 			L"START",
 			Font32Key,
 			ColorUtils::Blue,
@@ -222,9 +247,9 @@ private:
 		);
 
 		QuitButton_ = std::make_unique<Button>(
-			Vec2f(500.0f, 600.0f),
-			200.0f,
-			100.0f,
+			Vec2f(500.0f, 500.0f),
+			300.0f,
+			80.0f,
 			L"QUIT",
 			Font32Key,
 			ColorUtils::Blue,
@@ -237,39 +262,9 @@ private:
 
 private:
 	/**
-	 * 게임의 종료 여부를 나타냅니다.
-	 */
-	bool bIsDone_ = false;
-
-
-	/**
 	 * 현재 게임 상태입니다.
 	 */
 	GameState CurrentGameState = GameState::Start;
-
-
-	/**
-	 * 2D 게임 월드입니다.
-	 */
-	std::unique_ptr<World> World_ = nullptr;
-
-
-	/**
-	 * FruitAvoid2D의 윈도우 창 처리를 위한 인스턴스입니다.
-	 */
-	std::unique_ptr<Window> Window_ = nullptr;
-
-
-	/**
-	 * FruitAvoid2D의 입력 처리를 위한 인스턴스입니다.
-	 */
-	std::unique_ptr<Input> Input_ = nullptr;
-
-
-	/**
-	 * FruitAvoid2D의 그래픽 관련 처리를 위한 인스턴스입니다.
-	 */
-	std::unique_ptr<Graphics> Graphics_ = nullptr;
 
 	
 	/**
@@ -282,6 +277,18 @@ private:
 	 * 게임을 시작하는 버튼입니다.
 	 */
 	std::unique_ptr<Button> StartButton_ = nullptr;
+
+
+	/**
+	 * 중지된 게임을 시작하는 버튼입니다.
+	 */
+	std::unique_ptr<Button> ContinueButton_ = nullptr;
+
+
+	/**
+	 * 게임을 리셋하는 버튼입니다.
+	 */
+	std::unique_ptr<Button> ResetButton_ = nullptr;
 
 
 	/**
