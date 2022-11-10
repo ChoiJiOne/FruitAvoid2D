@@ -14,10 +14,6 @@ void SpriteComponent::Tick(GameObject& InObject, Graphics& InGraphics)
 		static_cast<int32_t>(ObjectBody.GetCenter().y + 0.5f)
 	);
 
-#if defined(DEBUG)
-	InGraphics.DrawBodyOutline(ObjectBody, ColorUtils::Black);
-#endif
-
 	InGraphics.DrawTexture2D(
 		ContentUtils::GetTexture(SpriteKey_),
 		Position,
