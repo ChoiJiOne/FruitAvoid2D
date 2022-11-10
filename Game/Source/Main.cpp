@@ -97,6 +97,7 @@ public:
 		{
 			if (Input_->GetKeyPressState(EScanCode::CODE_ESCAPE) == EPressState::PRESSED)
 			{
+				Timer_.Stop();
 				CurrentGameState = GameState::Pause;
 			}
 
@@ -117,7 +118,11 @@ public:
 					CountOfNewFruit++;
 					Life--;
 
-					if (Life <= 0) CurrentGameState = GameState::Done;
+					if (Life <= 0)
+					{
+						CurrentGameState = GameState::Done;
+						Timer_.Stop();
+					}
 					continue;
 				}
 
@@ -180,6 +185,20 @@ public:
 			{
 				fruit->Render(*Graphics_);
 			}
+
+			Graphics_->DrawText2D(
+				ContentUtils::GetFont(Text::GetHash("font32")),
+				Text::Format(L"LIFE : %3d", Life),
+				Vec2i(100, 700), 
+				ColorUtils::Magenta
+			);
+
+			Graphics_->DrawText2D(
+				ContentUtils::GetFont(Text::GetHash("font32")),
+				Text::Format(L"PLAY : %3d", static_cast<int32_t>(Timer_.GetTotalSeconds())),
+				Vec2i(100, 750),
+				ColorUtils::Magenta
+			);
 		}
 		else
 		{
@@ -197,14 +216,21 @@ public:
 
 			case GameState::Done:
 				CurrentButton = ResetButton_.get();
+
+				Graphics_->DrawText2D(
+					ContentUtils::GetFont(Text::GetHash("font32")),
+					Text::Format(L"PLAY : %3ds", static_cast<int32_t>(Timer_.GetTotalSeconds())),
+					Vec2i(500, 300),
+					ColorUtils::Black
+				);
 				break;
 			}
 
 			Graphics_->DrawText2D(
-				ContentUtils::GetFont(Text::GetHash("font64")),
+				ContentUtils::GetFont(Text::GetHash("font128")),
 				L"Fruit Avoid 2D",
 				Vec2i(500, 200),
-				ColorUtils::Cyan
+				ColorUtils::Blue
 			);
 
 			CurrentButton->Render(*Graphics_);
@@ -286,8 +312,8 @@ private:
 
 		ContentUtils::LoadTexture(Text::GetHash("Beach"), *Graphics_, "texture\\Beach.jpg");
 
-		std::size_t Font64Key = Text::GetHash("font64");
-		ContentUtils::LoadFont(Font64Key, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 64.0f);
+		std::size_t Font128Key = Text::GetHash("font128");
+		ContentUtils::LoadFont(Font128Key, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 128.0f);
 
 		std::size_t Font32Key = Text::GetHash("font32");
 		ContentUtils::LoadFont(Font32Key, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
@@ -313,6 +339,7 @@ private:
 				CurrentGameState = GameState::Play;
 				CreateFruits();
 				Player_->GetBody().SetCenter(PlayerStartPosition);
+				Timer_.Start();
 			},
 			0.98f
 		);
@@ -325,7 +352,10 @@ private:
 			Font32Key,
 			ColorUtils::Blue,
 			ColorUtils::Black,
-			[&]() { CurrentGameState = GameState::Play; },
+			[&]() { 
+				CurrentGameState = GameState::Play; 
+				Timer_.Start();
+			},
 			0.98f
 		);
 
@@ -343,6 +373,7 @@ private:
 				CreateFruits();
 				Player_->GetBody().SetCenter(PlayerStartPosition);
 				Life = 3;
+				Timer_.Reset();
 			},
 			0.98f
 		);
