@@ -98,6 +98,8 @@ def create_premake5_script(project_name):
         files {
             "%{engine}/Source/*",
 
+            "%{thirdparty}/Include/irrKlang/*",
+
             "%{thirdparty}/Include/json/*",
 
             "%{thirdparty}/Include/SDL2/*",
@@ -110,8 +112,6 @@ def create_premake5_script(project_name):
             "%{thirdparty}/Include/spdlog/sinks/*",
 
             "%{thirdparty}/Include/stb/*",
-
-            "%{thirdparty}/Include/miniaudio/*",
         }
 
         filter "configurations:Debug"
@@ -123,6 +123,7 @@ def create_premake5_script(project_name):
 
             links {
                 "Dbghelp.lib",
+                "%{thirdparty}/Debug/irrKlang.lib",
                 "%{thirdparty}/Debug/SDL2.lib",
                 "%{thirdparty}/Debug/SDL2main.lib",
             }
@@ -136,6 +137,7 @@ def create_premake5_script(project_name):
             
             links {
                 "Dbghelp.lib",
+                "%{thirdparty}/Release/irrKlang.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
             }
@@ -149,6 +151,7 @@ def create_premake5_script(project_name):
 
             links {
                 "Dbghelp.lib",
+                "%{thirdparty}/Release/irrKlang.lib",
                 "%{thirdparty}/Release/SDL2.lib",
                 "%{thirdparty}/Release/SDL2main.lib",
             }
