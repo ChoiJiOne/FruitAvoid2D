@@ -34,6 +34,9 @@ public:
 	 */
 	virtual ~FruitAvoid2D()
 	{
+		StartButton_.reset();
+		QuitButton_.reset();
+
 		Input_.reset();
 		World_.reset();
 		Graphics_.reset();
@@ -58,6 +61,74 @@ public:
 	{
 		GameFramework::Init();
 
+		InitProperties();
+		InitResources();
+		InitGameProperties();
+	}
+
+
+	/**
+	 * FruitAvoid2D 게임을 실행합니다.
+	 *
+	 * @throws FruitAvoid2D 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Run() override
+	{
+		Timer_.Reset();
+
+		while (!bIsDone_ && !Input_->Tick())
+		{
+			Timer_.Tick();
+
+			Update();
+			Render();
+		}
+	}
+
+
+	/**
+	 * FruitAvoid2D 게임을 업데이트합니다.
+	 *
+	 * @throws FruitAvoid2D 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Update() override
+	{
+		StartButton_->Update(*Input_);
+		QuitButton_->Update(*Input_);
+	}
+
+
+	/**
+	 * FruitAvoid2D 게임을 화면에 렌더링합니다.
+	 *
+	 * @throws FruitAvoid2D 게임 렌더링에 실패하면 C++ 표준 예외를 던집니다.
+	 */
+	virtual void Render() override
+	{
+		Graphics_->BeginFrame(ColorUtils::Black);
+
+		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
+
+		Graphics_->DrawText2D(
+			ContentUtils::GetFont(Text::GetHash("font64")),
+			L"Fruit Avoid 2D",
+			Vec2i(500, 200),
+			ColorUtils::Cyan
+		);
+
+		StartButton_->Render(*Graphics_);
+		QuitButton_->Render(*Graphics_);
+
+		Graphics_->EndFrame();
+	}
+
+
+private:
+	/**
+	 * 게임에서 사용할 기본적인 요소를 초기화합니다.
+	 */
+	void InitProperties()
+	{
 		Window_ = std::make_unique<Window>(
 			WindowConstructorParam{
 				"FruitAvoid2D",
@@ -77,7 +148,14 @@ public:
 		Input_ = std::make_unique<Input>();
 
 		World_ = std::make_unique<World>(1000, 800);
+	}
 
+
+	/**
+	 * 게임에서 사용할 리소스를 초기화합니다.
+	 */
+	void InitResources()
+	{
 		std::vector <std::string> TextureNames = {
 			"Banana",
 			"Coconut",
@@ -116,58 +194,54 @@ public:
 
 		ContentUtils::LoadTexture(Text::GetHash("Beach"), *Graphics_, "texture\\Beach.jpg");
 
-		std::size_t FontKey = Text::GetHash("font");
-		ContentUtils::LoadFont(FontKey, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
+		std::size_t Font64Key = Text::GetHash("font64");
+		ContentUtils::LoadFont(Font64Key, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 64.0f);
+
+		std::size_t Font32Key = Text::GetHash("font32");
+		ContentUtils::LoadFont(Font32Key, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
 	}
 
 
 	/**
-	 * FruitAvoid2D 게임을 실행합니다.
-	 *
-	 * @throws FruitAvoid2D 게임 실행에 실패하면 C++ 표준 예외를 던집니다.
+	 * 게임 내의 요소들을 초기화합니다.
 	 */
-	virtual void Run() override
+	void InitGameProperties()
 	{
-		Timer_.Reset();
+		std::size_t Font32Key = Text::GetHash("font32");
 
-		while (!Input_->Tick())
-		{
-			Timer_.Tick();
+		StartButton_ = std::make_unique<Button>(
+			Vec2f(500.0f, 400.0f),
+			200.0f,
+			100.0f,
+			L"START",
+			Font32Key,
+			ColorUtils::Blue,
+			ColorUtils::Black,
+			[&]() { CurrentGameState = GameState::Play; },
+			0.98f
+		);
 
-			Update();
-			Render();
-		}
-	}
-
-
-	/**
-	 * FruitAvoid2D 게임을 업데이트합니다.
-	 *
-	 * @throws FruitAvoid2D 게임 업데이트에 실패하면 C++ 표준 예외를 던집니다.
-	 */
-	virtual void Update() override
-	{
-	}
-
-
-	/**
-	 * FruitAvoid2D 게임을 화면에 렌더링합니다.
-	 *
-	 * @throws FruitAvoid2D 게임 렌더링에 실패하면 C++ 표준 예외를 던집니다.
-	 */
-	virtual void Render() override
-	{
-		Graphics_->BeginFrame(ColorUtils::Black);
-
-		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
-
-		Graphics_->DrawText2D(ContentUtils::GetFont(Text::GetHash("font")), Text::Format(L"FPS : %d", static_cast<int32_t>(1.0f / Timer_.GetDeltaSeconds())), Vec2i(100, 50), ColorUtils::Black);
-
-		Graphics_->EndFrame();
+		QuitButton_ = std::make_unique<Button>(
+			Vec2f(500.0f, 600.0f),
+			200.0f,
+			100.0f,
+			L"QUIT",
+			Font32Key,
+			ColorUtils::Blue,
+			ColorUtils::Black,
+			[&]() { bIsDone_ = true; },
+			0.98f
+		);
 	}
 
 
 private:
+	/**
+	 * 게임의 종료 여부를 나타냅니다.
+	 */
+	bool bIsDone_ = false;
+
+
 	/**
 	 * 현재 게임 상태입니다.
 	 */
@@ -202,6 +276,18 @@ private:
 	 * 타이머입니다.
 	 */
 	Timer Timer_;
+
+
+	/**
+	 * 게임을 시작하는 버튼입니다.
+	 */
+	std::unique_ptr<Button> StartButton_ = nullptr;
+
+
+	/**
+	 * 게임을 종료하는 버튼입니다.
+	 */
+	std::unique_ptr<Button> QuitButton_ = nullptr;
 };
 
 
