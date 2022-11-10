@@ -2,6 +2,12 @@
 
 #include "Macro.h"
 
+class World;
+class Window;
+class Input;
+class Graphics;
+class Timer;
+
 
 /**
  * 게임 프레임워크 클래스입니다.
@@ -61,4 +67,35 @@ public:
 	 * @throws 게임 렌더링에 실패하면 C++ 표준 예외를 던집니다.
 	 */
 	virtual void Render() = 0;
+
+
+protected:
+	/**
+	 * 게임의 종료 여부입니다.
+	 */
+	bool bIsDone_ = false;
+
+
+	/**
+	 * 2D 게임 월드입니다.
+	 */
+	std::unique_ptr<World> World_ = nullptr;
+
+
+	/**
+	 * 게임 윈도우 창입니다.
+	 */
+	std::unique_ptr<Window> Window_ = nullptr;
+
+
+	/**
+	 * 게임 내에 입력 처리를 수행합니다.
+	 */
+	std::unique_ptr<Input> Input_ = nullptr;
+
+
+	/**
+	 * 게임 내에 그래픽 처리를 수행합니다.
+	 */
+	std::unique_ptr<Graphics> Graphics_ = nullptr;
 };
