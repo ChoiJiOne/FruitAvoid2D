@@ -90,21 +90,31 @@ public:
 	 */
 	virtual void Update() override
 	{
-		switch (CurrentGameState)
+		if (CurrentGameState == GameState::Play)
 		{
-		case GameState::Start:
-			StartButton_->Update(*Input_);
+
+		}
+		else
+		{
+			Button* CurrentButton = nullptr;
+
+			switch (CurrentGameState)
+			{
+			case GameState::Start:
+				CurrentButton = StartButton_.get();
+				break;
+
+			case GameState::Pause:
+				CurrentButton = ContinueButton_.get();
+				break;
+
+			case GameState::Done:
+				CurrentButton = ResetButton_.get();
+				break;
+			}
+
+			CurrentButton->Update(*Input_);
 			QuitButton_->Update(*Input_);
-			break;
-
-		case GameState::Play:
-			break;
-
-		case GameState::Pause:
-			break;
-
-		case GameState::Done:
-			break;
 		}
 	}
 
@@ -120,9 +130,29 @@ public:
 
 		Graphics_->DrawTexture2D(ContentUtils::GetTexture(Text::GetHash("Beach")), Vec2i(500, 400), World_->GetWidth(), World_->GetHeight());
 
-		switch (CurrentGameState)
+		if (CurrentGameState == GameState::Play)
 		{
-		case GameState::Start:
+
+		}
+		else
+		{
+			Button* CurrentButton = nullptr;
+
+			switch (CurrentGameState)
+			{
+			case GameState::Start:
+				CurrentButton = StartButton_.get();
+				break;
+
+			case GameState::Pause:
+				CurrentButton = ContinueButton_.get();
+				break;
+
+			case GameState::Done:
+				CurrentButton = ResetButton_.get();
+				break;
+			}
+
 			Graphics_->DrawText2D(
 				ContentUtils::GetFont(Text::GetHash("font64")),
 				L"Fruit Avoid 2D",
@@ -130,18 +160,8 @@ public:
 				ColorUtils::Cyan
 			);
 
-			StartButton_->Render(*Graphics_);
+			CurrentButton->Render(*Graphics_);
 			QuitButton_->Render(*Graphics_);
-			break;
-
-		case GameState::Play:
-			break;
-
-		case GameState::Pause:
-			break;
-
-		case GameState::Done:
-			break;
 		}
 
 		Graphics_->EndFrame();
@@ -239,6 +259,30 @@ private:
 			300.0f,
 			80.0f,
 			L"START",
+			Font32Key,
+			ColorUtils::Blue,
+			ColorUtils::Black,
+			[&]() { CurrentGameState = GameState::Play; },
+			0.98f
+		);
+
+		ContinueButton_ = std::make_unique<Button>(
+			Vec2f(500.0f, 400.0f),
+			300.0f,
+			80.0f,
+			L"CONTINUE",
+			Font32Key,
+			ColorUtils::Blue,
+			ColorUtils::Black,
+			[&]() { CurrentGameState = GameState::Play; },
+			0.98f
+		);
+
+		ResetButton_ = std::make_unique<Button>(
+			Vec2f(500.0f, 400.0f),
+			300.0f,
+			80.0f,
+			L"RESET",
 			Font32Key,
 			ColorUtils::Blue,
 			ColorUtils::Black,
