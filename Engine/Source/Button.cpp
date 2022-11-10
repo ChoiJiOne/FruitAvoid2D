@@ -104,6 +104,8 @@ void Button::Update(Input& InInput)
 {
 	bIsEnable_ = IsDetectMouseCursor(InInput);
 
+	if (!bIsEnable_) return;
+
 	EPressState CurrentPressState = InInput.GetMousePressState(EMouseButton::LEFT);
 	if (CurrentPressState == EPressState::PRESSED || CurrentPressState == EPressState::HELD)
 	{
