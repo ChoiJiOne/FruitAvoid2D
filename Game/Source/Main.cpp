@@ -143,24 +143,7 @@ public:
 		}
 		else
 		{
-			Button* CurrentButton = nullptr;
-
-			switch (CurrentGameState)
-			{
-			case GameState::Start:
-				CurrentButton = StartButton_.get();
-				break;
-
-			case GameState::Pause:
-				CurrentButton = ContinueButton_.get();
-				break;
-
-			case GameState::Done:
-				CurrentButton = ResetButton_.get();
-				break;
-			}
-
-			CurrentButton->Update(*Input_);
+			GetCurrentButton()->Update(*Input_);
 			QuitButton_->Update(*Input_);
 		}
 	}
@@ -202,28 +185,14 @@ public:
 		}
 		else
 		{
-			Button* CurrentButton = nullptr;
-
-			switch (CurrentGameState)
+			if (CurrentGameState == GameState::Done)
 			{
-			case GameState::Start:
-				CurrentButton = StartButton_.get();
-				break;
-
-			case GameState::Pause:
-				CurrentButton = ContinueButton_.get();
-				break;
-
-			case GameState::Done:
-				CurrentButton = ResetButton_.get();
-
 				Graphics_->DrawText2D(
 					ContentUtils::GetFont(Text::GetHash("font32")),
 					Text::Format(L"PLAY : %3ds", static_cast<int32_t>(Timer_.GetTotalSeconds())),
 					Vec2i(500, 300),
 					ColorUtils::Black
 				);
-				break;
 			}
 
 			Graphics_->DrawText2D(
@@ -233,7 +202,7 @@ public:
 				ColorUtils::Blue
 			);
 
-			CurrentButton->Render(*Graphics_);
+			GetCurrentButton()->Render(*Graphics_);
 			QuitButton_->Render(*Graphics_);
 		}
 
@@ -476,6 +445,34 @@ private:
 			FruitSpeeds[MathUtils::GenerateRandomInt<int32_t>(0, std::size(FruitSpeeds) - 1)],
 			FruitTypes[MathUtils::GenerateRandomInt<int32_t>(0, std::size(FruitTypes) - 1)]
 		));
+	}
+
+
+	/**
+	 * 현재 게임 상태에 맞는 버튼을 얻습니다.
+	 * 
+	 * @return 현재 게임 상태에 맞는 버튼의 포인터를 반환합니다.
+	 */
+	Button* GetCurrentButton() const
+	{
+		Button* CurrentButton = nullptr;
+
+		switch (CurrentGameState)
+		{
+		case GameState::Start:
+			CurrentButton = StartButton_.get();
+			break;
+
+		case GameState::Pause:
+			CurrentButton = ContinueButton_.get();
+			break;
+
+		case GameState::Done:
+			CurrentButton = ResetButton_.get();
+			break;
+		}
+
+		return CurrentButton;
 	}
 
 
