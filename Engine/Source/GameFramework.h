@@ -6,7 +6,6 @@ class World;
 class Window;
 class Input;
 class Graphics;
-class Timer;
 
 
 /**
