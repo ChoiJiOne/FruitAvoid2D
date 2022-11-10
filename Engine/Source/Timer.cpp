@@ -46,6 +46,7 @@ void Timer::Reset()
 {
 	uint64_t TickTime = SDL_GetTicks64();
 
+	bIsStop_ = false;
 	BaseTime_ = TickTime;
 	PausedTime_ = 0ULL;
 	StopTime_ = 0ULL;
