@@ -6,6 +6,8 @@ using Json = nlohmann::json;
 class Graphics;
 class Texture;
 class Font;
+class Music;
+class Sound;
 
 
 /**
@@ -173,6 +175,96 @@ public:
 	static Json& GetJson(const std::size_t& InKey);
 
 
+	/**
+	 * 뮤직을 추가합니다.
+	 *
+	 * @param InKey - 뮤직의 해쉬 키값입니다.
+	 * @param InPath - 뮤직 파일의 경로 입니다. 이때, Content 폴더를 기준으로 인자를 전달해야 합니다.
+	 *
+	 * @throws
+	 * - 추가할 뮤직 파일이 경로에 없으면 C++ 표준 예외를 던집니다.
+	 * - 뮤직 파일 로딩에 실패하면 C++ 표준 예외를 던집니다.
+	 *
+	 * @return 추가한 뮤직의 참조자를 반환합니다.
+	 */
+	static Music& LoadMusic(const std::size_t& InKey, const std::string& InPath);
+
+
+	/**
+	 * 관리 중인 뮤직 삭제합니다.
+	 *
+	 * @param InKey - 삭제할 뮤직의 해쉬 키 값입니다.
+	 */
+	static void RemoveMusic(const std::size_t& InKey);
+
+
+	/**
+	 * 키 값에 대응하는 뮤직이 있는지 확인합니다.
+	 *
+	 * @param InKey - 뮤직이 있는지 확인할 키 값입니다.
+	 *
+	 * @return 키 값이 관리 중인 뮤직의 키 값 이라면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool HaveMusic(const std::size_t& InKey);
+
+
+	/**
+	 * 관리 중인 뮤직을 얻습니다.
+	 *
+	 * @param InKey - 대상이 되는 뮤직의 키 값입니다.
+	 *
+	 * @throws 키 값에 대응하는 뮤직이 없으면 C++ 표준 예외를 던집니다.
+	 *
+	 * @return 키 값에 대응하는 뮤직의 참조자를 반환합니다.
+	 */
+	static Music& GetMusic(const std::size_t& InKey);
+
+
+	/**
+	 * 사운드을 추가합니다.
+	 *
+	 * @param InKey - 사운드의 해쉬 키값입니다.
+	 * @param InPath - 사운드 파일의 경로 입니다. 이때, Content 폴더를 기준으로 인자를 전달해야 합니다.
+	 *
+	 * @throws
+	 * - 추가할 사운드 파일이 경로에 없으면 C++ 표준 예외를 던집니다.
+	 * - 사운드 파일 로딩에 실패하면 C++ 표준 예외를 던집니다.
+	 *
+	 * @return 추가한 사운드의 참조자를 반환합니다.
+	 */
+	static Sound& LoadSound(const std::size_t& InKey, const std::string& InPath);
+
+
+	/**
+	 * 관리 중인 사운드 삭제합니다.
+	 *
+	 * @param InKey - 삭제할 사운드의 해쉬 키 값입니다.
+	 */
+	static void RemoveSound(const std::size_t& InKey);
+
+
+	/**
+	 * 키 값에 대응하는 사운드이 있는지 확인합니다.
+	 *
+	 * @param InKey - 사운드이 있는지 확인할 키 값입니다.
+	 *
+	 * @return 키 값이 관리 중인 사운드의 키 값 이라면 true, 그렇지 않다면 false를 반환합니다.
+	 */
+	static bool HaveSound(const std::size_t& InKey);
+
+
+	/**
+	 * 관리 중인 사운드을 얻습니다.
+	 *
+	 * @param InKey - 대상이 되는 사운드의 키 값입니다.
+	 *
+	 * @throws 키 값에 대응하는 사운드이 없으면 C++ 표준 예외를 던집니다.
+	 *
+	 * @return 키 값에 대응하는 사운드의 참조자를 반환합니다.
+	 */
+	static Sound& GetSound(const std::size_t& InKey);
+
+
 private:
 	/**
 	 * 컨텐츠 리소스의 폴더 경로입니다.
@@ -196,4 +288,16 @@ private:
 	 * ContentUtils이 관리하는 Json 파일입니다.
 	 */
 	static std::unordered_map<std::size_t, Json> Jsons_;
+
+
+	/**
+	 * ContentUtils이 관리하는 뮤직입니다.
+	 */
+	static std::unordered_map<std::size_t, std::unique_ptr<Music>> Musics_;
+
+
+	/**
+	 * ContentUtils이 관리하는 사운드입니다.
+	 */
+	static std::unordered_map<std::size_t, std::unique_ptr<Sound>> Sounds_;
 };

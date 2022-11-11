@@ -2,6 +2,8 @@
 #include "CommandLineUtils.h"
 #include "Texture.h"
 #include "Font.h"
+#include "Music.h"
+#include "Sound.h"
 
 #include <fstream>
 
@@ -9,6 +11,8 @@ std::string ContentUtils::ContentPath_;
 std::unordered_map<std::size_t, std::unique_ptr<Texture>> ContentUtils::Textures_;
 std::unordered_map<std::size_t, std::unique_ptr<Font>> ContentUtils::Fonts_;
 std::unordered_map<std::size_t, Json> ContentUtils::Jsons_;
+std::unordered_map<std::size_t, std::unique_ptr<Music>> ContentUtils::Musics_;
+std::unordered_map<std::size_t, std::unique_ptr<Sound>> ContentUtils::Sounds_;
 
 void ContentUtils::Init()
 {
@@ -17,6 +21,16 @@ void ContentUtils::Init()
 
 void ContentUtils::Quit()
 {
+	for (auto& sound : Sounds_)
+	{
+		sound.second.reset();
+	}
+
+	for (auto& music : Musics_)
+	{
+		music.second.reset();
+	}
+
 	for (auto& texture : Textures_)
 	{
 		texture.second.reset();
@@ -109,4 +123,58 @@ Json& ContentUtils::GetJson(const std::size_t& InKey)
 {
 	CHECK(HaveJson(InKey), "can't find json resource");
 	return Jsons_.at(InKey);
+}
+
+Music& ContentUtils::LoadMusic(const std::size_t& InKey, const std::string& InPath)
+{
+	CHECK(!HaveMusic(InKey), "collision music key or already load music resource");
+
+	std::unique_ptr<Music> NewMusic = std::make_unique<Music>(ContentPath_ + InPath);
+	Musics_.insert({ InKey, std::move(NewMusic) });
+
+	return *Musics_.at(InKey);
+}
+
+void ContentUtils::RemoveMusic(const std::size_t& InKey)
+{
+	if (!HaveMusic(InKey)) return;
+	Musics_.erase(InKey);
+}
+
+bool ContentUtils::HaveMusic(const std::size_t& InKey)
+{
+	return Musics_.find(InKey) != Musics_.end();
+}
+
+Music& ContentUtils::GetMusic(const std::size_t& InKey)
+{
+	CHECK(HaveMusic(InKey), "can't find music resource");
+	return *Musics_.at(InKey);
+}
+
+Sound& ContentUtils::LoadSound(const std::size_t& InKey, const std::string& InPath)
+{
+	CHECK(!HaveSound(InKey), "collision sound key or already load sound resource");
+
+	std::unique_ptr<Sound> NewSound = std::make_unique<Sound>(ContentPath_ + InPath);
+	Sounds_.insert({ InKey, std::move(NewSound) });
+
+	return *Sounds_.at(InKey);
+}
+
+void ContentUtils::RemoveSound(const std::size_t& InKey)
+{
+	if (!HaveSound(InKey)) return;
+	Sounds_.erase(InKey);
+}
+
+bool ContentUtils::HaveSound(const std::size_t& InKey)
+{
+	return Sounds_.find(InKey) != Sounds_.end();
+}
+
+Sound& ContentUtils::GetSound(const std::size_t& InKey)
+{
+	CHECK(HaveSound(InKey), "can't find sound resource");
+	return *Sounds_.at(InKey);
 }
