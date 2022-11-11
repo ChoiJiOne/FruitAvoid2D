@@ -13,6 +13,7 @@ class InputComponent;
 class BodyComponent;
 class PhysicComponent;
 class GraphicsComponent;
+class SoundComponent;
 
 
 /**
@@ -104,4 +105,10 @@ protected:
 	 * 게임 오브젝트의 렌더링 처리 컴포넌트입니다.
 	 */
 	std::unique_ptr<GraphicsComponent> Graphics_ = nullptr;
+
+
+	/**
+	 * 게임 오브젝트의 사운드 처리 컴포넌트입니다.
+	 */
+	std::unique_ptr<SoundComponent> Sound_ = nullptr;
 };
