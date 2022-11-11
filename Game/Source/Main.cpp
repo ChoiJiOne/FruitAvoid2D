@@ -112,11 +112,11 @@ public:
 			Player_->Update(*Input_, Timer_.GetDeltaSeconds());
 
 			int32_t CountOfNewFruit = 0;
-			for (auto Iter = Fruits_.begin(); Iter != Fruits_.end(); )
+			for (auto fruit = Fruits_.begin(); fruit != Fruits_.end(); )
 			{
-				if (Iter->get()->GetBody().IsCollision(Player_->GetBody()))
+				if (fruit->get()->GetBody().IsCollision(Player_->GetBody()))
 				{
-					Iter = Fruits_.erase(Iter);
+					fruit = Fruits_.erase(fruit);
 
 					CountOfNewFruit++;
 					Life--;
@@ -129,14 +129,14 @@ public:
 					continue;
 				}
 
-				if (Iter->get()->GetBody().GetCenter().y >= static_cast<float>(World_->GetHeight()))
+				if (fruit->get()->GetBody().GetCenter().y >= static_cast<float>(World_->GetHeight()))
 				{
-					Iter = Fruits_.erase(Iter);
+					fruit = Fruits_.erase(fruit);
 					CountOfNewFruit++;
 					continue;
 				}
 
-				Iter++;
+				fruit++;
 			}
 
 			for (int32_t Count = 1; Count <= CountOfNewFruit; ++Count)
