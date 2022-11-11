@@ -39,5 +39,11 @@
     "PlayerBlockSky.png",
     "Lime.png",
     "PlayerBlockYellow.png"
+  ],
+
+  "sound": [
+    "Background.mp3",
+    "Click.mp3",
+    "Crash.mp3"
   ]
 }
