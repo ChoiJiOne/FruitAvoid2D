@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Vector.h"
 #include "PhysicComponent.h"
 
 
@@ -29,4 +30,19 @@ public:
 	 * @param InDeltaSeconds - 초단위 델타 시간 값입니다.
 	 */
 	virtual void Tick(GameObject& InObject, World& InWorld, float InDeltaSeconds) override;
+
+
+	/**
+	 * 플레이어가 다른 오브젝트와 충돌한 횟수를 얻습니다.
+	 * 
+	 * @return 플레이어가 다른 오브젝트와 충돌한 횟수를 반환합니다.
+	 */
+	int32_t GetCountOfCollision() const { return CountOfColllision_; }
+
+
+private:
+	/**
+	 * 플레이어가 다른 오브젝트와 충돌한 횟수입니다.
+	 */
+	int32_t CountOfColllision_ = 0;
 };

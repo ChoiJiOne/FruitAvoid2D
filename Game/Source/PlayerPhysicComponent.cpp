@@ -7,6 +7,7 @@
 void PlayerPhysicComponent::Tick(GameObject& InObject, World& InWorld, float InDeltaSeconds)
 {
 	Body& ObjectBody = InObject.GetBody();
+	CountOfColllision_ = 0;
 
 	if (ObjectBody.CanMove())
 	{
@@ -16,5 +17,16 @@ void PlayerPhysicComponent::Tick(GameObject& InObject, World& InWorld, float InD
 		Position.x = MathUtils::Clamp<float>(Position.x, 0.0f, static_cast<float>(InWorld.GetWidth()));
 
 		ObjectBody.SetCenter(Position);
+	}
+
+	const std::list<GameObject*> Objects = InWorld.GetAllObject();
+	for (auto& Object : Objects)
+	{
+		if (Object == &InObject) continue;
+		
+		if (ObjectBody.IsCollision(Object->GetBody()))
+		{
+			CountOfColllision_++;
+		}
 	}
 }
