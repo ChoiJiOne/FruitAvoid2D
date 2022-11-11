@@ -44,7 +44,7 @@ Fruit::Fruit(World* InWorld,
 	Type_ = InType;
 
 	Physic_ = std::make_unique<FruitPhysicComponent>();
-	Graphics_ = std::make_unique<SpriteComponent>(FruitTextureKeys_[Type_], true);
+	Graphics_ = std::make_unique<SpriteComponent>(FruitTextureKeys_[Type_]);
 }
 
 Fruit::~Fruit()
