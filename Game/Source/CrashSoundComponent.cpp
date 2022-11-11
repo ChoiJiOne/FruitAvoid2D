@@ -1,4 +1,5 @@
 #include "CrashSoundComponent.h"
+#include "PlayerPhysicComponent.h"
 #include "ContentUtils.h"
 #include "GameObject.h"
 #include "World.h"

@@ -1,8 +1,10 @@
 #pragma once
 
-#include "Vector.h"
+#include <cstddef>
+
 #include "SoundComponent.h"
-#include "PlayerPhysicComponent.h"
+
+class PlayerPhysicComponent;
 
 
 /**
@@ -45,7 +47,7 @@ private:
 
 
 	/**
-	 * 플레이어의 충돌 처리 컴포넌트입니다.
+	 * 물리 처리 컴포넌트입니다.
 	 */
 	PlayerPhysicComponent* Physic_ = nullptr;
 };
