@@ -15,10 +15,9 @@ public:
 	 * 
 	 * @param InSpriteKey - 텍스처 스프라이트의 키값입니다.
 	 */
-	explicit SpriteComponent(const std::size_t& InSpriteKey, bool bIsRotate = false)
+	explicit SpriteComponent(const std::size_t& InSpriteKey)
 	{
 		SpriteKey_ = InSpriteKey;
-		bIsRotate_ = bIsRotate;
 	}
 
 
@@ -42,10 +41,4 @@ private:
 	 * 텍스처의 키값입니다.
 	 */
 	std::size_t SpriteKey_ = 0;
-
-
-	/**
-	 * 텍스처의 회전 여부입니다.
-	 */
-	bool bIsRotate_ = false;
 };
