@@ -64,6 +64,8 @@ public:
 		InitProperties();
 		InitResources();
 		InitGameProperties();
+
+		ContentUtils::GetMusic(Text::GetHash("Background")).Play(true);
 	}
 
 
@@ -97,6 +99,7 @@ public:
 		{
 			if (Input_->GetKeyPressState(EScanCode::CODE_ESCAPE) == EPressState::PRESSED)
 			{
+				ContentUtils::GetMusic(Text::GetHash("Background")).Stop();
 				Timer_.Stop();
 				CurrentGameState = GameState::Pause;
 			}
@@ -286,6 +289,10 @@ private:
 
 		std::size_t Font32Key = Text::GetHash("font32");
 		ContentUtils::LoadFont(Font32Key, *Graphics_, "font\\JetBrainsMono-Bold.ttf", 0x20, 0x7E, 32.0f);
+
+		ContentUtils::LoadMusic(Text::GetHash("Background"), "sound\\Background.mp3");
+		ContentUtils::LoadSound(Text::GetHash("Click"), "sound\\Click.mp3");
+		ContentUtils::LoadSound(Text::GetHash("Crash"), "sound\\Crash.mp3");
 	}
 
 
@@ -309,6 +316,7 @@ private:
 				CreateFruits();
 				Player_->GetBody().SetCenter(PlayerStartPosition);
 				Timer_.Start();
+				ContentUtils::GetSound(Text::GetHash("Click")).Play();
 			},
 			0.95f
 		);
@@ -324,6 +332,8 @@ private:
 			[&]() { 
 				CurrentGameState = GameState::Play; 
 				Timer_.Start();
+				ContentUtils::GetMusic(Text::GetHash("Background")).Resume();
+				ContentUtils::GetSound(Text::GetHash("Click")).Play();
 			},
 			0.95f
 		);
@@ -343,6 +353,8 @@ private:
 				Player_->GetBody().SetCenter(PlayerStartPosition);
 				Life = 3;
 				Timer_.Reset();
+				ContentUtils::GetMusic(Text::GetHash("Background")).Play(true);
+				ContentUtils::GetSound(Text::GetHash("Click")).Play();
 			},
 			0.95f
 		);
