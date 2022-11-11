@@ -310,7 +310,7 @@ private:
 				Player_->GetBody().SetCenter(PlayerStartPosition);
 				Timer_.Start();
 			},
-			0.98f
+			0.95f
 		);
 
 		ContinueButton_ = std::make_unique<Button>(
@@ -325,7 +325,7 @@ private:
 				CurrentGameState = GameState::Play; 
 				Timer_.Start();
 			},
-			0.98f
+			0.95f
 		);
 
 		ResetButton_ = std::make_unique<Button>(
@@ -344,7 +344,7 @@ private:
 				Life = 3;
 				Timer_.Reset();
 			},
-			0.98f
+			0.95f
 		);
 
 		QuitButton_ = std::make_unique<Button>(
@@ -356,7 +356,7 @@ private:
 			ColorUtils::Blue,
 			ColorUtils::Black,
 			[&]() { bIsDone_ = true; },
-			0.98f
+			0.95f
 		);
 
 		Player_ = std::make_unique<Player>(World_.get(), PlayerStartPosition, 50.0f, 50.0f, 500.0f, Player::EColor::Blue);
