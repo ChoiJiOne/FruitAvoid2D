@@ -9,6 +9,7 @@
 #include "World.h"
 #include "PlayerInputComponent.h"
 #include "PlayerPhysicComponent.h"
+#include "CrashSoundComponent.h"
 #include "SpriteComponent.h"
 
 std::unordered_map<Player::EColor, std::size_t> Player::ColorTextureKeys_ = {
@@ -36,6 +37,7 @@ Player::Player(
 	Input_ = std::make_unique<PlayerInputComponent>();
 	Physic_ = std::make_unique<PlayerPhysicComponent>();
 	Graphics_ = std::make_unique<SpriteComponent>(ColorTextureKeys_[Color_]);
+	Sound_ = std::make_unique<CrashSoundComponent>(reinterpret_cast<PlayerPhysicComponent*>(Physic_.get()), Text::GetHash("Crash"));
 }
 
 Player::~Player()
@@ -46,6 +48,7 @@ void Player::Update(Input& InInput, float InDeltaSeconds)
 {
 	Input_->Tick(*this, InInput);
 	Physic_->Tick(*this, *World_, InDeltaSeconds);
+	Sound_->Tick(*this);
 }
 
 void Player::Render(Graphics& InGraphics)
